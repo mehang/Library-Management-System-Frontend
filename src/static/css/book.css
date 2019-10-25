@@ -1,0 +1,12 @@
+.field-label {
+    width:20%;
+}
+
+.field {
+    width:80%;
+}
+
+.book-button-container{
+    dispay: flex;
+    flex-direction: row;
+}

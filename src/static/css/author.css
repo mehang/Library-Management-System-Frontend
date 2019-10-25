@@ -1,0 +1,9 @@
+.button-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.button {
+    height: 3rem;
+    width: 9rem;
+}
