@@ -21,7 +21,7 @@ export default class Author extends Component {
             .then(res => res.json())
             .then(data => this.setState({authors: data}))
             .catch(error => console.log(error));
-    }
+    };
 
     registerAuthor = () => {
         let data = {
