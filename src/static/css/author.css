@@ -1,9 +1,44 @@
-.button-container {
-    display: flex;
-    flex-direction: row;
+.form-row{
+    min-height: 3rem;
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
 }
 
-.button {
-    height: 3rem;
-    width: 9rem;
+.input-error {
+    color: #f5222d;
+}
+
+.required-field::before {
+    display: inline-block;
+    margin-right: 4px;
+    color: #f5222d;
+    font-size: 14px;
+    font-family: SimSun,sans-serif;
+    line-height: 1;
+    content: '*';
+}
+
+.error-status {
+    color: #f5222d;
+    font-size: 18px;
+}
+
+.success-status {
+    color: #389e0d;
+    font-size: 18px;
+}
+
+.action {
+    color: #096dd9;
+    text-decoration: none;
+    background-color: transparent;
+    outline: none;
+    cursor: pointer;
+    -webkit-transition: color 0.3s;
+    transition: color 0.3s;
+    -webkit-text-decoration-skip: objects;
+}
+
+.action:hover {
+    color: #1890ff;
 }
