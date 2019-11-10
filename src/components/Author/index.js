@@ -6,7 +6,7 @@ import {EMPTY_STRING,msgType} from "../../constants/constants";
 import AuthorForm from "./AuthorForm";
 import AuthorTable from "./AuthorTable";
 
-export class StudentPage extends Component {
+export class AuthorPage extends Component {
     constructor(props) {
         super(props);
         this.state={
@@ -97,7 +97,7 @@ export class StudentPage extends Component {
     };
 
 
-    deleteStudent = (id) => {
+    deleteAuthor = (id) => {
         let data = {
             method: 'DELETE',
             headers: {
@@ -134,7 +134,6 @@ export class StudentPage extends Component {
                 <AuthorForm
                     name={name}
                     onNameChange={this.onNameChange}
-                    fetchAuthors={this.fetchAuthors}
                     registerAuthor={this.registerAuthor}
                     updateAuthor={this.updateAuthor}
                     clearStatus={this.clearStatus}
@@ -143,12 +142,12 @@ export class StudentPage extends Component {
                 <AuthorTable
                     authors={authors}
                     selectAuthor={this.selectAuthor}
-                    deleteAuthor={this.deleteStudent}
+                    deleteAuthor={this.deleteAuthor}
                 />
             </Fragment>
         )
     }
 }
 
-const WrappedStudentPage = LayoutWrapper(StudentPage);
+const WrappedStudentPage = LayoutWrapper(AuthorPage);
 export default WrappedStudentPage;

@@ -1,32 +1,48 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
+
 import {APIUrls} from "../../constants/urls";
+import LayoutWrapper from "../LayoutWrapper";
+import {EMPTY_STRING,msgType} from "../../constants/constants";
+import BookForm from "./BookForm";
+import BookTable from "./BookTable";
 
-
-export default class Book extends Component {
+export class BookPage extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            books: [],
-            name: '',
-            publication: '',
-            edition: '',
-            language: '',
-            isbn: '',
+        this.state={
+            name: EMPTY_STRING,
+            publication: EMPTY_STRING,
+            edition: EMPTY_STRING,
+            language: EMPTY_STRING,
+            isbn: EMPTY_STRING,
+            statusMsgType: msgType.SUCCESS,
+            statusMsg: EMPTY_STRING,
+            selectedBook: {},
+            books:[],
+
         }
     }
 
-    componentDidMount() {
+    componentDidMount(){
         this.fetchBooks();
     }
 
-    onChange = e => this.setState({[e.target.name]: e.target.value});
-
-    fetchBooks = () => {
-        fetch(APIUrls.BookSpecs)
-            .then(res => res.json())
-            .then(data => this.setState({books: data}))
-            .catch(error => console.log(error));
-    }
+    fetchBooks = async () => {
+        await fetch(`${APIUrls.BookSpecs}`)
+            .then(res => {
+                if (res.ok){
+                    return res.json();
+                } else {
+                    throw new Error("Error while fetching books.");
+                }
+            })
+            .then(data => {
+                this.setState({authors: data, statusMsgType: msgType.SUCCESS});
+            })
+            .catch(error => {
+                this.setState({statusMsgType:msgType.ERROR, statusMsg: error.toString()});
+            });
+    };
 
     registerBook = () => {
         let data = {
@@ -34,8 +50,8 @@ export default class Book extends Component {
             body: JSON.stringify({
                 'name': this.state.name,
                 'publication': this.state.publication,
-                'edition': this.state.edition,
                 'language': this.state.language,
+                'edition': this.state.edition,
                 'isbn': this.state.isbn,
             }),
             headers: {
@@ -43,108 +59,123 @@ export default class Book extends Component {
             }
         };
         fetch(APIUrls.BookSpecs, data)
-            .then(res => res.json())
-            .then(data => this.fetchBooks())
-            .catch(error => console.log(error));
-    }
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                } else {
+                    throw new Error("Problem in network connectivity.")
+                }
+            })
+            .then(data => {
+                this.fetchBooks();
+                this.setState({name: EMPTY_STRING, statusMsgType: msgType.SUCCESS, statusMsg: "Saved successfully."});
+            })
+            .catch(error => {
+                this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});
+            });
+    };
+
+    updateBook = async () => {
+        let data = {
+            method: 'PUT',
+            body: JSON.stringify({
+                'id': this.state.selectedBook.id,
+                'name': this.state.name,
+                'publication': this.state.publication,
+                'language': this.state.language,
+                'edition': this.state.edition,
+                'isbn': this.state.isbn,
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        };
+        fetch(APIUrls.BookSpecs, data)
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                } else {
+                    throw new Error("Problem in network connectivity");
+                }
+            })
+            .then(data => {
+                this.fetchBooks();
+                this.setState({name: EMPTY_STRING, statusMsgType: msgType.SUCCESS,
+                    statusMsg: "Updated successfully.", selectedBook: {}});
+            })
+            .catch(error => {
+                this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});
+            });
+    };
+
+
+    deleteBook = (id) => {
+        let data = {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        };
+        fetch(`${APIUrls.BookSpecs}delete/${id}`, data)
+            .then(res => {
+                if (res.ok) {
+                    this.fetchBooks();
+                } else {
+                    throw new Error("Error while deleting author.");
+                }
+            })
+            .catch(error => {
+                this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});
+            });
+    };
+
+    onNameChange = name => this.setState({name});
+
+    onPublicationChange = publication => this.setState({publication});
+
+    onEditionChange = edition => this.setState({edition});
+
+    onLanguageChange = language => this.setState({language});
+
+    onIsbnChange = isbn => this.setState({isbn});
+
+    selectBook = book => this.setState({selectedBook: book});
+
+    clearStatus = () => {
+        this.setState({statusMsgType: msgType.SUCCESS, statusMsg: EMPTY_STRING});
+    };
 
     render() {
+        const {name,publication, edition, language, isbn, statusMsg, books} = this.state;
+        const statusClassName = this.state.statusMsgType === msgType.ERROR ? 'error-status' : 'success-status';
+
         return (
-            <div>
-                <div className="row">
-                    <div className="row">
-                        <div className="input-field col s12">
-                            {/*<label className="field-label">Name</label>*/}
-                            <div className="field input-field">
-                                <input id="icon_prefix" type="text"
-                                       name="name" className="validate"
-                                       value={this.state.name} onChange={this.onChange}
-                                />
-                                <label htmlFor="icon_prefix">Book Name</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="input-field col s6">
-                            {/*<label className="field-label">Publication</label>*/}
-                            <div className="field input-field">
-                                <input id="icon_prefix" type="text"
-                                       name="publication" className="validate"
-                                       value={this.state.publication} onChange={this.onChange}
-                                />
-                                <label htmlFor="icon_prefix">Publication</label>
-                            </div>
-                        </div>
-                        <div className="input-field col s6">
-                            {/*<label className="field-label">Edition</label>*/}
-                            <div className="field input-field">
-                                <input id="icon_prefix" type="text"
-                                       name="edition" className="validate"
-                                       value={this.state.edition}
-                                       onChange={this.onChange}
-                                />
-                                <label htmlFor="icon_prefix">Edition</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="input-field col s6">
-                            {/*<label className="field-label">Language</label>*/}
-                            <div className="field input-field">
-                                <input id="icon_prefix" type="text"
-                                       name="language" className="validate"
-                                       value={this.state.language}
-                                       onChange={this.onChange}
-                                />
-                                <label htmlFor="icon_prefix">Language</label>
-                            </div>
-                        </div>
-                        <div className="input-field col s6">
-                            {/*<label className="field-label">ISBN</label>*/}
-                            <div className="field input-field">
-                                <input id="icon_prefix" type="text"
-                                       name="isbn" className="validate"
-                                       value={this.state.isbn}
-                                       onChange={this.onChange}
-                                />
-                                <label htmlFor="icon_prefix">ISBN</label>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div className="book-button-container input-field col s12">
-                        <button className="button btn waves-effect waves-light"
-                                type="submit" name="action"
-                                onClick={this.registerBook}>Register
-                            <i className="material-icons right">send</i>
-                        </button>
-                    </div>
-                </div>
-                <table className="striped">
-                    <thead>
-                    <tr>
-                        <th>Book Name</th>
-                        <th>Publication</th>
-                        <th>Edition</th>
-                        <th>Language</th>
-                        <th>ISBN</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {this.state.books.map((bookspec, index) => (
-                        <tr key={index}>
-                            <td>{bookspec.name}</td>
-                            <td>{bookspec.publication}</td>
-                            <td>{bookspec.edition}</td>
-                            <td>{bookspec.language}</td>
-                            <td>{bookspec.isbn}</td>
-                        </tr>
-                    ))}
-                    </tbody>
-                </table>
-            </div>
-        );
+            <Fragment>
+                <BookForm
+                    name={name}
+                    publication={publication}
+                    edition={edition}
+                    language={language}
+                    isbn={isbn}
+                    onNameChange={this.onNameChange}
+                    onPublicationChange={this.onPublicationChange}
+                    onEditionChange={this.onEditionChange}
+                    onLanguageChange={this.onLanguageChange}
+                    onIsbnChange={this.onIsbnChange}
+                    registerBook={this.registerBook}
+                    updateBook={this.updateBook}
+                    clearStatus={this.clearStatus}
+                />
+                {statusMsg && <div className={statusClassName}>{statusMsg}</div>}
+                <BookTable
+                    books={books}
+                    selectBook={this.selectBook}
+                    deleteBook={this.deleteBook}
+                />
+            </Fragment>
+        )
     }
-
 }
+
+const WrappedStudentPage = LayoutWrapper(BookPage);
+export default WrappedStudentPage;

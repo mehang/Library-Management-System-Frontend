@@ -20,7 +20,7 @@ class AuthorForm extends Component {
 
     validateName = () => {
         let {validation} = this.state;
-        if (validation.name.required && this.state.name === EMPTY_STRING) {
+        if (validation.name.required && this.props.name === EMPTY_STRING) {
             validation.name.error = "This input is required";
         } else {
             validation.name.error = EMPTY_STRING;
@@ -70,7 +70,6 @@ class AuthorForm extends Component {
 AuthorForm.propTypes = {
     name: PropTypes.string.isRequired,
     onNameChange: PropTypes.func.isRequired,
-    fetchAuthors: PropTypes.func.isRequired,
     registerAuthor: PropTypes.func.isRequired,
     updateAuthor: PropTypes.func.isRequired,
     clearStatus: PropTypes.func.isRequired,
