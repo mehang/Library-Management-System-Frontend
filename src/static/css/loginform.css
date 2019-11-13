@@ -1,5 +1,6 @@
 .login-form{
     max-width: 300px;
+    margin: auto;
 }
 
 .login-form-forgot {
@@ -8,4 +9,14 @@
 
 .login-form-button {
     width: 100%;
+}
+
+.login-form-container {
+    display: flex;
+    width: 420px;
+    height: 370px;
+    margin: auto;
+    padding-top: 20px;
+    background-color: white;
+    box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
 }
