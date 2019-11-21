@@ -36,7 +36,7 @@ const AdminTable = props => {
             key: 'action',
             render: (text, librarian) => (
                 <span>
-                        <a onClick={() => deleteLibrarian(librarian.key)}>Delete</a>
+                        <a onClick={() => deleteAdmin(librarian.key)}>Delete</a>
                     </span>
             )
         },

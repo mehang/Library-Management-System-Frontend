@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 
 import {Divider, Table} from 'antd';
 import {APIUrls} from "../../../constants/urls";
-import {msgType} from "../../../constants/constants";
+import {msgType, userType} from "../../../constants/constants";
 import LayoutWrapper from "../../LayoutWrapper";
 import {AuthorPage} from "../../AuthorPage";
+import {isLoggedIn} from "../../../utils/utils";
+import {Redirect} from "react-router-dom";
 
 class StudentTable extends Component {
     constructor(props){
@@ -102,6 +104,10 @@ render() {
             phoneNumber: student.phoneNumber,
         })
     });
+
+    if (!isLoggedIn(userType.LIBRARIAN )){
+        return (<Redirect to="/unauthorized"/>);
+    }
 
     return (
         <Table columns={columns} dataSource={studentsData}/>

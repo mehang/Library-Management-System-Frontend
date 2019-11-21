@@ -3,9 +3,9 @@ import React, {Component, Fragment} from "react";
 import {Button, Col, Input, Row} from 'antd';
 import PropTypes from 'prop-types';
 
-import {EMPTY_STRING} from "../../../constants/constants";
-import {validateEmail, validatePhoneNumber} from "../../../utils/validators";
-import {hasWhiteSpace, isNumber} from "../../../utils/utils";
+import {EMPTY_STRING} from "../../constants/constants";
+import {validateEmail, validatePhoneNumber} from "../../utils/validators";
+import {hasWhiteSpace, isNumber} from "../../utils/utils";
 
 class UserForm extends Component {
     constructor(props) {
@@ -55,6 +55,7 @@ class UserForm extends Component {
     onUsernameChange = e => this.setState({username: e.target.value});
 
     validateUsername = () => {
+        console.log("asdf");
         let {validation} = this.state;
         if (this.state.username !== EMPTY_STRING) {
             if (hasWhiteSpace(this.state.username)) {
@@ -69,13 +70,6 @@ class UserForm extends Component {
                 this.setState({validation: validation});
             }
         }
-
-        if (validation.username.required && this.props.username === EMPTY_STRING) {
-            validation.username.error = "This input is required";
-        } else {
-            validation.username.error = EMPTY_STRING;
-        }
-        this.setState({validation: validation});
     };
 
     onPassword1Change = e => this.setState({password1: e.target.value});
@@ -167,10 +161,16 @@ class UserForm extends Component {
     handleSubmit = e => {
         e.preventDefault();
         const {username, password1, password2, name, phoneNumber, email, validation} = this.state;
+        this.validateUsername();
+        this.validatePassword1();
+        this.validatePassword2();
+        this.validateName();
+        this.validateEmail();
+        this.validatePhoneNumber();
         if (!(validation.username.error || validation.password1.error ||
             validation.password2.error || validation.name.error ||
             validation.phoneNumber.error || validation.email.error)) {
-            const status = this.props.registerLibrarian(username, password1, password2, name,email, phoneNumber);
+            const status = this.props.submitUser(username, password1, password2, name,email, phoneNumber);
             if (status) {
                 this.clearInputs();
             }
@@ -296,7 +296,7 @@ class UserForm extends Component {
 }
 
 UserForm.propTypes = {
-    registerUser: PropTypes.func.isRequired,
+    submitUser: PropTypes.func.isRequired,
     clearStatus: PropTypes.func.isRequired,
     extraFormFields: PropTypes.element
 };

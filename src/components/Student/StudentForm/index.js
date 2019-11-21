@@ -1,9 +1,8 @@
 import React, {Component, Fragment} from 'react';
 
-import {APIUrls} from "../../constants/urls";
-import LayoutWrapper from "../LayoutWrapper";
-import {EMPTY_STRING, msgType} from "../../constants/constants";
-import UserForm from "../UserForm";
+import {APIUrls} from "../../../constants/urls";
+import {EMPTY_STRING, msgType} from "../../../constants/constants";
+import UserForm from "../../UserForm";
 
 class StudentForm extends Component {
     constructor(props) {
@@ -39,6 +38,7 @@ class StudentForm extends Component {
             })
             .then(data => {
                 this.setState({statusMsgType: msgType.SUCCESS, statusMsg: "Registered successfully."});
+                this.props.history.push('/success');
                 return true;
             })
             .catch(error => {
@@ -58,7 +58,7 @@ class StudentForm extends Component {
         return (
             <Fragment>
                 <UserForm
-                    registerUser={this.registerStudent}
+                    submitUser={this.registerStudent}
                     clearStatus={this.clearStatus}
                 />
                 {statusMsg && <div className={statusClassName}>{statusMsg}</div>}

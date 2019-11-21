@@ -1,12 +1,15 @@
 import React from 'react';
 import {Layout, Menu, Icon} from 'antd';
 import {Link} from "react-router-dom";
+import {TOKEN_KEY, USER_TYPE} from "../../constants/constants";
 
 const {Header, Content, Footer, Sider} = Layout;
 
 const LayoutWrapper = (WrappedComponent) => {
     class LayoutWrapper extends React.Component {
         render() {
+            const user_type = localStorage.getItem(USER_TYPE);
+            const token = localStorage.getItem(TOKEN_KEY);
             return (
                 <Layout>
                     <Sider
@@ -17,12 +20,14 @@ const LayoutWrapper = (WrappedComponent) => {
                             left: 0,
                         }}
                     >
-                        <div className="logo slider-header">LMS</div>
+                        <Link to="/">
+                            <div className="logo slider-header">LMS</div>
+                        </Link>
                         <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
                             <Menu.Item key="1">
-                                <Link to="/">
-                                    <Icon type="home"/>
-                                    <span className="nav-text">Home</span>
+                                <Link to="/home">
+                                    <Icon type="user"/>
+                                    <span className="nav-text">User Profile</span>
                                 </Link>
                             </Menu.Item>
                             <Menu.Item key="2">
@@ -37,9 +42,21 @@ const LayoutWrapper = (WrappedComponent) => {
                                     <span className="nav-text">Book</span>
                                 </Link>
                             </Menu.Item>
+                            {token ? <Menu.Item key="5">
+                                    <Link to="/logout">
+                                        <Icon type="logout"/>
+                                        <span>Logout</span>
+                                    </Link>
+                                </Menu.Item>:
+                                <Menu.Item key="4">
+                                    <Link to="/login">
+                                        <Icon type="login"/>
+                                        <span>Login</span>
+                                    </Link>
+                                </Menu.Item>}
                         </Menu>
                     </Sider>
-                    <Layout style={{marginLeft: 200}}>
+                    <Layout style={{marginLeft: 200, minHeight: "100vh"}}>
                         <Header className="header" style={{background: '#fff', padding: 0}}>
                             <span>Demonstration of React app</span>
                         </Header>

@@ -2,9 +2,11 @@ import React, {Component, Fragment} from 'react';
 
 import {APIUrls} from "../../constants/urls";
 import LayoutWrapper from "../LayoutWrapper";
-import {EMPTY_STRING, msgType} from "../../constants/constants";
+import {EMPTY_STRING, msgType, userType} from "../../constants/constants";
 import UserForm from "../UserForm";
 import LibrarianTable from "./LibrarianTable";
+import {isLoggedIn} from "../../utils/utils";
+import {Redirect} from "react-router-dom";
 
 export class LibrarianPage extends Component {
     constructor(props) {
@@ -99,10 +101,13 @@ export class LibrarianPage extends Component {
         const {statusMsg, librarians} = this.state;
         const statusClassName = this.state.statusMsgType === msgType.ERROR ? 'error-status' : 'success-status';
 
+        if (!isLoggedIn(userType.ADMIN)){
+            return <Redirect to="/unauthorized" />
+        }
         return (
             <Fragment>
                 <UserForm
-                    registerUser={this.registerLibrarian}
+                    submitUser={this.registerLibrarian}
                     clearStatus={this.clearStatus}
                 />
                 {statusMsg && <div className={statusClassName}>{statusMsg}</div>}

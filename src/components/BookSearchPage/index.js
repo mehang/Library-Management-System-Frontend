@@ -76,6 +76,7 @@ class BookSearchPage extends Component {
             });
         });
 
+
         return (
             <div>
                 <Search
@@ -83,11 +84,14 @@ class BookSearchPage extends Component {
                     onChange={e => this.setState({searchKeyword: e.target.value})}
                     placeholder="input search text"
                     onSearch={value => console.log(value)}
+
                     enterButton/>
                 {error && <div className="error-status">{error}</div>}
-                <Table columns={columns} dataSource={{booksData}} />
+                <Table columns={columns} dataSource={booksData} />
 
             </div>
         );
     }
 }
+
+export default BookSearchPage;
