@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import {EMPTY_STRING} from "../../constants/constants";
 import {validateEmail, validatePhoneNumber} from "../../utils/validators";
-import {hasWhiteSpace, isNumber} from "../../utils/utils";
+import {hasWhiteSpace, isEmpty, isNumber} from "../../utils/utils";
 
 class UserForm extends Component {
     constructor(props) {
@@ -117,7 +117,7 @@ class UserForm extends Component {
     };
 
     onPhoneNumberChange = e => {
-        if (isNumber(e.target.value)) {
+        if (isNumber(e.target.value) || isEmpty(e.target.value)) {
             this.setState({phoneNumber: e.target.value});
         }
     }
@@ -185,61 +185,10 @@ class UserForm extends Component {
                 <form>
                     <div className="form-row">
                         <Row type="flex" justify="start" align="middle">
-                            <Col span={3}>
-                                <label className="required-field">Username</label>
-                            </Col>
-                            <Col span={8}>
-                                <Input
-                                    value={username}
-                                    onChange={this.onUsernameChange}
-                                    onBlur={this.validateUsername}
-                                    onClick={clearStatus}
-                                />
-                                {this.state.validation.username.error &&
-                                <div className="input-error">{this.state.validation.username.error}</div>}
-                            </Col>
-                        </Row>
-                    </div>
-                    <div className="form-row">
-                        <Row type="flex" justify="start" align="middle">
-                            <Col span={3}>
-                                <label className="required-field">Password</label>
-                            </Col>
-                            <Col span={8}>
-                                <Input
-                                    value={password1}
-                                    onChange={this.onPassword1Change}
-                                    onBlur={this.validatePassword1}
-                                    onClick={clearStatus}
-                                />
-                                {this.state.validation.password1.error &&
-                                <div className="input-error">{this.state.validation.password1.error}</div>}
-                            </Col>
-                        </Row>
-                    </div>
-                    <div className="form-row">
-                        <Row type="flex" justify="start" align="middle">
-                            <Col span={3}>
-                                <label className="required-field">Retype Password</label>
-                            </Col>
-                            <Col span={8}>
-                                <Input
-                                    value={password2}
-                                    onChange={this.onPassword2Change}
-                                    onBlur={this.validatePassword2}
-                                    onClick={clearStatus}
-                                />
-                                {this.state.validation.password2.error &&
-                                <div className="input-error">{this.state.validation.password2.error}</div>}
-                            </Col>
-                        </Row>
-                    </div>
-                    <div className="form-row">
-                        <Row type="flex" justify="start" align="middle">
-                            <Col span={3}>
+                            <Col span={7}>
                                 <label className="required-field">Name</label>
                             </Col>
-                            <Col span={8}>
+                            <Col span={16}>
                                 <Input
                                     value={name}
                                     onChange={this.onNameChange}
@@ -253,10 +202,63 @@ class UserForm extends Component {
                     </div>
                     <div className="form-row">
                         <Row type="flex" justify="start" align="middle">
-                            <Col span={3}>
+                            <Col span={7}>
+                                <label className="required-field">Username</label>
+                            </Col>
+                            <Col span={16}>
+                                <Input
+                                    value={username}
+                                    onChange={this.onUsernameChange}
+                                    onBlur={this.validateUsername}
+                                    onClick={clearStatus}
+                                />
+                                {this.state.validation.username.error &&
+                                <div className="input-error">{this.state.validation.username.error}</div>}
+                            </Col>
+                        </Row>
+                    </div>
+                    <div className="form-row">
+                        <Row type="flex" justify="start" align="middle">
+                            <Col span={7}>
+                                <label className="required-field">Password</label>
+                            </Col>
+                            <Col span={16}>
+                                <Input
+                                    value={password1}
+                                    type="password"
+                                    onChange={this.onPassword1Change}
+                                    onBlur={this.validatePassword1}
+                                    onClick={clearStatus}
+                                />
+                                {this.state.validation.password1.error &&
+                                <div className="input-error">{this.state.validation.password1.error}</div>}
+                            </Col>
+                        </Row>
+                    </div>
+                    <div className="form-row">
+                        <Row type="flex" justify="start" align="middle">
+                            <Col span={7}>
+                                <label className="required-field">Retype Password</label>
+                            </Col>
+                            <Col span={16}>
+                                <Input
+                                    value={password2}
+                                    type="password"
+                                    onChange={this.onPassword2Change}
+                                    onBlur={this.validatePassword2}
+                                    onClick={clearStatus}
+                                />
+                                {this.state.validation.password2.error &&
+                                <div className="input-error">{this.state.validation.password2.error}</div>}
+                            </Col>
+                        </Row>
+                    </div>
+                    <div className="form-row">
+                        <Row type="flex" justify="start" align="middle">
+                            <Col span={7}>
                                 <label className="required-field">Email</label>
                             </Col>
-                            <Col span={8}>
+                            <Col span={16}>
                                 <Input
                                     value={email}
                                     onChange={this.onEmailChange}
@@ -270,10 +272,10 @@ class UserForm extends Component {
                     </div>
                     <div className="form-row">
                         <Row type="flex" justify="start" align="middle">
-                            <Col span={3}>
-                                <label className="required-field">Name</label>
+                            <Col span={7}>
+                                <label className="required-field">Phone Number</label>
                             </Col>
-                            <Col span={8}>
+                            <Col span={16}>
                                 <Input
                                     value={phoneNumber}
                                     onChange={this.onPhoneNumberChange}
@@ -286,9 +288,11 @@ class UserForm extends Component {
                         </Row>
                     </div>
                     {extraFormFields}
+                    <div style={{marginTop:"26px"}}>
                     <Button type="primary" htmlType="submit" onClick={this.handleSubmit}>
                         Register
                     </Button>
+                    </div>
                 </form>
             </Fragment>
         );

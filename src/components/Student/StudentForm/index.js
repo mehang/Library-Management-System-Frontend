@@ -56,13 +56,22 @@ class StudentForm extends Component {
         const statusClassName = this.state.statusMsgType === msgType.ERROR ? 'error-status' : 'success-status';
 
         return (
-            <Fragment>
-                <UserForm
-                    submitUser={this.registerStudent}
-                    clearStatus={this.clearStatus}
-                />
-                {statusMsg && <div className={statusClassName}>{statusMsg}</div>}
-            </Fragment>
+            <div style={{paddingTop: "30px", backgroundColor: "#bae7ff", height: "100vh"}}>
+                <div className="registration-form-container">
+                    <div className="ant-form ant-form-horizontal"
+                         style={{width: "100%", height: "100%"}}>
+                        <div className="registration-form">
+                            <div style={{fontSize: "x-large", fontWeight: "bold", marginBottom: "12px"}}>Registration
+                            </div>
+                            <UserForm
+                                submitUser={this.registerStudent}
+                                clearStatus={this.clearStatus}
+                            />
+                            {statusMsg && <div className={statusClassName}>{statusMsg}</div>}
+                        </div>
+                    </div>
+                </div>
+            </div>
         )
     }
 }

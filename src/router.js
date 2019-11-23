@@ -9,6 +9,7 @@ import AdminPage from "./components/AdminPage";
 import LibrarianPage from "./components/LibrarianPage";
 import StudentForm from "./components/Student/StudentForm";
 import StudentTable from "./components/Student/StudentTable";
+import StudentVerificationForm from "./components/Student/StudentVerificationForm";
 import BookSearchPage from "./components/BookSearchPage";
 import SuccessPage from "./components/SuccessPage";
 import Logout from "./components/Logout";
@@ -18,10 +19,12 @@ export default function RouterConfig() {
     return (
       <BrowserRouter>
           <Switch>
-              <Route exact path="/" component={BookSearchPage} />
-              <Route exact path="/home" component={Home}/>
+              <Route exact path="/" component={Home}/>
+              <Route exact path="/search" component={BookSearchPage} />
+              <Route exact path="/student-verification" component={StudentVerificationForm}/>
               <Route exact path="/login" component={LoginForm} />
               <Route exact path="/registration" component={StudentForm} />
+              <Route exact path="/profile" component={StudentTable} />
               <Route exact path="/student" component={StudentTable} />
               <Route exact path="/admin" component={AdminPage} />
               <Route exact path="/librarian" component={LibrarianPage} />
