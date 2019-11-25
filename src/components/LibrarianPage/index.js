@@ -106,6 +106,7 @@ export class LibrarianPage extends Component {
         }
         return (
             <Fragment>
+                <div style={{fontWeight:'bold', fontSize:'x-large', marginBottom:'12px'}}>Librarian Form</div>
                 <UserForm
                     submitUser={this.registerLibrarian}
                     clearStatus={this.clearStatus}

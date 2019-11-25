@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import {Layout, Menu, Icon} from 'antd';
 import {Link} from "react-router-dom";
 import {TOKEN_KEY, USER_TYPE, userType} from "../../constants/constants";
@@ -23,7 +23,7 @@ const LayoutWrapper = (WrappedComponent) => {
                         <Menu
                             theme="dark"
                             mode="horizontal"
-                            defaultSelectedKeys={['1']}
+                            defaultSelectedKeys={[]}
                             style={{lineHeight: '64px', float: "right"}}
                         >
                             <Menu.Item key="1">
@@ -32,19 +32,27 @@ const LayoutWrapper = (WrappedComponent) => {
                                     <span className="nav-text">Search</span>
                                 </Link>
                             </Menu.Item>
-                            <Menu.Item key="2">
+                            {token && <Menu.Item key="2">
                                 <Link to="/profile">
                                     <Icon type="user"/>
                                     <span className="nav-text">Profile</span>
                                 </Link>
-                            </Menu.Item>
-                            {token ? <Menu.Item key="3">
+                            </Menu.Item>}
+                            {token && <Menu.Item key="3">
+                                <Link to="/change-password">
+                                    <Icon type="edit"/>
+                                    <span>Change Password</span>
+                                </Link>
+                            </Menu.Item>}
+                            {token ?
+                                <Menu.Item key="4">
                                     <Link to="/logout">
                                         <Icon type="logout"/>
                                         <span>Logout</span>
                                     </Link>
-                                </Menu.Item> :
-                                <Menu.Item key="3">
+                                </Menu.Item>
+                                :
+                                <Menu.Item key="5">
                                     <Link to="/login">
                                         <Icon type="login"/>
                                         <span>Login</span>
@@ -56,7 +64,7 @@ const LayoutWrapper = (WrappedComponent) => {
                         <Sider width={200} style={{background: '#fff', height: 'auto'}}>
                             <Menu
                                 mode="inline"
-                                defaultSelectedKeys={['1']}
+                                defaultSelectedKeys={[]}
                                 defaultOpenKeys={['book']}
                                 style={{height: '100%', borderRight: 0}}
                             >
@@ -70,51 +78,51 @@ const LayoutWrapper = (WrappedComponent) => {
                                     }
                                 >
                                     <Menu.Item key="1">
-                                        <Link to="/add-book">
-                                            <Icon type="user"/>
-                                            <span className="nav-text">Add</span>
+                                        <Link to="/book">
+                                            <Icon type="form"/>
+                                            <span className="nav-text">Book</span>
                                         </Link>
                                     </Menu.Item>
                                     <Menu.Item key="2">
-                                        <Link to="/author">
-                                            <Icon type="user"/>
+                                        <Link to="/book-request">
+                                            <Icon type="select"/>
                                             <span className="nav-text">Request</span>
                                         </Link>
                                     </Menu.Item>
                                     <Menu.Item key="3">
-                                        <Link to="/author">
-                                            <Icon type="user"/>
+                                        <Link to="/book-issue">
+                                            <Icon type="carry-out"/>
                                             <span className="nav-text">Issue</span>
                                         </Link>
                                     </Menu.Item>
                                     <Menu.Item key="4">
-                                        <Link to="/author">
-                                            <Icon type="user"/>
+                                        <Link to="/book-return">
+                                            <Icon type="file-done"/>
                                             <span className="nav-text">Return</span>
                                         </Link>
                                     </Menu.Item>
                                 </SubMenu>
                                 {/*{isLoggedIn(userType.LIBRARIAN) &&*/}
-                                <Menu.Item key="2">
+                                <Menu.Item key="5">
                                     <Link to="/author">
                                         <Icon type="user"/>
                                         <span className="nav-text">Authors</span>
                                     </Link>
                                 </Menu.Item>
                                 {/*}*/}
-                                <Menu.Item key="3">
+                                <Menu.Item key="6">
                                     <Link to="/student">
                                         <Icon type="database"/>
                                         <span className="nav-text">Students</span>
                                     </Link>
                                 </Menu.Item>
-                                <Menu.Item key="4">
+                                <Menu.Item key="7">
                                     <Link to="/librarian">
                                         <Icon type="user"/>
                                         <span className="nav-text">Librarians</span>
                                     </Link>
                                 </Menu.Item>
-                                <Menu.Item key="5">
+                                <Menu.Item key="8">
                                     <Link to="/admin">
                                         <Icon type="user"/>
                                         <span className="nav-text">Admins</span>

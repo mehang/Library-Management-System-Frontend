@@ -10,21 +10,24 @@ import LibrarianPage from "./components/LibrarianPage";
 import StudentForm from "./components/Student/StudentForm";
 import StudentTable from "./components/Student/StudentTable";
 import StudentVerificationForm from "./components/Student/StudentVerificationForm";
-import BookSearchPage from "./components/BookSearchPage";
+import BookSearch from "./components/BookSearch";
 import SuccessPage from "./components/SuccessPage";
 import Logout from "./components/Logout";
 import UnAuthorizedPage from "./components/UnauthorizedPage";
+import ProfilePage from "./components/ProfilePage";
+import PasswordChangeForm from "./components/PasswordChangeForm";
 
 export default function RouterConfig() {
     return (
       <BrowserRouter>
           <Switch>
               <Route exact path="/" component={Home}/>
-              <Route exact path="/search" component={BookSearchPage} />
+              <Route exact path="/search" component={BookSearch} />
               <Route exact path="/student-verification" component={StudentVerificationForm}/>
               <Route exact path="/login" component={LoginForm} />
               <Route exact path="/registration" component={StudentForm} />
-              <Route exact path="/profile" component={StudentTable} />
+              <Route exact path="/change-password" component={PasswordChangeForm}/>
+              <Route exact path="/profile" component={ProfilePage} />
               <Route exact path="/student" component={StudentTable} />
               <Route exact path="/admin" component={AdminPage} />
               <Route exact path="/librarian" component={LibrarianPage} />

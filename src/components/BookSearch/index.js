@@ -1,12 +1,14 @@
 import React, {Component, Fragment} from 'react';
 
+import PropTypes from 'prop-types';
 import {Input, Table, Tag} from 'antd';
+
 import {EMPTY_STRING, msgType} from "../../constants/constants";
 import {APIUrls} from "../../constants/urls";
 
 const {Search} = Input;
 
-class BookSearchPage extends Component {
+class BookSearch extends Component {
 
     constructor(props) {
         super(props);
@@ -18,7 +20,7 @@ class BookSearchPage extends Component {
     }
 
     searchBook = searchKeyword => {
-        let url = new URL(APIUrls.BookSearch)
+        let url = new URL(APIUrls.BookSearch);
         const params = {searchKeyword: this.state.searchKeyword};
         url.searchParams = new URLSearchParams(params).toString();
         fetch(url)
@@ -39,12 +41,12 @@ class BookSearchPage extends Component {
 
     requestBook = id => {
         console.log(id);
-    }
+    };
 
     render() {
         const {searchKeyword, books, error} = this.state;
 
-        const columns = [
+        let columns = [
             {
                 title: 'Title',
                 dataIndex: 'title',
@@ -57,7 +59,10 @@ class BookSearchPage extends Component {
                 key: 'author',
                 render: author => <Tag>{author}</Tag>
             },
-            {
+        ];
+
+        if (this.props.allowRequest){
+            columns.push({
                 title: 'Action',
                 key: 'action',
                 render: (text, librarian) => (
@@ -65,8 +70,8 @@ class BookSearchPage extends Component {
                         <a onClick={() => this.requestBook(librarian.key)}>Request</a>
                     </span>
                 )
-            },
-        ];
+            });
+        }
 
         const booksData = books.map(book => {
             return ({
@@ -82,7 +87,7 @@ class BookSearchPage extends Component {
                 <Search
                     value={searchKeyword}
                     onChange={e => this.setState({searchKeyword: e.target.value})}
-                    placeholder="input search text"
+                    placeholder="Book title"
                     onSearch={value => console.log(value)}
 
                     enterButton/>
@@ -94,4 +99,8 @@ class BookSearchPage extends Component {
     }
 }
 
-export default BookSearchPage;
+BookSearch.propTypes = {
+    allowRequest: PropTypes.bool.isRequired,
+}
+
+export default BookSearch;

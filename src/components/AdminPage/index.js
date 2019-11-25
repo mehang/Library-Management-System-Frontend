@@ -105,13 +105,14 @@ export class AdminPage extends Component {
         }
         return (
             <Fragment>
+                <div style={{fontWeight:'bold', fontSize:'x-large', marginBottom:'12px'}}>Admin Form</div>
                 <UserForm
-                    submitUser={this.registerLibrarian}
+                    submitUser={this.registerAdmin}
                     clearStatus={this.clearStatus}
                 />
                 {statusMsg && <div className={statusClassName}>{statusMsg}</div>}
                 <AdminTable
-                    librarians={admins}
+                    admins={admins}
                     deleteAdmin={this.deleteAdmin}
                 />
             </Fragment>

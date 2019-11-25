@@ -58,7 +58,7 @@ const AdminTable = props => {
 };
 
 AdminTable.propTypes = {
-    books: PropTypes.array.isRequired,
+    admins: PropTypes.array.isRequired,
     deleteAdmin: PropTypes.func.isRequired
 };
 

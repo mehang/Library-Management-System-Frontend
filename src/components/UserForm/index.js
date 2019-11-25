@@ -55,7 +55,6 @@ class UserForm extends Component {
     onUsernameChange = e => this.setState({username: e.target.value});
 
     validateUsername = () => {
-        console.log("asdf");
         let {validation} = this.state;
         if (this.state.username !== EMPTY_STRING) {
             if (hasWhiteSpace(this.state.username)) {
