@@ -34,7 +34,7 @@ const CategoryTable = props => {
     });
 
     return (
-        <Table columns={columns} dataSource={categoriesData}/>
+        <Table style={{marginTop:"1rem"}} columns={columns} dataSource={categoriesData}/>
     );
 };
 

@@ -34,7 +34,7 @@ const AuthorTable = props => {
         });
 
         return (
-            <Table columns={columns} dataSource={authorsData}/>
+            <Table style={{marginTop:"1rem"}} columns={columns} dataSource={authorsData}/>
         );
 };
 

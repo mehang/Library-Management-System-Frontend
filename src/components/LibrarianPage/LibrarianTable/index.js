@@ -53,7 +53,7 @@ const LibrarianTable = props => {
     });
 
     return (
-        <Table columns={columns} dataSource={librariansData}/>
+        <Table style={{marginTop:"1rem"}} columns={columns} dataSource={librariansData}/>
     );
 };
 

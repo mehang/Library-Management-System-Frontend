@@ -113,7 +113,7 @@ render() {
         <Table columns={columns} dataSource={studentsData}/>
     );
 }
-};
+}
 
 const WrappedStudentTable = LayoutWrapper(StudentTable);
 export default WrappedStudentTable;

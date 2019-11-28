@@ -53,7 +53,7 @@ const AdminTable = props => {
     });
 
     return (
-        <Table columns={columns} dataSource={adminsData}/>
+        <Table style={{marginTop:"1rem"}} columns={columns} dataSource={adminsData}/>
     );
 };
 

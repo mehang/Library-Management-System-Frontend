@@ -139,7 +139,7 @@ class BookTable extends Component {
                     <p>Error while adding book. Please try again later.</p>
                 }
             </Modal>
-            <Table columns={columns} dataSource={booksData}/>
+            <Table style={{marginTop:"1rem"}} columns={columns} dataSource={booksData}/>
             </Fragment>
         );
     }

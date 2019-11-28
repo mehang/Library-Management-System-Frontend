@@ -5,10 +5,12 @@ import {Input, Table, Tag} from 'antd';
 
 import {EMPTY_STRING, msgType} from "../../constants/constants";
 import {APIUrls} from "../../constants/urls";
+import LayoutWrapper from "../LayoutWrapper";
+import {AdminPage} from "../AdminPage";
 
 const {Search} = Input;
 
-class BookSearch extends Component {
+export class BookSearch extends Component {
 
     constructor(props) {
         super(props);
@@ -20,10 +22,10 @@ class BookSearch extends Component {
     }
 
     searchBook = searchKeyword => {
-        let url = new URL(APIUrls.BookSearch);
+        let fetchUrl = new URL(APIUrls.BookSearch);
         const params = {searchKeyword: this.state.searchKeyword};
-        url.searchParams = new URLSearchParams(params).toString();
-        fetch(url)
+        fetchUrl.searchParams.append('q',this.state.searchKeyword);
+        fetch(fetchUrl)
             .then(res => {
                 if (res.ok) {
                     return res.json();
@@ -48,16 +50,64 @@ class BookSearch extends Component {
 
         let columns = [
             {
+                title: 'Serial Number',
+                dataIndex: 'serialNumber',
+                key: 'serialNumber',
+                render: serialNumber => <div>{serialNumber}</div>
+            },
+            {
                 title: 'Title',
                 dataIndex: 'title',
                 key: 'title',
                 render: title => <div>{title}</div>
             },
             {
+                title: 'Status',
+                dataIndex: 'status',
+                key: 'status',
+                render: status => <div>{status}</div>
+            },
+            {
+                title: 'Publication',
+                dataIndex: 'publication',
+                key: 'publication',
+                render: publication => <div>{publication}</div>
+            },
+            {
+                title: 'Edition',
+                dataIndex: 'edition',
+                key: 'edition',
+                render: edition => <div>{edition}</div>
+            },
+            {
+                title: 'Language',
+                dataIndex: 'language',
+                key: 'language',
+                render: language => <div>{language}</div>
+            },
+            {
+                title: 'ISBN',
+                dataIndex: 'isbn',
+                key: 'isbn',
+                render: isbn => <div>{isbn}</div>
+            },
+            {
                 title: 'Author',
                 dataIndex: 'author',
                 key: 'author',
-                render: author => <Tag>{author}</Tag>
+                render: author => <div>{author.name}</div>
+            },
+            {
+                title: 'Categories',
+                dataIndex: 'categories',
+                key: 'categories',
+                render: categories => (<span>
+          {categories.map(category => (
+              <Tag color="blue" key={category.id}>
+                  {category.name}
+              </Tag>
+          ))}
+        </span>)
             },
         ];
 
@@ -65,9 +115,9 @@ class BookSearch extends Component {
             columns.push({
                 title: 'Action',
                 key: 'action',
-                render: (text, librarian) => (
+                render: (text, book) => (
                     <span>
-                        <a onClick={() => this.requestBook(librarian.key)}>Request</a>
+                        <a onClick={() => this.requestBook(book.key)}>Request</a>
                     </span>
                 )
             });
@@ -76,8 +126,15 @@ class BookSearch extends Component {
         const booksData = books.map(book => {
             return ({
                 key: book.id,
-                title: book.title,
-                author: book.author.name,
+                serialNumber: book.serialNo,
+                status: book.status,
+                title: book.specification.name,
+                isbn: book.specification.isbn,
+                edition: book.specification.edition,
+                publication: book.specification.publication,
+                language: book.specification.language,
+                author: book.specification.author,
+                categories: book.specification.bookCategorySet
             });
         });
 
@@ -88,19 +145,20 @@ class BookSearch extends Component {
                     value={searchKeyword}
                     onChange={e => this.setState({searchKeyword: e.target.value})}
                     placeholder="Book title"
-                    onSearch={value => console.log(value)}
+                    onSearch={value => this.searchBook(value)}
+                    style={{width:"30%"}}
 
                     enterButton/>
                 {error && <div className="error-status">{error}</div>}
-                <Table columns={columns} dataSource={booksData} />
-
+                <Table style={{marginTop:"1rem"}} columns={columns} dataSource={booksData} />
             </div>
         );
     }
 }
 
 BookSearch.propTypes = {
-    allowRequest: PropTypes.bool.isRequired,
-}
+    allowRequest: PropTypes.bool,
+};
 
-export default BookSearch;
+const WrappedBookSearchPage = LayoutWrapper(BookSearch);
+export default WrappedBookSearchPage;
