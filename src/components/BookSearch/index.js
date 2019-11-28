@@ -155,5 +155,5 @@ BookSearch.propTypes = {
     allowRequest: PropTypes.bool,
 };
 
-const WrappedBookSearchPage = LayoutWrapper(BookSearch);
-export default WrappedBookSearchPage;
+const WrappedBookSearch = LayoutWrapper(BookSearch);
+export default WrappedBookSearch;

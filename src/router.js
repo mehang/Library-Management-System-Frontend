@@ -20,6 +20,7 @@ import CategoryPage from "./components/CategoryPage";
 import BookRequest from "./components/BookRequest";
 import BookIssue from "./components/BookIssue";
 import BookReturn from "./components/BookReturn";
+import BookHistory from "./components/BookHistory";
 
 export default function RouterConfig() {
     return (
@@ -40,8 +41,8 @@ export default function RouterConfig() {
               <Route exact path="/book-request" component={BookRequest}/>
               <Route exact path="/book-issue" component={BookIssue}/>
               <Route exact path="/book-return" component={BookReturn}/>
-              <Route exact path="/student-history" component={BookReturn}/>
-              <Route exact path="/book-history" component={BookReturn}/>
+              <Route exact path="/student-history" component={BookHistory}/>
+              <Route exact path="/book-history" component={BookHistory}/>
               <Route exact path="/category" component={CategoryPage} />
               <Route exact path="/logout" component={Logout} />
               <Route exact path="/success" component={SuccessPage} />

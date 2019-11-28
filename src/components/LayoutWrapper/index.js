@@ -134,10 +134,16 @@ const LayoutWrapper = (WrappedComponent) => {
                                         <span className="nav-text">Admins</span>
                                     </Link>
                                 </Menu.Item>
-                                <Menu.Item key="9">
-                                    <Link to="/history">
+                                <Menu.Item key="10">
+                                    <Link to="/book-history">
                                         <Icon type="history"/>
-                                        <span className="nav-text">History</span>
+                                        <span className="nav-text">Book History</span>
+                                    </Link>
+                                </Menu.Item>
+                                <Menu.Item key="11">
+                                    <Link to="/student-history">
+                                        <Icon type="history"/>
+                                        <span className="nav-text">Borrow History</span>
                                     </Link>
                                 </Menu.Item>
                             </Menu>
