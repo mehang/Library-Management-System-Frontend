@@ -37,7 +37,7 @@ class BookIssue extends Component {
             title: 'Error',
             content: (
                 <div>
-                    <p>There was an error while issuing the book. Please try again later.</p>
+                    <p>{errorMsg}</p>
                 </div>
             ),
             onOk() {},
@@ -54,7 +54,7 @@ class BookIssue extends Component {
                 }
             })
             .then(data => {
-                this.setState({students: data});
+                this.setState({students: data.filter(requestedBook => requestedBook.status === "REQUESTED")});
             })
             .catch(error => {
                 this.onError("Error while fetching students.")
@@ -62,7 +62,6 @@ class BookIssue extends Component {
     };
 
     fetchRequestedBooks = (username) => {
-        const studentID = localStorage.getItem(USER_ID);
         const data = {
             method: 'GET',
             headers: {
@@ -86,12 +85,12 @@ class BookIssue extends Component {
     };
 
     issueBook = id => {
-        const studentID = localStorage.getItem(USER_ID);
+        const librarianID = localStorage.getItem(USER_ID);
         const data = {
             method: 'POST',
             body: JSON.stringify({
                 'bookId': id,
-                'userId': studentID,
+                'userId': librarianID,
             }),
             headers: {
                 'Content-Type': 'application/json',
@@ -180,7 +179,7 @@ class BookIssue extends Component {
             }
         ];
 
-        const booksData = this.state.requestedBooks.filter(requestedBook => requestedBook.status === "REQUESTED").map(requestedBook => {
+        const booksData = this.state.requestedBooks.map(requestedBook => {
             return ({
                 key: requestedBook.id,
                 bookID: requestedBook.book.id,
