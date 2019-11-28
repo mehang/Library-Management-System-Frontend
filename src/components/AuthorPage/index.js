@@ -5,6 +5,7 @@ import LayoutWrapper from "../LayoutWrapper";
 import {EMPTY_STRING,msgType} from "../../constants/constants";
 import AuthorForm from "./AuthorForm";
 import AuthorTable from "./AuthorTable";
+import {isEmpty} from "../../utils/utils";
 
 export class AuthorPage extends Component {
     constructor(props) {
@@ -23,8 +24,8 @@ export class AuthorPage extends Component {
         this.fetchAuthors();
     }
 
-    fetchAuthors = async () => {
-        await fetch(`${APIUrls.Author}`)
+    fetchAuthors = () => {
+        fetch(`${APIUrls.Author}`)
             .then(res => {
                 if (res.ok){
                     return res.json();
@@ -79,7 +80,7 @@ export class AuthorPage extends Component {
                 'Content-Type': 'application/json',
             }
         };
-        fetch(APIUrls.Author, data)
+        fetch(APIUrls.Author+authorID, data)
             .then(res => {
                 if (res.ok) {
                     return res.json();
@@ -105,8 +106,9 @@ export class AuthorPage extends Component {
                 'Content-Type': 'application/json',
             },
         };
-        fetch(`${APIUrls.Author}delete/${id}`, data)
+        fetch(APIUrls.Author+id, data)
             .then(res => {
+                console.log(res);
                 if (res.ok) {
                     this.fetchAuthors();
                 } else {
@@ -116,6 +118,14 @@ export class AuthorPage extends Component {
             .catch(error => {
                 this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});
             });
+    };
+
+    onSubmit = () => {
+        if (isEmpty(this.state.selectedAuthor)){
+            this.registerAuthor();
+        } else {
+            this.updateAuthor();
+        }
     };
 
     onNameChange = name => this.setState({name});
@@ -135,8 +145,7 @@ export class AuthorPage extends Component {
                 <AuthorForm
                     name={name}
                     onNameChange={this.onNameChange}
-                    registerAuthor={this.registerAuthor}
-                    updateAuthor={this.updateAuthor}
+                    onSubmit = {this.onSubmit}
                     clearStatus={this.clearStatus}
                 />
                 {statusMsg && <div className={statusClassName}>{statusMsg}</div>}

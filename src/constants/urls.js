@@ -8,6 +8,7 @@ export const APIUrls = {
     Admin: `${ROOT_URL}users/admins/`,
     Librarian: `${ROOT_URL}users/librarians/`,
     Student: `${ROOT_URL}users/students/`,
+    Book:`${ROOT_URL}books/`,
     BookSearch:`${ROOT_URL}books/search`,
     BookRequest: `${ROOT_URL}books/request`,
     BookIssue: `${ROOT_URL}books/issue`,

@@ -32,7 +32,7 @@ class AuthorForm extends Component {
         e.preventDefault();
         const {validation} = this.state;
         if (!validation.name.error){
-            this.props.registerAuthor();
+            this.props.onSubmit();
         }
     };
 
@@ -73,8 +73,7 @@ class AuthorForm extends Component {
 AuthorForm.propTypes = {
     name: PropTypes.string.isRequired,
     onNameChange: PropTypes.func.isRequired,
-    registerAuthor: PropTypes.func.isRequired,
-    updateAuthor: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
     clearStatus: PropTypes.func.isRequired,
 };
 

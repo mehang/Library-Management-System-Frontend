@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {Divider, Table} from 'antd';
+import {Divider, Table, Tag} from 'antd';
 
 const BookTable = props => {
 
@@ -38,11 +38,31 @@ const BookTable = props => {
             render: isbn => <div>{isbn}</div>
         },
         {
+            title: 'Author',
+            dataIndex: 'author',
+            key: 'author',
+            render: author => <div>{author.name}</div>
+        },
+        {
+            title: 'Categories',
+            dataIndex: 'categories',
+            key: 'categories',
+            render: categories => (<span>
+          {categories.map(category => (
+              <Tag color="blue" key={category.id}>
+                  {category.name}
+              </Tag>
+          ))}
+        </span>)
+        },
+        {
             title: 'Action',
             key: 'action',
             render: (text, book) => (
                 <span>
                         <a onClick={() => selectBook(book)}>Edit</a>
+                        <Divider type="vertical"/>
+                        <a onClick={() => deleteBook(book.key)}>Add</a>
                         <Divider type="vertical"/>
                         <a onClick={() => deleteBook(book.key)}>Delete</a>
                     </span>
@@ -57,7 +77,9 @@ const BookTable = props => {
             publication: book.publication,
             edition: book.edition,
             language: book.language,
-            isbn:book.isbn
+            isbn: book.isbn,
+            author: book.author,
+            categories: book.bookCategorySet
         })
     });
 

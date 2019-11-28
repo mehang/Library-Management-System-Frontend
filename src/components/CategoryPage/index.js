@@ -105,7 +105,7 @@ class CategoryPage extends Component {
                 'Content-Type': 'application/json',
             },
         };
-        fetch(`${APIUrls.BookCategory}delete/${id}`, data)
+        fetch(APIUrls.BookCategory+id, data)
             .then(res => {
                 if (res.ok) {
                     this.fetchCategories();
