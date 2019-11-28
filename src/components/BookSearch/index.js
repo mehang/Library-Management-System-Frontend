@@ -21,9 +21,8 @@ export class BookSearch extends Component {
         }
     }
 
-    searchBook = searchKeyword => {
+    searchBook = () => {
         let fetchUrl = new URL(APIUrls.BookSearch);
-        const params = {searchKeyword: this.state.searchKeyword};
         fetchUrl.searchParams.append('q',this.state.searchKeyword);
         fetch(fetchUrl)
             .then(res => {
@@ -39,10 +38,6 @@ export class BookSearch extends Component {
             .catch(error => {
                 this.setState({error: error});
             });
-    };
-
-    requestBook = id => {
-        console.log(id);
     };
 
     render() {
@@ -117,7 +112,7 @@ export class BookSearch extends Component {
                 key: 'action',
                 render: (text, book) => (
                     <span>
-                        <a onClick={() => this.requestBook(book.key)}>Request</a>
+                        {book.status === "AVAILABLE" && <a onClick={() => this.props.requestBook(book.key)}>Request</a>}
                     </span>
                 )
             });
@@ -127,7 +122,7 @@ export class BookSearch extends Component {
             return ({
                 key: book.id,
                 serialNumber: book.serialNo,
-                status: book.status,
+                status: book.status === "AVAILABLE"?"AVAILABLE":"NOT AVAILABLE",
                 title: book.specification.name,
                 isbn: book.specification.isbn,
                 edition: book.specification.edition,
@@ -147,7 +142,6 @@ export class BookSearch extends Component {
                     placeholder="Book title"
                     onSearch={value => this.searchBook(value)}
                     style={{width:"30%"}}
-
                     enterButton/>
                 {error && <div className="error-status">{error}</div>}
                 <Table style={{marginTop:"1rem"}} columns={columns} dataSource={booksData} />
@@ -157,6 +151,7 @@ export class BookSearch extends Component {
 }
 
 BookSearch.propTypes = {
+    requestBook: PropTypes.func.isRequired,
     allowRequest: PropTypes.bool,
 };
 

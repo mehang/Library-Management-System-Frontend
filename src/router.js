@@ -17,6 +17,8 @@ import UnAuthorizedPage from "./components/UnauthorizedPage";
 import ProfilePage from "./components/ProfilePage";
 import PasswordChangeForm from "./components/PasswordChangeForm";
 import CategoryPage from "./components/CategoryPage";
+import BookRequest from "./components/BookRequest";
+import BookIssue from "./components/BookIssue";
 
 export default function RouterConfig() {
     return (
@@ -34,6 +36,8 @@ export default function RouterConfig() {
               <Route exact path="/librarian" component={LibrarianPage} />
               <Route exact path="/author" component={AuthorPage} />
               <Route exact path="/book" component={BookPage} />
+              <Route exact path="/book-request" component={BookRequest}/>
+              <Route exact path="/book-issue" component={BookIssue}/>
               <Route exact path="/category" component={CategoryPage} />
               <Route exact path="/logout" component={Logout} />
               <Route exact path="/success" component={SuccessPage} />

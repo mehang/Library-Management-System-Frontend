@@ -126,7 +126,7 @@ export class BookPage extends Component {
                 }
             })
             .then(data => {
-                this.info(data.serialNo);
+                this.onBookAddition(data.serialNo);
                 this.fetchBooks();
                 this.clearInputs();
                 this.setState({statusMsgType: msgType.SUCCESS, statusMsg: "Saved successfully."});
@@ -228,9 +228,9 @@ export class BookPage extends Component {
         }
     };
 
-    info = (serialNumber) => {
-        Modal.info({
-            title: 'SUCCESS',
+    onBookAddition = (serialNumber) => {
+        Modal.success({
+            title: 'New Book Added',
             content: (
                 <div>
                     <p>A book has been successfully created for the given description and
