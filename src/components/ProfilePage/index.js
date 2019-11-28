@@ -85,7 +85,6 @@ class ProfilePage extends Component {
                 'test': 'testing header'
             }
         };
-        console.log(data);
         const baseApiUrl = this.getBaseApiUrl();
         fetch(baseApiUrl + id, data)
             .then(res => {

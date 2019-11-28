@@ -207,7 +207,6 @@ export class BookPage extends Component {
     onIsbnChange = isbn => this.setState({isbn});
 
     selectBook = book => {
-        console.log(book)
         const selectedCategoriesID = book.categories.map(category => category.id);
         this.setState({selectedBook: book, selectedAuthorID:book.author.id, selectedCategoriesID: selectedCategoriesID,...book});
     };

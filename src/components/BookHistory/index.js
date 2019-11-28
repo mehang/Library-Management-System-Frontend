@@ -51,7 +51,7 @@ class BookHistory extends Component {
                 this.setState({bookLoans: data});
             })
             .catch(error => {
-                this.setState({bookLoans:"asdf"});
+                this.setState({bookLoans:[]});
                 showErrorModal('Error', 'Error while fetching the history for the book');
             });
     }
@@ -156,7 +156,6 @@ class BookHistory extends Component {
                 log: bookLoan.log,
             });
         });
-        console.log(bookLoansData);
 
         return (
             <Fragment>

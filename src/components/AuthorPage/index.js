@@ -108,7 +108,6 @@ export class AuthorPage extends Component {
         };
         fetch(APIUrls.Author+id, data)
             .then(res => {
-                console.log(res);
                 if (res.ok) {
                     this.fetchAuthors();
                 } else {

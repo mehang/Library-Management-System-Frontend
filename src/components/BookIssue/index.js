@@ -54,7 +54,8 @@ class BookIssue extends Component {
                 }
             })
             .then(data => {
-                this.setState({students: data.filter(requestedBook => requestedBook.status === "REQUESTED")});
+                console.log(data);
+                this.setState({students: data});
             })
             .catch(error => {
                 this.onError("Error while fetching students.")
@@ -77,7 +78,7 @@ class BookIssue extends Component {
                 }
             })
             .then(data => {
-                this.setState({requestedBooks: data});
+                this.setState({requestedBooks: data.filter(requestedBook => requestedBook.status === "REQUESTED")});
             })
             .catch(error => {
                 this.onError("Error while fetching requested books for the given user.");

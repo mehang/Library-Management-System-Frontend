@@ -143,7 +143,7 @@ const LayoutWrapper = (WrappedComponent) => {
                                 <Menu.Item key="11">
                                     <Link to="/student-history">
                                         <Icon type="history"/>
-                                        <span className="nav-text">Borrow History</span>
+                                        <span className="nav-text">Loan History</span>
                                     </Link>
                                 </Menu.Item>
                             </Menu>
