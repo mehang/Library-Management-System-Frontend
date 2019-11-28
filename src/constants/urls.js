@@ -3,6 +3,7 @@ const ROOT_URL = "http://localhost:8080/";
 export const APIUrls = {
     Author: `${ROOT_URL}authors/`,
     BookSpecs: `${ROOT_URL}bookspecs/`,
+    BookCategory: `${ROOT_URL}books/categories/`,
     User: `${ROOT_URL}users/`,
     Admin: `${ROOT_URL}users/admins/`,
     Librarian: `${ROOT_URL}users/librarians/`,

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import {EMPTY_STRING} from "../../../constants/constants";
 
-class AuthorForm extends Component {
+class CategoryForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -32,7 +32,7 @@ class AuthorForm extends Component {
         e.preventDefault();
         const {validation} = this.state;
         if (!validation.name.error){
-            this.props.registerAuthor();
+            this.props.onSubmit();
         }
     };
 
@@ -41,7 +41,7 @@ class AuthorForm extends Component {
         return (
             <Fragment>
                 <div style={{fontSize: "x-large", fontWeight: "bold", marginBottom: "12px"}}>
-                    Author
+                    Book Category
                 </div>
                 <form>
                     <div className="form-row">
@@ -70,12 +70,11 @@ class AuthorForm extends Component {
     }
 }
 
-AuthorForm.propTypes = {
+CategoryForm.propTypes = {
     name: PropTypes.string.isRequired,
     onNameChange: PropTypes.func.isRequired,
-    registerAuthor: PropTypes.func.isRequired,
-    updateAuthor: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
     clearStatus: PropTypes.func.isRequired,
 };
 
-export default AuthorForm;
+export default CategoryForm;

@@ -102,27 +102,33 @@ const LayoutWrapper = (WrappedComponent) => {
                                         </Link>
                                     </Menu.Item>
                                 </SubMenu>
+                                    <Menu.Item key="5">
+                                        <Link to="/category">
+                                            <Icon type="container" />
+                                            <span className="nav=text">Category</span>
+                                        </Link>
+                                    </Menu.Item>
                                 {/*{isLoggedIn(userType.LIBRARIAN) &&*/}
-                                <Menu.Item key="5">
+                                <Menu.Item key="6">
                                     <Link to="/author">
                                         <Icon type="user"/>
                                         <span className="nav-text">Authors</span>
                                     </Link>
                                 </Menu.Item>
                                 {/*}*/}
-                                <Menu.Item key="6">
+                                <Menu.Item key="7">
                                     <Link to="/student">
                                         <Icon type="database"/>
                                         <span className="nav-text">Students</span>
                                     </Link>
                                 </Menu.Item>
-                                <Menu.Item key="7">
+                                <Menu.Item key="8">
                                     <Link to="/librarian">
                                         <Icon type="user"/>
                                         <span className="nav-text">Librarians</span>
                                     </Link>
                                 </Menu.Item>
-                                <Menu.Item key="8">
+                                <Menu.Item key="9">
                                     <Link to="/admin">
                                         <Icon type="user"/>
                                         <span className="nav-text">Admins</span>

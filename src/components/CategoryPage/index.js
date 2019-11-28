@@ -3,44 +3,44 @@ import React, {Component, Fragment} from 'react';
 import {APIUrls} from "../../constants/urls";
 import LayoutWrapper from "../LayoutWrapper";
 import {EMPTY_STRING,msgType} from "../../constants/constants";
-import AuthorForm from "./AuthorForm";
-import AuthorTable from "./AuthorTable";
+import CategoryForm from "./CategoryForm";
+import CategoryTable from "./CategoryTable";
+import {isEmpty} from "../../utils/utils";
 
-export class AuthorPage extends Component {
+class CategoryPage extends Component {
     constructor(props) {
         super(props);
         this.state={
             name: EMPTY_STRING,
             statusMsgType: msgType.SUCCESS,
             statusMsg: EMPTY_STRING,
-            selectedAuthor: {},
-            authors:[],
-
+            selectedCategory: {},
+            categories:[],
         }
     }
 
     componentDidMount(){
-        this.fetchAuthors();
+        this.fetchCategories();
     }
 
-    fetchAuthors = async () => {
-        await fetch(`${APIUrls.Author}`)
+    fetchCategories = () => {
+        fetch(`${APIUrls.BookCategory}`)
             .then(res => {
                 if (res.ok){
                     return res.json();
                 } else {
-                    throw new Error("Error while fetching authors");
+                    throw new Error("Error while fetching categories");
                 }
             })
             .then(data => {
-                this.setState({authors: data, statusMsgType: msgType.SUCCESS});
+                this.setState({categories: data, statusMsgType: msgType.SUCCESS});
             })
             .catch(error => {
                 this.setState({statusMsgType:msgType.ERROR, statusMsg: error.toString()});
             });
     };
 
-    registerAuthor = () => {
+    registerCategory = () => {
         let data = {
             method: 'POST',
             body: JSON.stringify({
@@ -50,7 +50,7 @@ export class AuthorPage extends Component {
                 'Content-Type': 'application/json',
             }
         };
-        fetch(APIUrls.Author, data)
+        fetch(APIUrls.BookCategory, data)
             .then(res => {
                 if (res.ok) {
                     return res.json();
@@ -59,7 +59,7 @@ export class AuthorPage extends Component {
                 }
             })
             .then(data => {
-                this.fetchAuthors();
+                this.fetchCategories();
                 this.setState({name: EMPTY_STRING, statusMsgType: msgType.SUCCESS, statusMsg: "Saved successfully."});
             })
             .catch(error => {
@@ -67,19 +67,19 @@ export class AuthorPage extends Component {
             });
     };
 
-    updateAuthor = async () => {
-        const authorID = this.state.selectedAuthor.key;
+    updateCategory = () => {
+        const categoryID = this.state.selectedCategory.key;
         let data = {
             method: 'PUT',
             body: JSON.stringify({
-                'id': authorID,
+                'id': categoryID,
                 'name': this.state.name,
             }),
             headers: {
                 'Content-Type': 'application/json',
             }
         };
-        fetch(APIUrls.Author, data)
+        fetch(APIUrls.BookCategory+categoryID, data)
             .then(res => {
                 if (res.ok) {
                     return res.json();
@@ -88,9 +88,9 @@ export class AuthorPage extends Component {
                 }
             })
             .then(data => {
-                this.fetchAuthors();
+                this.fetchCategories();
                 this.setState({name: EMPTY_STRING, statusMsgType: msgType.SUCCESS,
-                    statusMsg: "Updated successfully.", selectedAuthor: {}});
+                    statusMsg: "Updated successfully.", selectedCategory: {}});
             })
             .catch(error => {
                 this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});
@@ -98,17 +98,17 @@ export class AuthorPage extends Component {
     };
 
 
-    deleteAuthor = (id) => {
+    deleteCategory = (id) => {
         let data = {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
             },
         };
-        fetch(`${APIUrls.Author}delete/${id}`, data)
+        fetch(`${APIUrls.BookCategory}delete/${id}`, data)
             .then(res => {
                 if (res.ok) {
-                    this.fetchAuthors();
+                    this.fetchCategories();
                 } else {
                     throw new Error("Error while deleting author.");
                 }
@@ -118,37 +118,44 @@ export class AuthorPage extends Component {
             });
     };
 
+    onSubmit = () => {
+        if (isEmpty(this.state.selectedCategory)){
+            this.registerCategory();
+        } else {
+            this.updateCategory();
+        }
+    };
+
     onNameChange = name => this.setState({name});
 
-    selectAuthor = author => this.setState({selectedAuthor: author, name: author.name});
+    selectCategory = category => this.setState({selectedCategory: category, name: category.name});
 
     clearStatus = () => {
         this.setState({statusMsgType: msgType.SUCCESS, statusMsg: EMPTY_STRING});
     };
 
     render() {
-        const {name,statusMsg, authors} = this.state;
+        const {name,statusMsg, categories} = this.state;
         const statusClassName = this.state.statusMsgType === msgType.ERROR ? 'error-status' : 'success-status';
 
         return (
             <Fragment>
-                <AuthorForm
+                <CategoryForm
                     name={name}
                     onNameChange={this.onNameChange}
-                    registerAuthor={this.registerAuthor}
-                    updateAuthor={this.updateAuthor}
+                    onSubmit={this.onSubmit}
                     clearStatus={this.clearStatus}
                 />
                 {statusMsg && <div className={statusClassName}>{statusMsg}</div>}
-                <AuthorTable
-                    authors={authors}
-                    selectAuthor={this.selectAuthor}
-                    deleteAuthor={this.deleteAuthor}
+                <CategoryTable
+                    categories={categories}
+                    selectCategory={this.selectCategory}
+                    deleteCategory={this.deleteCategory}
                 />
             </Fragment>
         )
     }
 }
 
-const WrappedAuthorPage = LayoutWrapper(AuthorPage);
-export default WrappedAuthorPage;
+const WrappedCategoryPage = LayoutWrapper(CategoryPage);
+export default WrappedCategoryPage;
