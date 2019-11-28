@@ -37,6 +37,16 @@ export class BookPage extends Component {
                 .then(this.fetchCategories()));
     }
 
+    clearInputs = () => this.setState({
+        name: EMPTY_STRING,
+        publication: EMPTY_STRING,
+        edition: EMPTY_STRING,
+        language: EMPTY_STRING,
+        isbn: EMPTY_STRING,
+        selectedAuthorID: null,
+        selectedCategoriesID: [],
+    });
+
     fetchBooks = async () => {
         await fetch(`${APIUrls.BookSpecs}`)
             .then(res => {
@@ -118,7 +128,8 @@ export class BookPage extends Component {
             .then(data => {
                 this.info(data.serialNo);
                 this.fetchBooks();
-                this.setState({name: EMPTY_STRING, statusMsgType: msgType.SUCCESS, statusMsg: "Saved successfully."});
+                this.clearInputs();
+                this.setState({statusMsgType: msgType.SUCCESS, statusMsg: "Saved successfully."});
             })
             .catch(error => {
                 this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});
@@ -155,6 +166,7 @@ export class BookPage extends Component {
             })
             .then(data => {
                 this.fetchBooks();
+                this.clearInputs();
                 this.setState({name: EMPTY_STRING, statusMsgType: msgType.SUCCESS,
                     statusMsg: "Updated successfully.", selectedBook: {}});
             })
