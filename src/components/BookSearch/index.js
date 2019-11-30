@@ -44,12 +44,12 @@ export class BookSearch extends Component {
         const {searchKeyword, books, error} = this.state;
 
         let columns = [
-            {
-                title: 'Serial Number',
-                dataIndex: 'serialNumber',
-                key: 'serialNumber',
-                render: serialNumber => <div>{serialNumber}</div>
-            },
+            // {
+            //     title: 'Serial Number',
+            //     dataIndex: 'serialNumber',
+            //     key: 'serialNumber',
+            //     render: serialNumber => <div>{serialNumber}</div>
+            // },
             {
                 title: 'Title',
                 dataIndex: 'title',
@@ -58,9 +58,9 @@ export class BookSearch extends Component {
             },
             {
                 title: 'Status',
-                dataIndex: 'status',
-                key: 'status',
-                render: status => <div>{status}</div>
+                dataIndex: 'bookIds',
+                key: 'bookIds',
+                render: bookIds => <div>{bookIds!==0?"AVAILABLE": "NOT AVAILABLE"}</div>
             },
             {
                 title: 'Publication',
@@ -112,7 +112,7 @@ export class BookSearch extends Component {
                 key: 'action',
                 render: (text, book) => (
                     <span>
-                        {book.status === "AVAILABLE" && <a onClick={() => this.props.requestBook(book.key)}>Request</a>}
+                        {book.bookIds.length !== 0 && <a onClick={() => this.props.requestBook(book.bookIds[0])}>Request</a>}
                     </span>
                 )
             });
@@ -121,15 +121,14 @@ export class BookSearch extends Component {
         const booksData = books.map(book => {
             return ({
                 key: book.id,
-                serialNumber: book.serialNo,
-                status: book.status === "AVAILABLE"?"AVAILABLE":"NOT AVAILABLE",
-                title: book.specification.name,
-                isbn: book.specification.isbn,
-                edition: book.specification.edition,
-                publication: book.specification.publication,
-                language: book.specification.language,
-                author: book.specification.author,
-                categories: book.specification.bookCategorySet
+                title: book.name,
+                isbn: book.isbn,
+                edition: book.edition,
+                publication: book.publication,
+                language: book.language,
+                author: book.author,
+                categories: book.bookCategorySet,
+                bookIds: book.bookIds
             });
         });
 
@@ -151,7 +150,7 @@ export class BookSearch extends Component {
 }
 
 BookSearch.propTypes = {
-    requestBook: PropTypes.func.isRequired,
+    requestBook: PropTypes.func,
     allowRequest: PropTypes.bool,
 };
 
