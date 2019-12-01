@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {EMPTY_STRING, msgType} from "../../constants/constants";
+import {EMPTY_STRING, msgType} from "../../../constants/constants";
 import {Button, Col, Input, Row} from "antd";
-import LayoutWrapper from "../LayoutWrapper";
+import PropTypes from 'prop-types';
+import LayoutWrapper from "../../LayoutWrapper";
 
 class PasswordChangeForm extends Component{
     constructor(props){
@@ -60,18 +61,23 @@ class PasswordChangeForm extends Component{
         this.setState({statusMsgType: msgType.SUCCESS, statusMsg: EMPTY_STRING});
     };
 
+    handleSubmit = (e) => {
+        e.preventDefault();
+        this.props.onSubmit(this.state.password1, this.state.password2);
+    };
+
     render(){
         const { password1, password2, statusMsg, statusMsgType} = this.state;
         const statusClassName = statusMsgType === msgType.ERROR ?
             'error-status' : 'success-status';
         return (
-            <div style={{paddingTop: "30px", backgroundColor: "#bae7ff", height: "100%"}}>
+            <div style={{paddingTop: "30px", backgroundColor: "#bae7ff", height: "100vh"}}>
                 <div className="registration-form-container">
                     <div className="ant-form ant-form-horizontal"
                          style={{width: "100%", height: "100%"}}>
                         <div className="registration-form">
                             <div style={{fontSize: "x-large", fontWeight: "bold", marginBottom: "12px"}}>
-                                Change Password
+                                {this.props.header}
                             </div>
                             <form>
                                 <div className="form-row">
@@ -112,7 +118,7 @@ class PasswordChangeForm extends Component{
                                 </div>
                                 <div style={{marginTop:"26px"}}>
                                     <Button type="primary" htmlType="submit" onClick={this.handleSubmit}>
-                                        Change Password
+                                        {this.props.header}
                                     </Button>
                                 </div>
                             </form>
@@ -125,5 +131,9 @@ class PasswordChangeForm extends Component{
     }
 }
 
-const WrappedPasswordChangeForm = LayoutWrapper(PasswordChangeForm);
-export default WrappedPasswordChangeForm;
+PasswordChangeForm.propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+    header: PropTypes.string.isRequired,
+};
+
+export default PasswordChangeForm;

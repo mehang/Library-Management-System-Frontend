@@ -14,4 +14,7 @@ export const APIUrls = {
     BookIssue: `${ROOT_URL}books/issue`,
     BookReturn: `${ROOT_URL}books/return`,
     Authenticate: `${ROOT_URL}authenticate/`,
+    ChangePassword: `${ROOT_URL}users/change-password`,
+    ForgotPassword: `${ROOT_URL}users/forgot-password`,
+    ResetPassword: `${ROOT_URL}users/reset-password`,
 };

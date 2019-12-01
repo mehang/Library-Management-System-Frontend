@@ -15,13 +15,15 @@ import SuccessPage from "./components/SuccessPage";
 import Logout from "./components/Logout";
 import UnAuthorizedPage from "./components/UnauthorizedPage";
 import ProfilePage from "./components/ProfilePage";
-import PasswordChangeForm from "./components/PasswordChangeForm";
+import PasswordChangePage from "./components/PasswordChange/PasswordChangePage";
 import CategoryPage from "./components/CategoryPage";
 import BookRequest from "./components/BookRequest";
 import BookIssue from "./components/BookIssue";
 import BookReturn from "./components/BookReturn";
 import BookHistory from "./components/BookHistory";
 import StudentHistory from "./components/StudentHistory";
+import PasswordForgotForm from "./components/PasswordForgotForm";
+import PasswordResetPage from "./components/PasswordChange/PasswordResetPage";
 
 export default function RouterConfig() {
     return (
@@ -32,7 +34,9 @@ export default function RouterConfig() {
               <Route exact path="/student-verification" component={StudentVerificationForm}/>
               <Route exact path="/login" component={LoginForm} />
               <Route exact path="/registration" component={StudentForm} />
-              <Route exact path="/change-password" component={PasswordChangeForm}/>
+              <Route exact path="/change-password" component={PasswordChangePage}/>
+              <Route exact path="/forgot-password" component={PasswordForgotForm}/>
+              <Route exact path="/reset-password" component={PasswordResetPage}/>
               <Route exact path="/profile" component={ProfilePage} />
               <Route exact path="/student" component={StudentTable} />
               <Route exact path="/admin" component={AdminPage} />

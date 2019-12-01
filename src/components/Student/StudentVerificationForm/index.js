@@ -19,7 +19,7 @@ class StudentVerificationForm extends Component {
         this.setState({loading:true});
         //todo: call backend and then redirect to registration form
         console.log(value);
-    }
+    };
 
     render() {
         return (
