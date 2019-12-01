@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {Divider, Table} from 'antd';
+import {Button, Divider, Table} from 'antd';
 
 const CategoryTable = props => {
 
@@ -18,9 +18,9 @@ const CategoryTable = props => {
             key: 'action',
             render: (text, category) => (
                 <span>
-                        <a onClick={() => selectCategory(category)}>Edit</a>
+                        <Button type="primary" onClick={() => selectCategory(category)}>Edit</Button>
                         <Divider type="vertical"/>
-                        <a onClick={() => deleteCategory(category.key)}>Delete</a>
+                        <Button type="danger" onClick={() => deleteCategory(category.key)}>Delete</Button>
                     </span>
             )
         },

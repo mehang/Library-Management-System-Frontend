@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {Divider, Table} from 'antd';
+import {Button, Divider, Table} from 'antd';
 import {APIUrls} from "../../../constants/urls";
 import {msgType, userType} from "../../../constants/constants";
 import LayoutWrapper from "../../LayoutWrapper";
@@ -89,7 +89,7 @@ render() {
             key: 'action',
             render: (text, student) => (
                 <span>
-                        <a onClick={() => this.deleteStudentt(student.key)}>Delete</a>
+                        <Button type="danger" onClick={() => this.deleteStudentt(student.key)}>Delete</Button>
                     </span>
             )
         },

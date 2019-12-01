@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from 'react';
-import {Input, Modal, Select, Table, Tag} from "antd";
+import {Button, Input, Modal, Select, Table, Tag} from "antd";
 import LayoutWrapper from "../LayoutWrapper";
 import {msgType, USER_ID} from "../../constants/constants";
 import {APIUrls} from "../../constants/urls";
@@ -174,7 +174,7 @@ class BookIssue extends Component {
                 key: 'action',
                 render: (text, book) => (
                     <span>
-                        <a onClick={() => this.issueBook(book.bookID)}>Issue</a>
+                        <Button type="primary" onClick={() => this.issueBook(book.bookID)}>Issue</Button>
                     </span>
                 )
             }

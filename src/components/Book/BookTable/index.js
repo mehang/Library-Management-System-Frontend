@@ -99,9 +99,9 @@ class BookTable extends Component {
                 key: 'action',
                 render: (text, book) => (
                     <span>
-                        <a onClick={() => selectBook(book)}>Edit</a>
+                        <Button type="primary" onClick={() => selectBook(book)}>Edit</Button>
                         <Divider type="vertical"/>
-                        <a onClick={() => this.addBook(book.isbn)}>Add</a>
+                        <Button type="danger" onClick={() => this.addBook(book.isbn)}>Add</Button>
                     </span>
                 )
             },

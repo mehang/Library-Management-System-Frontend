@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {Divider, Table} from 'antd';
+import {Button, Divider, Table} from 'antd';
 
 const AdminTable = props => {
 
@@ -36,7 +36,7 @@ const AdminTable = props => {
             key: 'action',
             render: (text, librarian) => (
                 <span>
-                        <a onClick={() => deleteAdmin(librarian.key)}>Delete</a>
+                        <Button type="danger" onClick={() => deleteAdmin(librarian.key)}>Delete</Button>
                     </span>
             )
         },

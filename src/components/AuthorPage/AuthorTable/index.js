@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {Divider, Table} from 'antd';
+import {Button, Divider, Table} from 'antd';
 
 const AuthorTable = props => {
 
@@ -18,9 +18,9 @@ const AuthorTable = props => {
                 key: 'action',
                 render: (text, author) => (
                     <span>
-                        <a onClick={() => selectAuthor(author)}>Edit</a>
+                        <Button type="primary" onClick={() => selectAuthor(author)}>Edit</Button>
                         <Divider type="vertical"/>
-                        <a onClick={() => deleteAuthor(author.key)}>Delete</a>
+                        <Button type="danger" onClick={() => deleteAuthor(author.key)}>Delete</Button>
                     </span>
                 )
             },

@@ -1,7 +1,9 @@
 import React, {Component, Fragment} from 'react';
 
 import PropTypes from 'prop-types';
-import {Input, Table, Tag} from 'antd';
+import {Input, Table,Button, Tag} from 'antd';
+import SockJS from 'sockjs-client';
+import Stomp from 'stomp-websocket';
 
 import {EMPTY_STRING, msgType} from "../../constants/constants";
 import {APIUrls} from "../../constants/urls";
@@ -14,12 +16,34 @@ export class BookSearch extends Component {
 
     constructor(props) {
         super(props);
+        this.stompClient = null;
         this.state = {
             searchKeyword: EMPTY_STRING,
             books: [],
             error: EMPTY_STRING,
         }
     }
+
+    componentDidMount() {
+        this.connect();
+    }
+
+    connect = () => {
+        const socket = new SockJS('http://localhost:8080/websocket');
+        this.stompClient = Stomp.over(socket);
+        this.stompClient.connect({}, frame => {
+            console.log('connected:'+frame);
+            this.stompClient.subscribe('/lms/requested', frame => {
+                const requestedBookId = JSON.parse(frame.body);
+                let books = this.state.books;
+                const updatedBooks = books.map(book => ({
+                  ...book,
+                  bookIds: book.bookIds.filter(bookId => (bookId!==requestedBookId)),
+                }));
+                this.setState({books:updatedBooks});
+            })
+        })
+    };
 
     searchBook = () => {
         let fetchUrl = new URL(APIUrls.BookSearch);
@@ -44,12 +68,6 @@ export class BookSearch extends Component {
         const {searchKeyword, books, error} = this.state;
 
         let columns = [
-            // {
-            //     title: 'Serial Number',
-            //     dataIndex: 'serialNumber',
-            //     key: 'serialNumber',
-            //     render: serialNumber => <div>{serialNumber}</div>
-            // },
             {
                 title: 'Title',
                 dataIndex: 'title',
@@ -60,7 +78,7 @@ export class BookSearch extends Component {
                 title: 'Status',
                 dataIndex: 'bookIds',
                 key: 'bookIds',
-                render: bookIds => <div>{bookIds!==0?"AVAILABLE": "NOT AVAILABLE"}</div>
+                render: bookIds => <div>{bookIds.length!==0?"AVAILABLE": "NOT AVAILABLE"}</div>
             },
             {
                 title: 'Publication',
@@ -112,7 +130,7 @@ export class BookSearch extends Component {
                 key: 'action',
                 render: (text, book) => (
                     <span>
-                        {book.bookIds.length !== 0 && <a onClick={() => this.props.requestBook(book.bookIds[0])}>Request</a>}
+                        {book.bookIds.length !== 0 && <Button type="primary" onClick={() => this.props.requestBook(book.bookIds[0])}>Request</Button>}
                     </span>
                 )
             });
