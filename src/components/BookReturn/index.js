@@ -3,6 +3,7 @@ import {Input, Modal, Select, Table, Tag} from "antd";
 import LayoutWrapper from "../LayoutWrapper";
 import {EMPTY_STRING, USER_ID} from "../../constants/constants";
 import {APIUrls} from "../../constants/urls";
+import {showErrorModal, showSuccessModal} from "../../utils/utils";
 
 const {Search} = Input;
 
@@ -14,30 +15,6 @@ class BookReturn extends Component {
             isLoading: false,
         }
     }
-
-    onSuccess = () => {
-        Modal.success({
-            title: 'Recorded Return Successfully',
-            content: (
-                <div>
-                    <p>Return of the book has been recorded successfully.</p>
-                </div>
-            ),
-            onOk() {},
-        });
-    };
-
-    onError = (errorMsg) => {
-        Modal.success({
-            title: 'Error',
-            content: (
-                <div>
-                    <p>{errorMsg}</p>
-                </div>
-            ),
-            onOk() {},
-        });
-    };
 
     returnBook = serialNo => {
         this.setState({isLoading:true});
@@ -60,11 +37,11 @@ class BookReturn extends Component {
             })
             .then(data => {
                 this.setState({isLoading:false, serialNumber:EMPTY_STRING});
-                this.onSuccess();
+                showSuccessModal("Recorded Return Successfully","Return of the book has been recorded successfully.")
             })
             .catch(error => {
                 this.setState({isLoading:false});
-                this.onError("There was an error while recording return of the book. Please try again later.");
+                showErrorModal("Error", error.toString());
             });
     };
 

@@ -9,6 +9,7 @@ import {EMPTY_STRING, msgType} from "../../constants/constants";
 import {APIUrls} from "../../constants/urls";
 import LayoutWrapper from "../LayoutWrapper";
 import {AdminPage} from "../AdminPage";
+import {showErrorModal} from "../../utils/utils";
 
 const {Search} = Input;
 
@@ -27,6 +28,7 @@ export class BookSearch extends Component {
     componentDidMount() {
         this.connect();
     }
+
 
     connect = () => {
         const socket = new SockJS('http://localhost:8080/websocket');
@@ -61,6 +63,7 @@ export class BookSearch extends Component {
             })
             .catch(error => {
                 this.setState({error: error});
+                showErrorModal("Error", error.toString());
             });
     };
 

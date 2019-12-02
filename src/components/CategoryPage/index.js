@@ -5,7 +5,7 @@ import LayoutWrapper from "../LayoutWrapper";
 import {EMPTY_STRING,msgType} from "../../constants/constants";
 import CategoryForm from "./CategoryForm";
 import CategoryTable from "./CategoryTable";
-import {isEmpty} from "../../utils/utils";
+import {isEmpty, showErrorModal, showSuccessModal} from "../../utils/utils";
 
 class CategoryPage extends Component {
     constructor(props) {
@@ -37,6 +37,7 @@ class CategoryPage extends Component {
             })
             .catch(error => {
                 this.setState({statusMsgType:msgType.ERROR, statusMsg: error.toString()});
+                showErrorModal("Error", error.toString());
             });
     };
 
@@ -61,9 +62,11 @@ class CategoryPage extends Component {
             .then(data => {
                 this.fetchCategories();
                 this.setState({name: EMPTY_STRING, statusMsgType: msgType.SUCCESS, statusMsg: "Saved successfully."});
+                showSuccessModal("Registered Successfully", "The category has been registered successfully.")
             })
             .catch(error => {
                 this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});
+                showErrorModal("Error", error.toString());
             });
     };
 
@@ -91,9 +94,11 @@ class CategoryPage extends Component {
                 this.fetchCategories();
                 this.setState({name: EMPTY_STRING, statusMsgType: msgType.SUCCESS,
                     statusMsg: "Updated successfully.", selectedCategory: {}});
+                showSuccessModal("Updated Successfully", "The category has been updated successfully.")
             })
             .catch(error => {
                 this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});
+                showErrorModal("Error", error.toString());
             });
     };
 
@@ -109,12 +114,14 @@ class CategoryPage extends Component {
             .then(res => {
                 if (res.ok) {
                     this.fetchCategories();
+                    showSuccessModal("Deleted Successfully", "The category has been deleted successfully.")
                 } else {
-                    throw new Error("Error while deleting author.");
+                    throw new Error("Error while deleting category.");
                 }
             })
             .catch(error => {
                 this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});
+                showErrorModal("Error", error.toString());
             });
     };
 

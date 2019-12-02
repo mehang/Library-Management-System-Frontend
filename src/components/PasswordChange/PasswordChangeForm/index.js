@@ -3,6 +3,7 @@ import {EMPTY_STRING, msgType} from "../../../constants/constants";
 import {Button, Col, Input, Row} from "antd";
 import PropTypes from 'prop-types';
 import LayoutWrapper from "../../LayoutWrapper";
+import {validatePassword1, validatePassword2} from "../../../common/form-validations";
 
 class PasswordChangeForm extends Component{
     constructor(props){
@@ -27,35 +28,7 @@ class PasswordChangeForm extends Component{
 
     onPassword1Change = e => this.setState({password1: e.target.value});
 
-    validatePassword1 = () => {
-        let {validation} = this.state;
-        if (validation.password1.required && this.state.password1 === EMPTY_STRING) {
-            validation.password1.error = "This input is required";
-        } else {
-            validation.password1.error = EMPTY_STRING;
-        }
-        this.setState({validation: validation});
-    };
-
     onPassword2Change = e => this.setState({password2: e.target.value});
-
-    validatePassword2 = () => {
-        let {validation} = this.state;
-        const {password1, password2} = this.state;
-        if (password2 === EMPTY_STRING) {
-            if (validation.password2.required) {
-                validation.password2.error = "This input is required.";
-                this.setState({validation: validation});
-            }
-        } else {
-            if (password1 === password2) {
-                validation.password2.error = EMPTY_STRING;
-            } else {
-                validation.password2.error = "The passwords are not matching with each other.";
-            }
-            this.setState({validation: validation});
-        }
-    };
 
     clearStatus = () => {
         this.setState({statusMsgType: msgType.SUCCESS, statusMsg: EMPTY_STRING});
@@ -90,7 +63,7 @@ class PasswordChangeForm extends Component{
                                                 value={password1}
                                                 type="password"
                                                 onChange={this.onPassword1Change}
-                                                onBlur={this.validatePassword1}
+                                                onBlur={() => validatePassword1(this)}
                                                 onClick={this.clearStatus}
                                             />
                                             {this.state.validation.password1.error &&
@@ -108,7 +81,7 @@ class PasswordChangeForm extends Component{
                                                 value={password2}
                                                 type="password"
                                                 onChange={this.onPassword2Change}
-                                                onBlur={this.validatePassword2}
+                                                onBlur={() => validatePassword2(this)}
                                                 onClick={this.clearStatus}
                                             />
                                             {this.state.validation.password2.error &&

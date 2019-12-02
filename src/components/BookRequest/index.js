@@ -6,32 +6,9 @@ import {BookSearch} from '../BookSearch';
 import LayoutWrapper from "../LayoutWrapper";
 import {APIUrls} from "../../constants/urls";
 import {msgType, USER_ID} from "../../constants/constants";
+import {showErrorModal, showSuccessModal} from "../../utils/utils";
 
 class BookRequest extends Component {
-    onSuccess = () => {
-        Modal.success({
-            title: 'Request Accepted',
-            content: (
-                <div>
-                    <p>Your request for the book has been accepted.</p>
-                </div>
-            ),
-            onOk() {},
-        });
-    };
-
-    onError = () => {
-        Modal.success({
-            title: 'Error',
-            content: (
-                <div>
-                    <p>There was an error while placing your request for the book. Please try again later.</p>
-                </div>
-            ),
-            onOk() {},
-        });
-    };
-
     requestBook = id => {
         const studentID = localStorage.getItem(USER_ID);
         let data = {
@@ -47,16 +24,13 @@ class BookRequest extends Component {
         fetch(APIUrls.BookRequest, data)
             .then(res => {
                 if (res.ok) {
-                    return res.json();
+                    showSuccessModal("Request Accepted", "Your request for the book has been accepted.");
                 } else {
                     throw new Error("Problem in network connectivity.")
                 }
             })
-            .then(data => {
-                this.onSuccess();
-            })
             .catch(error => {
-                this.onError();
+                showErrorModal("Error","There was an error while placing your request for the book. Please try again later.");
             });
     };
     render(){

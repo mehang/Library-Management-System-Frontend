@@ -5,7 +5,7 @@ import LayoutWrapper from "../LayoutWrapper";
 import {EMPTY_STRING, msgType, userType} from "../../constants/constants";
 import UserForm from "../UserForm";
 import LibrarianTable from "./LibrarianTable";
-import {isLoggedIn} from "../../utils/utils";
+import {isLoggedIn, showErrorModal, showSuccessModal} from "../../utils/utils";
 import {Redirect} from "react-router-dom";
 
 export class LibrarianPage extends Component {
@@ -36,6 +36,7 @@ export class LibrarianPage extends Component {
             })
             .catch(error => {
                 this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});
+                showErrorModal("Error", error.toString());
             });
     };
 
@@ -65,10 +66,12 @@ export class LibrarianPage extends Component {
             .then(data => {
                 this.fetchLibrarians();
                 this.setState({statusMsgType: msgType.SUCCESS, statusMsg: "Saved successfully."});
+                showSuccessModal("Registered Successfully","The librarian has been registered successfully.");
                 return true;
             })
             .catch(error => {
                 this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});
+                showErrorModal("Error", error.toString());
                 return false;
             });
     };
@@ -84,12 +87,14 @@ export class LibrarianPage extends Component {
             .then(res => {
                 if (res.ok) {
                     this.fetchLibrarians();
+                    showSuccessModal("Deleted Successfully","The librarian has been successfully,");
                 } else {
                     throw new Error("Error while deleting librarian.");
                 }
             })
             .catch(error => {
                 this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});
+                showErrorModal("Error", error.toString());
             });
     };
 

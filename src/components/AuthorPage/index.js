@@ -5,7 +5,8 @@ import LayoutWrapper from "../LayoutWrapper";
 import {EMPTY_STRING,msgType} from "../../constants/constants";
 import AuthorForm from "./AuthorForm";
 import AuthorTable from "./AuthorTable";
-import {isEmpty} from "../../utils/utils";
+import {isEmpty, showErrorModal, showSuccessModal} from "../../utils/utils";
+import {fetchAuthors} from "../../common/fetches";
 
 export class AuthorPage extends Component {
     constructor(props) {
@@ -21,24 +22,18 @@ export class AuthorPage extends Component {
     }
 
     componentDidMount(){
-        this.fetchAuthors();
+        this.loadAuthors();
     }
 
-    fetchAuthors = () => {
-        fetch(`${APIUrls.Author}`)
-            .then(res => {
-                if (res.ok){
-                    return res.json();
-                } else {
-                    throw new Error("Error while fetching authors");
-                }
-            })
+    loadAuthors = () => {
+        fetchAuthors()
             .then(data => {
                 this.setState({authors: data, statusMsgType: msgType.SUCCESS});
             })
             .catch(error => {
                 this.setState({statusMsgType:msgType.ERROR, statusMsg: error.toString()});
-            });
+                showErrorModal('Error', error.toString());
+            })
     };
 
     registerAuthor = () => {
@@ -60,11 +55,13 @@ export class AuthorPage extends Component {
                 }
             })
             .then(data => {
-                this.fetchAuthors();
+                this.loadAuthors();
                 this.setState({name: EMPTY_STRING, statusMsgType: msgType.SUCCESS, statusMsg: "Saved successfully."});
+                showSuccessModal("Registered successfully","The author has been registered successfully.", this.clearStatus);
             })
             .catch(error => {
                 this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});
+                showErrorModal("Error",error.toString());
             });
     };
 
@@ -89,12 +86,14 @@ export class AuthorPage extends Component {
                 }
             })
             .then(data => {
-                this.fetchAuthors();
+                this.loadAuthors();
                 this.setState({name: EMPTY_STRING, statusMsgType: msgType.SUCCESS,
                     statusMsg: "Updated successfully.", selectedAuthor: {}});
+                showSuccessModal("Updated successfully","The author has been updated successfully.", this.clearStatus);
             })
             .catch(error => {
                 this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});
+                showErrorModal("Error", error.toString());
             });
     };
 
@@ -109,13 +108,15 @@ export class AuthorPage extends Component {
         fetch(APIUrls.Author+id, data)
             .then(res => {
                 if (res.ok) {
-                    this.fetchAuthors();
+                    this.loadAuthors();
+                    showSuccessModal("Deleted successfully","The author has been deleted successfully.");
                 } else {
                     throw new Error("Error while deleting author.");
                 }
             })
             .catch(error => {
                 this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});
+                showErrorModal("Error", error.toString());
             });
     };
 

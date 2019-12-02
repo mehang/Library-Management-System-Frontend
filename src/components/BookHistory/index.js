@@ -36,7 +36,7 @@ class BookHistory extends Component {
             .catch(error => {
                 showErrorModal('Error', 'Error while fetching books.');
             });
-    }
+    };
 
     fetchBookLoanHistory = bookID => {
         fetch(`${APIUrls.Book+bookID}/bookloans`)
@@ -54,7 +54,7 @@ class BookHistory extends Component {
                 this.setState({bookLoans:[]});
                 showErrorModal('Error', 'Error while fetching the history for the book');
             });
-    }
+    };
 
     nestedLogTable =(bookLoan) => {
         const columns = [

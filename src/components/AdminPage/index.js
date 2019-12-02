@@ -5,7 +5,7 @@ import LayoutWrapper from "../LayoutWrapper";
 import {EMPTY_STRING, msgType, userType} from "../../constants/constants";
 import UserForm from "../UserForm";
 import AdminTable from "./AdminTable";
-import {isLoggedIn} from "../../utils/utils";
+import {isLoggedIn, showErrorModal, showSuccessModal} from "../../utils/utils";
 import {Redirect} from "react-router-dom";
 
 export class AdminPage extends Component {
@@ -36,6 +36,7 @@ export class AdminPage extends Component {
             })
             .catch(error => {
                 this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});
+                showErrorModal("Error", error.toString());
             });
     };
 
@@ -65,10 +66,12 @@ export class AdminPage extends Component {
             .then(data => {
                 this.fetchAdmins();
                 this.setState({statusMsgType: msgType.SUCCESS, statusMsg: "Saved successfully."});
+                showSuccessModal("Registered Successfully","The admin has been registered successfully.");
                 return true;
             })
             .catch(error => {
                 this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});
+                showErrorModal("Error", error.toString());
                 return false;
             });
     };
@@ -84,12 +87,14 @@ export class AdminPage extends Component {
             .then(res => {
                 if (res.ok) {
                     this.fetchAdmins();
+                    showSuccessModal("Deleted Successfully","The admin has been successfully,");
                 } else {
                     throw new Error("Error while deleting admin.");
                 }
             })
             .catch(error => {
                 this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});
+                showErrorModal("Error", error.toString());
             });
     };
 

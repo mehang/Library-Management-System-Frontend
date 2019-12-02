@@ -20,7 +20,7 @@ export const isLoggedIn = loggedUserType => {
     return localStorage.getItem(USER_TYPE) === loggedUserType;
 };
 
-export const showSuccessModal = (title, msg) => {
+export const showSuccessModal = (title, msg, onOk=()=>{}) => {
     Modal.success({
         title: title,
         content: (
@@ -28,11 +28,11 @@ export const showSuccessModal = (title, msg) => {
                 <p>{msg}</p>
             </div>
         ),
-        onOk() {},
+        onOk,
     });
 };
 
-export const showErrorModal = (title, msg) => {
+export const showErrorModal = (title, msg, onOk =()=>{}) => {
     Modal.success({
         title: title,
         content: (
@@ -40,7 +40,7 @@ export const showErrorModal = (title, msg) => {
                 <p>{msg}</p>
             </div>
         ),
-        onOk() {},
+        onOk,
     });
 };
 

@@ -6,7 +6,7 @@ import {APIUrls} from "../../../constants/urls";
 import {msgType, userType} from "../../../constants/constants";
 import LayoutWrapper from "../../LayoutWrapper";
 import {AuthorPage} from "../../AuthorPage";
-import {isLoggedIn} from "../../../utils/utils";
+import {isLoggedIn, showErrorModal, showSuccessModal} from "../../../utils/utils";
 import {Redirect} from "react-router-dom";
 
 class StudentTable extends Component {
@@ -48,13 +48,15 @@ class StudentTable extends Component {
         fetch(`${APIUrls.Student}delete/${id}`, data)
             .then(res => {
                 if (res.ok) {
-                    this.fs();
+                    this.fetchStudents();
+                    showSuccessModal("Deleted Successfully","The student has been successfully,");
                 } else {
                     throw new Error("Error while deleting student.");
                 }
             })
             .catch(error => {
                 this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});
+                showErrorModal("Error", error.toString());
             });
     };
 
@@ -89,7 +91,7 @@ render() {
             key: 'action',
             render: (text, student) => (
                 <span>
-                        <Button type="danger" onClick={() => this.deleteStudentt(student.key)}>Delete</Button>
+                        <Button type="danger" onClick={() => this.deleteStudent(student.key)}>Delete</Button>
                     </span>
             )
         },

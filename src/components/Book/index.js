@@ -7,7 +7,8 @@ import LayoutWrapper from "../LayoutWrapper";
 import {EMPTY_STRING, msgType, USER_ID} from "../../constants/constants";
 import BookForm from "./BookForm";
 import BookTable from "./BookTable";
-import {isEmpty} from "../../utils/utils";
+import {isEmpty, showErrorModal, showSuccessModal} from "../../utils/utils";
+import {fetchAuthors} from "../../common/fetches";
 
 const {Info} = Modal;
 
@@ -33,9 +34,18 @@ export class BookPage extends Component {
 
     componentDidMount(){
         this.fetchBooks()
-            .then(this.fetchAuthors()
-                .then(this.fetchCategories()));
+            .then(() => fetchAuthors()
+                    .then(data => {
+                        this.setState({authors: data, statusMsgType: msgType.SUCCESS});
+                    })
+                .then(() => this.fetchCategories())
+                .catch(error => {
+                    this.setState({statusMsgType:msgType.ERROR, statusMsg: error.toString()});
+                    showErrorModal('Error', error.toString());
+                })
+            );
     }
+
 
     clearInputs = () => this.setState({
         name: EMPTY_STRING,
@@ -58,23 +68,6 @@ export class BookPage extends Component {
             })
             .then(data => {
                 this.setState({books: data, statusMsgType: msgType.SUCCESS});
-            })
-            .catch(error => {
-                this.setState({statusMsgType:msgType.ERROR, statusMsg: error.toString()});
-            });
-    };
-
-    fetchAuthors = async () => {
-        fetch(`${APIUrls.Author}`)
-            .then(res => {
-                if (res.ok){
-                    return res.json();
-                } else {
-                    throw new Error("Error while fetching authors");
-                }
-            })
-            .then(data => {
-                this.setState({authors: data, statusMsgType: msgType.SUCCESS});
             })
             .catch(error => {
                 this.setState({statusMsgType:msgType.ERROR, statusMsg: error.toString()});
@@ -128,11 +121,12 @@ export class BookPage extends Component {
             .then(data => {
                 this.onBookAddition(data.serialNo);
                 this.fetchBooks();
-                this.clearInputs();
                 this.setState({statusMsgType: msgType.SUCCESS, statusMsg: "Saved successfully."});
+                showSuccessModal("Registered successfully","The book has been registered successfully.", this.clearInputs);
             })
             .catch(error => {
                 this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});
+                showErrorModal("Error", error.toString());
             });
     };
 
@@ -166,12 +160,13 @@ export class BookPage extends Component {
             })
             .then(data => {
                 this.fetchBooks();
-                this.clearInputs();
                 this.setState({name: EMPTY_STRING, statusMsgType: msgType.SUCCESS,
                     statusMsg: "Updated successfully.", selectedBook: {}});
+                showSuccessModal("Updated successfully","The book has been updated successfully.", this.clearInputs);
             })
             .catch(error => {
                 this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});
+                showErrorModal("Error", error.toString());
             });
     };
 
@@ -187,12 +182,14 @@ export class BookPage extends Component {
             .then(res => {
                 if (res.ok) {
                     this.fetchBooks();
+                    showSuccessModal("Deleted successfully","The book has been deleted successfully.");
                 } else {
                     throw new Error("Error while deleting author.");
                 }
             })
             .catch(error => {
                 this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});
+                showErrorModal("Error", error.toString());
             });
     };
 

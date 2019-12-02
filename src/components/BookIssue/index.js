@@ -4,6 +4,7 @@ import LayoutWrapper from "../LayoutWrapper";
 import {msgType, USER_ID} from "../../constants/constants";
 import {APIUrls} from "../../constants/urls";
 import moment from "moment";
+import {showErrorModal, showSuccessModal} from "../../utils/utils";
 
 const {Option} = Select;
 
@@ -20,30 +21,6 @@ class BookIssue extends Component {
         this.fetchStudents();
     }
 
-    onSuccess = () => {
-        Modal.success({
-            title: 'Issued Successfully',
-            content: (
-                <div>
-                    <p>The book has been issued successfully.</p>
-                </div>
-            ),
-            onOk() {},
-        });
-    };
-
-    onError = (errorMsg) => {
-        Modal.success({
-            title: 'Error',
-            content: (
-                <div>
-                    <p>{errorMsg}</p>
-                </div>
-            ),
-            onOk() {},
-        });
-    };
-
     fetchStudents = () => {
         fetch(`${APIUrls.Student}`)
             .then(res => {
@@ -58,7 +35,7 @@ class BookIssue extends Component {
                 this.setState({students: data});
             })
             .catch(error => {
-                this.onError("Error while fetching students.")
+                showErrorModal("Error", error.toString());
             });
     };
 
@@ -81,7 +58,7 @@ class BookIssue extends Component {
                 this.setState({requestedBooks: data.filter(requestedBook => requestedBook.status === "REQUESTED")});
             })
             .catch(error => {
-                this.onError("Error while fetching requested books for the given user.");
+                showErrorModal("Error", error.toString());
             });
     };
 
@@ -106,10 +83,10 @@ class BookIssue extends Component {
                 }
             })
             .then(data => {
-                this.onSuccess();
+                showSuccessModal("Issued Successfully", "The book has been issued successfully.");
             })
             .catch(error => {
-                this.onError("There was an error while issuing the book. Please try again later.");
+                showErrorModal("Error", error.toString());
             });
     };
     render(){
