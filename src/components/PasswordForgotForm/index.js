@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Input} from "antd";
+import {Button, Icon, Input} from "antd";
 import {APIUrls} from "../../constants/urls";
 import {showErrorModal, showSuccessModal} from "../../utils/utils";
 
@@ -44,7 +44,14 @@ class PasswordForgotForm extends Component {
 
     render() {
         return (
-            <div style={{paddingTop: "30px", backgroundColor: "#bae7ff", height: "100vh"}}>
+            <div style={{paddingTop: "130px", backgroundColor: "#bae7ff", height: "100vh"}}>
+                <Button
+                    type="primary" shape="circle" size="large"
+                    style={{position:"absolute", top:"20px", left:"20px"}}
+                    onClick={() => this.props.history.push("/")}
+                >
+                    <Icon type="home"/>
+                </Button>
                 <div style={{margin:"auto",width:"420px"}}>
                     <div style={{fontSize: "x-large", fontWeight: "bold", marginBottom: "12px"}}>
                         Forgot Password?

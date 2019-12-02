@@ -17,4 +17,5 @@ export const APIUrls = {
     ChangePassword: `${ROOT_URL}users/change-password`,
     ForgotPassword: `${ROOT_URL}users/forgot-password`,
     ResetPassword: `${ROOT_URL}users/reset-password`,
+    StudentVerification: `${ROOT_URL}users/students/verify/`,
 };

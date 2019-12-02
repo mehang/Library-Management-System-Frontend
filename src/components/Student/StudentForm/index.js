@@ -1,17 +1,13 @@
 import React, {Component, Fragment} from 'react';
 
 import {APIUrls} from "../../../constants/urls";
-import {EMPTY_STRING, msgType} from "../../../constants/constants";
+import {EMPTY_STRING, msgType, VERIFICATION_ID} from "../../../constants/constants";
 import UserForm from "../../UserForm";
+import {isEmpty, showErrorModal} from "../../../utils/utils";
+import {Redirect} from "react-router-dom";
+import {Button, Icon} from "antd";
 
 class StudentForm extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            statusMsgType: msgType.SUCCESS,
-            statusMsg: EMPTY_STRING,
-        }
-    }
 
     registerStudent = (username, password1, password2, name, email, phoneNumber) => {
         let data = {
@@ -37,12 +33,11 @@ class StudentForm extends Component {
                 }
             })
             .then(data => {
-                this.setState({statusMsgType: msgType.SUCCESS, statusMsg: "Registered successfully."});
                 this.props.history.push('/success');
                 return true;
             })
             .catch(error => {
-                this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});
+                showErrorModal("Error", error.toString());
                 return false;
             });
     };
@@ -52,11 +47,19 @@ class StudentForm extends Component {
     };
 
     render() {
-        const {statusMsg} = this.state;
-        const statusClassName = this.state.statusMsgType === msgType.ERROR ? 'error-status' : 'success-status';
-
+        const verificationID = localStorage.getItem(VERIFICATION_ID);
+        if (isEmpty(verificationID)){
+            return <Redirect to="student-verification"/>
+        }
         return (
             <div style={{paddingTop: "30px", backgroundColor: "#bae7ff", height: "100vh"}}>
+                <Button
+                    type="primary" shape="circle" size="large"
+                    style={{position:"absolute", top:"20px", left:"20px"}}
+                    onClick={() => this.props.history.push("/")}
+                >
+                    <Icon type="home"/>
+                </Button>
                 <div className="registration-form-container">
                     <div className="ant-form ant-form-horizontal"
                          style={{width: "100%", height: "100%"}}>
@@ -67,7 +70,6 @@ class StudentForm extends Component {
                                 submitUser={this.registerStudent}
                                 clearStatus={this.clearStatus}
                             />
-                            {statusMsg && <div className={statusClassName}>{statusMsg}</div>}
                         </div>
                     </div>
                 </div>

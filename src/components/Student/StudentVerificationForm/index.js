@@ -1,7 +1,9 @@
-import React, {Component} from 'react';
-import {EMPTY_STRING} from "../../../constants/constants";
+import React, {Component, Fragment} from 'react';
+import {EMPTY_STRING, msgType, USER_ID, VERIFICATION_ID} from "../../../constants/constants";
 import {Button, Form, Icon, Input} from "antd";
 import {Link} from "react-router-dom";
+import {APIUrls} from "../../../constants/urls";
+import {showErrorModal} from "../../../utils/utils";
 
 const { Search } = Input;
 
@@ -17,13 +19,33 @@ class StudentVerificationForm extends Component {
     verifyStudent = (value, e) => {
         e.preventDefault();
         this.setState({loading:true});
-        //todo: call backend and then redirect to registration form
-        console.log(value);
+        fetch(APIUrls.StudentVerification+value)
+            .then(res => {
+                if (res.ok) {
+                    this.setState({loading:false});
+                    localStorage.setItem(VERIFICATION_ID,value)
+this.props.history.push('/registration');
+                } else {
+                    throw new Error('Error while fetching profile data.');
+                }
+            })
+            .catch(error => {
+                this.setState({loading: false});
+                showErrorModal('Error', 'The student ID provided is not valid.');
+            });
     };
 
     render() {
         return (
-            <div style={{paddingTop: "30px", backgroundColor: "#bae7ff", height: "100vh"}}>
+            <Fragment>
+            <div style={{paddingTop: "130px", backgroundColor: "#bae7ff", height: "100vh"}}>
+                <Button
+                    type="primary" shape="circle" size="large"
+                    style={{position:"absolute", top:"20px", left:"20px"}}
+                    onClick={() => this.props.history.push("/")}
+                >
+                    <Icon type="home"/>
+                </Button>
                 <div style={{margin:"auto",width:"420px"}}>
                         <div style={{fontSize: "x-large", fontWeight: "bold", marginBottom: "12px"}}>
                             Verification
@@ -35,6 +57,7 @@ class StudentVerificationForm extends Component {
                         />
                 </div>
             </div>
+            </Fragment>
         )
     }
 }

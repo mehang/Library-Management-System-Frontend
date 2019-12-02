@@ -53,6 +53,13 @@ class LoginForm extends Component {
         const {getFieldDecorator} = this.props.form;
         return (
             <div style={{paddingTop: "30px", backgroundColor: "#bae7ff", height: "100vh"}}>
+                <Button
+                    type="primary" shape="circle" size="large"
+                    style={{position:"absolute", top:"20px", left:"20px"}}
+                    onClick={() => this.props.history.push("/")}
+                >
+                    <Icon type="home"/>
+                </Button>
                 <div className="login-form-container">
                     <Form onSubmit={this.handleSubmit} className="login-form">
                         {this.state.error && <div className="error-status">{this.state.error}</div>}
@@ -84,7 +91,7 @@ class LoginForm extends Component {
                             <Button type="primary" htmlType="submit" className="login-form-button">
                                 Log in
                             </Button>
-                            Or <Link to="/registration">student register now!</Link>
+                            Or <Link to="/student-verification">student register now!</Link>
                         </Form.Item>
                     </Form>
                 </div>

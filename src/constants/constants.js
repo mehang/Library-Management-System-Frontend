@@ -7,3 +7,4 @@ export const TOKEN_KEY = "token";
 export const USERNAME = "username";
 export const USER_ID = "user_id";
 export const USER_TYPE="user_type";
+export const VERIFICATION_ID="verification_student_id";
