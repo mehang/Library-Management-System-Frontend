@@ -5,8 +5,9 @@ import {Modal} from 'antd';
 import {BookSearch} from '../BookSearch';
 import LayoutWrapper from "../LayoutWrapper";
 import {APIUrls} from "../../constants/urls";
-import {msgType, USER_ID} from "../../constants/constants";
-import {showErrorModal, showSuccessModal} from "../../utils/utils";
+import {msgType, USER_ID, userType} from "../../constants/constants";
+import {isLoggedIn, showErrorModal, showSuccessModal} from "../../utils/utils";
+import {Redirect} from "react-router-dom";
 
 class BookRequest extends Component {
     requestBook = id => {
@@ -34,6 +35,9 @@ class BookRequest extends Component {
             });
     };
     render(){
+        if (!isLoggedIn(userType.STUDENT)){
+            return <Redirect to="/unauthorized"/>
+        }
     return (
         <BookSearch allowRequest={true} requestBook={this.requestBook}/>
     );

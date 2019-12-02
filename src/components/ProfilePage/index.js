@@ -7,6 +7,7 @@ import {hasWhiteSpace, isEmpty, isLoggedIn, isNumber} from "../../utils/utils";
 import {Button, Col, Input, Row} from "antd";
 import LayoutWrapper from "../LayoutWrapper";
 import {validateEmail,validateName, validatePhoneNumber, validateUsername} from "../../common/form-validations";
+import {Redirect} from "react-router-dom";
 
 class ProfilePage extends Component {
     constructor(props) {
@@ -137,7 +138,9 @@ class ProfilePage extends Component {
             statusMsg, statusMsgType} = this.state;
         const statusClassName = statusMsgType === msgType.ERROR ?
             'error-status' : 'success-status';
-
+        if (isEmpty(localStorage.getItem(USER_ID))){
+            return <Redirect to="/unauthorized"/>
+        }
         return (
             <div style={{paddingTop: "30px", backgroundColor: "#bae7ff", height: "100%"}}>
                 <div className="registration-form-container">

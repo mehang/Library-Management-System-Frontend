@@ -2,11 +2,12 @@ import React, {Component, Fragment} from 'react';
 
 import {APIUrls} from "../../constants/urls";
 import LayoutWrapper from "../LayoutWrapper";
-import {EMPTY_STRING,msgType} from "../../constants/constants";
+import {EMPTY_STRING, msgType, userType} from "../../constants/constants";
 import AuthorForm from "./AuthorForm";
 import AuthorTable from "./AuthorTable";
-import {isEmpty, showErrorModal, showSuccessModal} from "../../utils/utils";
+import {isEmpty, isLoggedIn, showErrorModal, showSuccessModal} from "../../utils/utils";
 import {fetchAuthors} from "../../common/fetches";
+import {Redirect} from "react-router-dom";
 
 export class AuthorPage extends Component {
     constructor(props) {
@@ -139,7 +140,9 @@ export class AuthorPage extends Component {
     render() {
         const {name,statusMsg, authors} = this.state;
         const statusClassName = this.state.statusMsgType === msgType.ERROR ? 'error-status' : 'success-status';
-
+        if (!isLoggedIn(userType.LIBRARIAN)){
+            return <Redirect to="/unauthorized"/>
+        }
         return (
             <Fragment>
                 <AuthorForm

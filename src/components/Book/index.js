@@ -4,11 +4,12 @@ import { Modal } from 'antd';
 
 import {APIUrls} from "../../constants/urls";
 import LayoutWrapper from "../LayoutWrapper";
-import {EMPTY_STRING, msgType, USER_ID} from "../../constants/constants";
+import {EMPTY_STRING, msgType, USER_ID, userType} from "../../constants/constants";
 import BookForm from "./BookForm";
 import BookTable from "./BookTable";
-import {isEmpty, showErrorModal, showSuccessModal} from "../../utils/utils";
+import {isEmpty, isLoggedIn, showErrorModal, showSuccessModal} from "../../utils/utils";
 import {fetchAuthors} from "../../common/fetches";
+import {Redirect} from "react-router-dom";
 
 const {Info} = Modal;
 
@@ -242,7 +243,9 @@ export class BookPage extends Component {
         const {name,publication, edition, language, isbn,selectedAuthorID, selectedCategoriesID,
             authors, categories, statusMsg, books} = this.state;
         const statusClassName = this.state.statusMsgType === msgType.ERROR ? 'error-status' : 'success-status';
-
+        if (!isLoggedIn(userType.LIBRARIAN)){
+            return <Redirect to="/unauthorized"/>
+        }
         return (
             <Fragment>
                 <BookForm

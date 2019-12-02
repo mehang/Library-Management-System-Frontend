@@ -1,10 +1,11 @@
 import React, {Component, Fragment} from 'react';
-import {msgType, USER_ID} from "../../constants/constants";
+import {msgType, USER_ID, userType} from "../../constants/constants";
 import {APIUrls} from "../../constants/urls";
-import {showErrorModal} from "../../utils/utils";
+import {isLoggedIn, showErrorModal} from "../../utils/utils";
 import {Select, Table, Tag} from "antd";
 import LayoutWrapper from "../LayoutWrapper";
 import moment from "moment";
+import {Redirect} from "react-router-dom";
 
 const {Option} = Select;
 
@@ -83,6 +84,10 @@ class BookHistory extends Component {
     };
 
     render(){
+        if (!isLoggedIn(userType.LIBRARIAN)){
+            return <Redirect to="/unauthorized"/>
+        }
+
         const columns = [
             {
                 title: 'Serial Number',

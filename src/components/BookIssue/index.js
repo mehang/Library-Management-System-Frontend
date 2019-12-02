@@ -1,10 +1,11 @@
 import React, {Component, Fragment} from 'react';
 import {Button, Input, Modal, Select, Table, Tag} from "antd";
 import LayoutWrapper from "../LayoutWrapper";
-import {msgType, USER_ID} from "../../constants/constants";
+import {msgType, USER_ID, userType} from "../../constants/constants";
 import {APIUrls} from "../../constants/urls";
 import moment from "moment";
-import {showErrorModal, showSuccessModal} from "../../utils/utils";
+import {isLoggedIn, showErrorModal, showSuccessModal} from "../../utils/utils";
+import {Redirect} from "react-router-dom";
 
 const {Option} = Select;
 
@@ -90,7 +91,9 @@ class BookIssue extends Component {
             });
     };
     render(){
-
+        if (!isLoggedIn(userType.LIBRARIAN)){
+            return <Redirect to="/unauthorized"/>
+        }
         let columns = [
             {
                 title: 'Serial Number',

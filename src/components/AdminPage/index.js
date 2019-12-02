@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 
 import {APIUrls} from "../../constants/urls";
 import LayoutWrapper from "../LayoutWrapper";
-import {EMPTY_STRING, msgType, userType} from "../../constants/constants";
+import {EMPTY_STRING, msgType, USER_ID, userType} from "../../constants/constants";
 import UserForm from "../UserForm";
 import AdminTable from "./AdminTable";
 import {isLoggedIn, showErrorModal, showSuccessModal} from "../../utils/utils";
@@ -32,7 +32,9 @@ export class AdminPage extends Component {
                 }
             })
             .then(data => {
-                this.setState({admins: data, statusMsgType: msgType.SUCCESS});
+                const loggedInAdminID = localStorage.getItem(USER_ID);
+                const filteredAdmins = data.filter(admin => loggedInAdminID!==admin.id);
+                this.setState({admins: filteredAdmins, statusMsgType: msgType.SUCCESS});
             })
             .catch(error => {
                 this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});

@@ -2,10 +2,11 @@ import React, {Component, Fragment} from 'react';
 
 import {APIUrls} from "../../constants/urls";
 import LayoutWrapper from "../LayoutWrapper";
-import {EMPTY_STRING,msgType} from "../../constants/constants";
+import {EMPTY_STRING, msgType, userType} from "../../constants/constants";
 import CategoryForm from "./CategoryForm";
 import CategoryTable from "./CategoryTable";
-import {isEmpty, showErrorModal, showSuccessModal} from "../../utils/utils";
+import {isEmpty, isLoggedIn, showErrorModal, showSuccessModal} from "../../utils/utils";
+import {Redirect} from "react-router-dom";
 
 class CategoryPage extends Component {
     constructor(props) {
@@ -144,7 +145,9 @@ class CategoryPage extends Component {
     render() {
         const {name,statusMsg, categories} = this.state;
         const statusClassName = this.state.statusMsgType === msgType.ERROR ? 'error-status' : 'success-status';
-
+        if (!isLoggedIn(userType.LIBRARIAN)){
+            return <Redirect to="/unauthorized"/>
+        }
         return (
             <Fragment>
                 <CategoryForm

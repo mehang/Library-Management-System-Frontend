@@ -77,75 +77,95 @@ const LayoutWrapper = (WrappedComponent) => {
                                         </span>
                                     }
                                 >
+                                    {isLoggedIn(userType.LIBRARIAN) &&
                                     <Menu.Item key="1">
                                         <Link to="/book">
                                             <Icon type="form"/>
                                             <span className="nav-text">Book</span>
                                         </Link>
                                     </Menu.Item>
+                                    }
+                                    {isLoggedIn(userType.STUDENT) &&
                                     <Menu.Item key="2">
                                         <Link to="/book-request">
                                             <Icon type="select"/>
                                             <span className="nav-text">Request</span>
                                         </Link>
                                     </Menu.Item>
+                                    }
+                                    {isLoggedIn(userType.LIBRARIAN) &&
                                     <Menu.Item key="3">
                                         <Link to="/book-issue">
                                             <Icon type="carry-out"/>
                                             <span className="nav-text">Issue</span>
                                         </Link>
                                     </Menu.Item>
+                                    }
+                                    {isLoggedIn(userType.LIBRARIAN) &&
                                     <Menu.Item key="4">
                                         <Link to="/book-return">
                                             <Icon type="file-done"/>
                                             <span className="nav-text">Return</span>
                                         </Link>
                                     </Menu.Item>
+                                    }
                                 </SubMenu>
-                                    <Menu.Item key="5">
-                                        <Link to="/category">
-                                            <Icon type="container" />
-                                            <span className="nav=text">Category</span>
-                                        </Link>
-                                    </Menu.Item>
-                                {/*{isLoggedIn(userType.LIBRARIAN) &&*/}
+                                {isLoggedIn(userType.LIBRARIAN) &&
+                                <Menu.Item key="5">
+                                    <Link to="/category">
+                                        <Icon type="container"/>
+                                        <span className="nav=text">Category</span>
+                                    </Link>
+                                </Menu.Item>
+                                }
+                                {isLoggedIn(userType.LIBRARIAN) &&
                                 <Menu.Item key="6">
                                     <Link to="/author">
                                         <Icon type="user"/>
                                         <span className="nav-text">Authors</span>
                                     </Link>
                                 </Menu.Item>
-                                {/*}*/}
+                                }
+                                {isLoggedIn(userType.LIBRARIAN) &&
                                 <Menu.Item key="7">
                                     <Link to="/student">
                                         <Icon type="database"/>
                                         <span className="nav-text">Students</span>
                                     </Link>
                                 </Menu.Item>
+                                }
+                                {isLoggedIn(userType.ADMIN) &&
                                 <Menu.Item key="8">
                                     <Link to="/librarian">
                                         <Icon type="user"/>
                                         <span className="nav-text">Librarians</span>
                                     </Link>
                                 </Menu.Item>
+                                }
+                                {isLoggedIn(userType.ADMIN) &&
                                 <Menu.Item key="9">
                                     <Link to="/admin">
                                         <Icon type="user"/>
                                         <span className="nav-text">Admins</span>
                                     </Link>
                                 </Menu.Item>
+                                }
+                                {isLoggedIn(userType.LIBRARIAN) &&
                                 <Menu.Item key="10">
                                     <Link to="/book-history">
                                         <Icon type="history"/>
                                         <span className="nav-text">Book History</span>
                                     </Link>
                                 </Menu.Item>
+                                }
+                                {isLoggedIn(userType.STUDENT) &&
                                 <Menu.Item key="11">
                                     <Link to="/student-history">
                                         <Icon type="history"/>
                                         <span className="nav-text">Loan History</span>
                                     </Link>
                                 </Menu.Item>
+                                }
                             </Menu>
                         </Sider>
                         <Layout>

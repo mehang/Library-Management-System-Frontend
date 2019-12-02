@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import LayoutWrapper from "../../LayoutWrapper";
 import {APIUrls} from "../../../constants/urls";
 import { USER_ID, USER_TYPE} from "../../../constants/constants";
-import {showErrorModal, showSuccessModal} from "../../../utils/utils";
+import {isEmpty, showErrorModal, showSuccessModal} from "../../../utils/utils";
 import PasswordChangeForm from "../PasswordChangeForm";
+import {Redirect} from "react-router-dom";
 
 class PasswordChangePage extends Component {
     changePassword = (password1, password2) => {
@@ -33,6 +34,9 @@ class PasswordChangePage extends Component {
     };
 
     render() {
+        if (isEmpty(localStorage.getItem(USER_ID))){
+            return <Redirect to="/unauthorized"/>
+        }
         return (
             <PasswordChangeForm onSubmit={this.changePassword} header="Change Password"/>
         );
