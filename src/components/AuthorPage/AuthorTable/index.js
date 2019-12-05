@@ -19,8 +19,8 @@ const AuthorTable = props => {
                 render: (text, author) => (
                     <span>
                         <Button type="primary" onClick={() => selectAuthor(author)}>Edit</Button>
-                        <Divider type="vertical"/>
-                        <Button type="danger" onClick={() => deleteAuthor(author.key)}>Delete</Button>
+                        {/*<Divider type="vertical"/>*/}
+                        {/*<Button type="danger" onClick={() => deleteAuthor(author.key)}>Delete</Button>*/}
                     </span>
                 )
             },
@@ -41,7 +41,7 @@ const AuthorTable = props => {
 AuthorTable.propTypes = {
     authors: PropTypes.array.isRequired,
     selectAuthor: PropTypes.func.isRequired,
-    deleteAuthor: PropTypes.func.isRequired
+    // deleteAuthor: PropTypes.func.isRequired
 };
 
 export default AuthorTable;

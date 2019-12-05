@@ -12,7 +12,7 @@ class PasswordChangePage extends Component {
             method: 'POST',
             body: JSON.stringify({
                 'id': localStorage.getItem(USER_ID),
-                'userType': localStorage.getItem(USER_TYPE),
+                // 'userType': localStorage.getItem(USER_TYPE),
                 'password1': password1,
                 'password2': password2,
             }),
@@ -25,7 +25,8 @@ class PasswordChangePage extends Component {
                 if (res.ok) {
                     showSuccessModal("Password Changed", "Password has been changed successfully.")
                 } else {
-                    throw new Error("Problem in network connectivity.")
+                    const data = res.json();
+                    throw new Error(data.message);
                 }
             })
             .catch(error => {

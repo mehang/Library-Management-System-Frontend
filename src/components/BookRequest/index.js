@@ -27,7 +27,8 @@ class BookRequest extends Component {
                 if (res.ok) {
                     showSuccessModal("Request Accepted", "Your request for the book has been accepted.");
                 } else {
-                    throw new Error("Problem in network connectivity.")
+                    const data = res.json();
+                    throw new Error(data.message);
                 }
             })
             .catch(error => {

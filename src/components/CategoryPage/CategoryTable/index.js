@@ -19,8 +19,8 @@ const CategoryTable = props => {
             render: (text, category) => (
                 <span>
                         <Button type="primary" onClick={() => selectCategory(category)}>Edit</Button>
-                        <Divider type="vertical"/>
-                        <Button type="danger" onClick={() => deleteCategory(category.key)}>Delete</Button>
+                        {/*<Divider type="vertical"/>*/}
+                        {/*<Button type="danger" onClick={() => deleteCategory(category.key)}>Delete</Button>*/}
                     </span>
             )
         },

@@ -28,7 +28,8 @@ class PasswordResetPage extends Component {
                     showSuccessModal("Password Changed", "Password has been changed successfully.")
                     this.props.history.push("/login");
                 } else {
-                    throw new Error("Problem in network connectivity.")
+                    const data = res.json();
+                    throw new Error(data.message);
                 }
             })
             .catch(error => {

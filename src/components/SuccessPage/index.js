@@ -8,7 +8,7 @@ const SuccessPage = props => (
         title="Successfully Registered."
         subTitle="An student account has been successfully created."
         extra={[
-            <Link to="/login">
+            <Link key="1" to="/login">
                 <Button type="primary" key="login">
                     Go Login
                 </Button>

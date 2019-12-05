@@ -5,9 +5,10 @@ import {showErrorModal} from "../utils/utils";
 export const fetchAuthors = async () =>
     fetch(`${APIUrls.Author}`)
         .then(res => {
+            const data = res.json();
             if (res.ok) {
-                return res.json();
+                return data;
             } else {
-                throw new Error("Error while fetching authors");
+                throw new Error(data.message);
             }
         });

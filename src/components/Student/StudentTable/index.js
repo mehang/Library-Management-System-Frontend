@@ -24,10 +24,11 @@ class StudentTable extends Component {
     fetchStudents = async () => {
         await fetch(`${APIUrls.Student}`)
             .then(res => {
+                const data = res.json();
                 if (res.ok) {
-                    return res.json();
+                    return data;
                 } else {
-                    throw new Error("Error while fetching students.");
+                    throw new Error(data.message);
                 }
             })
             .then(data => {
@@ -45,13 +46,14 @@ class StudentTable extends Component {
                 'Content-Type': 'application/json',
             },
         };
-        fetch(`${APIUrls.Student}delete/${id}`, data)
+        fetch(APIUrls.Student+ id, data)
             .then(res => {
                 if (res.ok) {
                     this.fetchStudents();
                     showSuccessModal("Deleted Successfully","The student has been successfully,");
                 } else {
-                    throw new Error("Error while deleting student.");
+                const data = res.json();
+                    throw new Error(data.message);
                 }
             })
             .catch(error => {

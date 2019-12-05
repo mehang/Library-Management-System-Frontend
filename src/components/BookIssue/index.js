@@ -25,10 +25,11 @@ class BookIssue extends Component {
     fetchStudents = () => {
         fetch(`${APIUrls.Student}`)
             .then(res => {
+                const data = res.json();
                 if (res.ok) {
-                    return res.json();
+                    return data;
                 } else {
-                    throw new Error("Error while fetching students.");
+                    throw new Error(data.message);
                 }
             })
             .then(data => {
@@ -49,10 +50,11 @@ class BookIssue extends Component {
         };
         fetch(`${APIUrls.User+username}/bookloans`, data)
             .then(res => {
+                const data = res.json();
                 if (res.ok) {
-                    return res.json();
+                    return data;
                 } else {
-                    throw new Error("Problem in network connectivity.")
+                    throw new Error(data.message)
                 }
             })
             .then(data => {
@@ -77,10 +79,11 @@ class BookIssue extends Component {
         };
         fetch(APIUrls.BookIssue, data)
             .then(res => {
+                const data = res.json();
                 if (res.ok) {
-                    return res.json();
+                    return data;
                 } else {
-                    throw new Error("Problem in network connectivity.")
+                    throw new Error(data.message);
                 }
             })
             .then(data => {

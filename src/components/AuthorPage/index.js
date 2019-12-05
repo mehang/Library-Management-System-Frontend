@@ -49,10 +49,11 @@ export class AuthorPage extends Component {
         };
         fetch(APIUrls.Author, data)
             .then(res => {
+                const data = res.json();
                 if (res.ok) {
-                    return res.json();
+                    return data;
                 } else {
-                    throw new Error("Problem in network connectivity.")
+                    throw new Error(data.message);
                 }
             })
             .then(data => {
@@ -80,10 +81,11 @@ export class AuthorPage extends Component {
         };
         fetch(APIUrls.Author+authorID, data)
             .then(res => {
+                const data = res.json();
                 if (res.ok) {
-                    return res.json();
+                    return data;
                 } else {
-                    throw new Error("Problem in network connectivity");
+                    throw new Error(data.message);
                 }
             })
             .then(data => {
@@ -99,27 +101,27 @@ export class AuthorPage extends Component {
     };
 
 
-    deleteAuthor = (id) => {
-        let data = {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        };
-        fetch(APIUrls.Author+id, data)
-            .then(res => {
-                if (res.ok) {
-                    this.loadAuthors();
-                    showSuccessModal("Deleted successfully","The author has been deleted successfully.");
-                } else {
-                    throw new Error("Error while deleting author.");
-                }
-            })
-            .catch(error => {
-                this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});
-                showErrorModal("Error", error.toString());
-            });
-    };
+    // deleteAuthor = (id) => {
+    //     let data = {
+    //         method: 'DELETE',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //     };
+    //     fetch(APIUrls.Author+id, data)
+    //         .then(res => {
+    //             if (res.ok) {
+    //                 this.loadAuthors();
+    //                 showSuccessModal("Deleted successfully","The author has been deleted successfully.");
+    //             } else {
+    //                 throw new Error("Error while deleting author.");
+    //             }
+    //         })
+    //         .catch(error => {
+    //             this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});
+    //             showErrorModal("Error", error.toString());
+    //         });
+    // };
 
     onSubmit = () => {
         if (isEmpty(this.state.selectedAuthor)){
@@ -155,7 +157,7 @@ export class AuthorPage extends Component {
                 <AuthorTable
                     authors={authors}
                     selectAuthor={this.selectAuthor}
-                    deleteAuthor={this.deleteAuthor}
+                    // deleteAuthor={this.deleteAuthor}
                 />
             </Fragment>
         )

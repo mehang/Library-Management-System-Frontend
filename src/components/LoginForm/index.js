@@ -33,6 +33,8 @@ class LoginForm extends Component {
                             return res.json();
                         } else if (res.status === 401) {
                             throw new Error("Either username or password is not correct");
+                        } else {
+                            throw new Error(res.json().message);
                         }
                     })
                     .then(data => {

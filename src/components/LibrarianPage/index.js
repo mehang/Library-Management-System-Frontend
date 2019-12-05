@@ -25,10 +25,11 @@ export class LibrarianPage extends Component {
     fetchLibrarians = async () => {
         await fetch(`${APIUrls.Librarian}`)
             .then(res => {
+                const data = res.json();
                 if (res.ok) {
-                    return res.json();
+                    return data;
                 } else {
-                    throw new Error("Error while fetching librarians.");
+                    throw new Error(data.message);
                 }
             })
             .then(data => {
@@ -57,10 +58,11 @@ export class LibrarianPage extends Component {
         };
         fetch(APIUrls.Librarian, data)
             .then(res => {
+                const data = res.json();
                 if (res.ok) {
-                    return res.json();
+                    return data;
                 } else {
-                    throw new Error("Problem in network connectivity.")
+                    throw new Error(data.message);
                 }
             })
             .then(data => {
@@ -83,13 +85,14 @@ export class LibrarianPage extends Component {
                 'Content-Type': 'application/json',
             },
         };
-        fetch(`${APIUrls.Librarian}delete/${id}`, data)
+        fetch(APIUrls.Librarian+id, data)
             .then(res => {
                 if (res.ok) {
                     this.fetchLibrarians();
                     showSuccessModal("Deleted Successfully","The librarian has been successfully,");
                 } else {
-                    throw new Error("Error while deleting librarian.");
+                    const data = res.json();
+                    throw new Error(data.message);
                 }
             })
             .catch(error => {

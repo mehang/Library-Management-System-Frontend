@@ -25,10 +25,11 @@ export class AdminPage extends Component {
     fetchAdmins = async () => {
         await fetch(`${APIUrls.Admin}`)
             .then(res => {
+                const data = res.json();
                 if (res.ok) {
-                    return res.json();
+                    return data;
                 } else {
-                    throw new Error("Error while fetching admins.");
+                    throw new Error(data.message);
                 }
             })
             .then(data => {
@@ -59,10 +60,11 @@ export class AdminPage extends Component {
         };
         fetch(APIUrls.Admin, data)
             .then(res => {
+                const data = res.json();
                 if (res.ok) {
-                    return res.json();
+                    return data;
                 } else {
-                    throw new Error("Problem in network connectivity.")
+                    throw new Error(data.message);
                 }
             })
             .then(data => {
@@ -85,13 +87,14 @@ export class AdminPage extends Component {
                 'Content-Type': 'application/json',
             },
         };
-        fetch(`${APIUrls.Admin}delete/${id}`, data)
+        fetch(APIUrls.Admin+id, data)
             .then(res => {
                 if (res.ok) {
                     this.fetchAdmins();
                     showSuccessModal("Deleted Successfully","The admin has been successfully,");
                 } else {
-                    throw new Error("Error while deleting admin.");
+                    const data = res.json();
+                    throw new Error(data.message);
                 }
             })
             .catch(error => {

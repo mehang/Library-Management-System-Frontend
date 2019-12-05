@@ -27,10 +27,11 @@ class CategoryPage extends Component {
     fetchCategories = () => {
         fetch(`${APIUrls.BookCategory}`)
             .then(res => {
+                const data = res.json();
                 if (res.ok){
-                    return res.json();
+                    return data;
                 } else {
-                    throw new Error("Error while fetching categories");
+                    throw new Error(data.message);
                 }
             })
             .then(data => {
@@ -54,10 +55,11 @@ class CategoryPage extends Component {
         };
         fetch(APIUrls.BookCategory, data)
             .then(res => {
+                const data = res.json();
                 if (res.ok) {
-                    return res.json();
+                    return data;
                 } else {
-                    throw new Error("Problem in network connectivity.")
+                    throw new Error(data.message);
                 }
             })
             .then(data => {
@@ -85,10 +87,11 @@ class CategoryPage extends Component {
         };
         fetch(APIUrls.BookCategory+categoryID, data)
             .then(res => {
+                const data = res.json();
                 if (res.ok) {
-                    return res.json();
+                    return data;
                 } else {
-                    throw new Error("Problem in network connectivity");
+                    throw new Error(data.message);
                 }
             })
             .then(data => {
@@ -104,27 +107,27 @@ class CategoryPage extends Component {
     };
 
 
-    deleteCategory = (id) => {
-        let data = {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        };
-        fetch(APIUrls.BookCategory+id, data)
-            .then(res => {
-                if (res.ok) {
-                    this.fetchCategories();
-                    showSuccessModal("Deleted Successfully", "The category has been deleted successfully.")
-                } else {
-                    throw new Error("Error while deleting category.");
-                }
-            })
-            .catch(error => {
-                this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});
-                showErrorModal("Error", error.toString());
-            });
-    };
+    // deleteCategory = (id) => {
+    //     let data = {
+    //         method: 'DELETE',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //     };
+    //     fetch(APIUrls.BookCategory+id, data)
+    //         .then(res => {
+    //             if (res.ok) {
+    //                 this.fetchCategories();
+    //                 showSuccessModal("Deleted Successfully", "The category has been deleted successfully.")
+    //             } else {
+    //                 throw new Error("Error while deleting category.");
+    //             }
+    //         })
+    //         .catch(error => {
+    //             this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});
+    //             showErrorModal("Error", error.toString());
+    //         });
+    // };
 
     onSubmit = () => {
         if (isEmpty(this.state.selectedCategory)){
@@ -160,7 +163,7 @@ class CategoryPage extends Component {
                 <CategoryTable
                     categories={categories}
                     selectCategory={this.selectCategory}
-                    deleteCategory={this.deleteCategory}
+                    // deleteCategory={this.deleteCategory}
                 />
             </Fragment>
         )

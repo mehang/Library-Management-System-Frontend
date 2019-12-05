@@ -61,10 +61,11 @@ export class BookPage extends Component {
     fetchBooks = async () => {
         await fetch(`${APIUrls.BookSpecs}`)
             .then(res => {
+                const data = res.json();
                 if (res.ok){
-                    return res.json();
+                    return data
                 } else {
-                    throw new Error("Error while fetching books.");
+                    throw new Error(data.message);
                 }
             })
             .then(data => {
@@ -78,10 +79,11 @@ export class BookPage extends Component {
     fetchCategories = () => {
         fetch(`${APIUrls.BookCategory}`)
             .then(res => {
+                const data = res.json();
                 if (res.ok){
-                    return res.json();
+                    return data;
                 } else {
-                    throw new Error("Error while fetching categories");
+                    throw new Error(data.message);
                 }
             })
             .then(data => {
@@ -113,10 +115,11 @@ export class BookPage extends Component {
         };
         fetch(APIUrls.Book, data)
             .then(res => {
+                const data = res.json();
                 if (res.ok) {
-                    return res.json();
+                    return data;
                 } else {
-                    throw new Error("Problem in network connectivity.")
+                    throw new Error(data.message);
                 }
             })
             .then(data => {
@@ -153,10 +156,11 @@ export class BookPage extends Component {
         };
         fetch(APIUrls.Book + bookID, data)
             .then(res => {
+                const data = res.json();
                 if (res.ok) {
-                    return res.json();
+                    return data;
                 } else {
-                    throw new Error("Problem in network connectivity");
+                    throw new Error(data.message);
                 }
             })
             .then(data => {
@@ -185,7 +189,8 @@ export class BookPage extends Component {
                     this.fetchBooks();
                     showSuccessModal("Deleted successfully","The book has been deleted successfully.");
                 } else {
-                    throw new Error("Error while deleting author.");
+                const data = res.json();
+                    throw new Error(data.message);
                 }
             })
             .catch(error => {

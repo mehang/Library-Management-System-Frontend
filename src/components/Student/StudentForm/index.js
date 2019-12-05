@@ -5,9 +5,17 @@ import {EMPTY_STRING, msgType, VERIFICATION_ID} from "../../../constants/constan
 import UserForm from "../../UserForm";
 import {isEmpty, showErrorModal} from "../../../utils/utils";
 import {Redirect} from "react-router-dom";
-import {Button, Icon} from "antd";
+import {Button, Col, Icon, Input, Row} from "antd";
+import {validatePhoneNumber} from "../../../common/form-validations";
 
 class StudentForm extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            degree: EMPTY_STRING,
+    }
+    }
+
 
     registerStudent = (username, password1, password2, name, email, phoneNumber) => {
         let data = {
@@ -18,7 +26,8 @@ class StudentForm extends Component {
                 'password2': password2,
                 'name': name,
                 'email': email,
-                'phoneNumber': phoneNumber
+                'phoneNumber': phoneNumber,
+                'degree': this.state.degree
             }),
             headers: {
                 'Content-Type': 'application/json',
@@ -29,10 +38,13 @@ class StudentForm extends Component {
                 if (res.ok) {
                     return res.json();
                 } else {
-                    throw new Error("Problem in network connectivity.")
+                    console.log(res);
+                    // throw new Error("Problem in network connectivity.")
+                    return res.json();
                 }
             })
             .then(data => {
+                console.log(data);
                 this.props.history.push('/success');
                 return true;
             })
@@ -46,16 +58,34 @@ class StudentForm extends Component {
         this.setState({statusMsgType: msgType.SUCCESS, statusMsg: EMPTY_STRING});
     };
 
+
     render() {
         const verificationID = localStorage.getItem(VERIFICATION_ID);
-        if (isEmpty(verificationID)){
+        if (isEmpty(verificationID)) {
             return <Redirect to="student-verification"/>
         }
+
+        const degreeField = (
+            <div className="form-row">
+                <Row type="flex" justify="start" align="middle">
+                    <Col span={7}>
+                        <label>Degree</label>
+                    </Col>
+                    <Col span={16}>
+                        <Input
+                            value={this.state.degree}
+                            onChange={e => this.setState({degree:e.target.value})}
+                        />
+                    </Col>
+                </Row>
+            </div>
+        );
+
         return (
             <div style={{paddingTop: "30px", backgroundColor: "#bae7ff", height: "100vh"}}>
                 <Button
                     type="primary" shape="circle" size="large"
-                    style={{position:"absolute", top:"20px", left:"20px"}}
+                    style={{position: "absolute", top: "20px", left: "20px"}}
                     onClick={() => this.props.history.push("/")}
                 >
                     <Icon type="home"/>
@@ -69,6 +99,7 @@ class StudentForm extends Component {
                             <UserForm
                                 submitUser={this.registerStudent}
                                 clearStatus={this.clearStatus}
+                                extraFormFields={degreeField}
                             />
                         </div>
                     </div>

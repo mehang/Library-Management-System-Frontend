@@ -25,10 +25,11 @@ class StudentHistory extends Component {
         const username = localStorage.getItem(USERNAME);
         fetch(`${APIUrls.User+username}/bookloans`)
             .then(res => {
+                const data = res.json();
                 if (res.ok) {
-                    return res.json();
+                    return data;
                 } else {
-                    throw new Error("Error while fetching book history.");
+                    throw new Error(data.message);
                 }
             })
             .then(data => {

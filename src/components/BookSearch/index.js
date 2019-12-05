@@ -52,10 +52,11 @@ export class BookSearch extends Component {
         fetchUrl.searchParams.append('q',this.state.searchKeyword);
         fetch(fetchUrl)
             .then(res => {
+                const data = res.json();
                 if (res.ok) {
                     return res.json();
                 } else {
-                    throw new Error("Error while fetching books.");
+                    throw new Error(data.message);
                 }
             })
             .then(data => {
