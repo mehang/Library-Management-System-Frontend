@@ -4,7 +4,7 @@ import { Modal } from 'antd';
 
 import {APIUrls} from "../../constants/urls";
 import LayoutWrapper from "../LayoutWrapper";
-import {EMPTY_STRING, msgType, USER_ID, userType} from "../../constants/constants";
+import {EMPTY_STRING, msgType, TOKEN_KEY, USER_ID, userType} from "../../constants/constants";
 import BookForm from "./BookForm";
 import BookTable from "./BookTable";
 import {isEmpty, isLoggedIn, showErrorModal, showSuccessModal} from "../../utils/utils";
@@ -59,7 +59,14 @@ export class BookPage extends Component {
     });
 
     fetchBooks = async () => {
-        await fetch(`${APIUrls.BookSpecs}`)
+        let data = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem(TOKEN_KEY)}`
+            },
+        };
+        await fetch(`${APIUrls.BookSpecs}`, data)
             .then(res => {
                 const data = res.json();
                 if (res.ok){
@@ -77,7 +84,14 @@ export class BookPage extends Component {
     };
 
     fetchCategories = () => {
-        fetch(`${APIUrls.BookCategory}`)
+        let data = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem(TOKEN_KEY)}`
+            },
+        };
+        fetch(`${APIUrls.BookCategory}`, data)
             .then(res => {
                 const data = res.json();
                 if (res.ok){
@@ -111,6 +125,7 @@ export class BookPage extends Component {
             }),
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem(TOKEN_KEY)}`
             }
         };
         fetch(APIUrls.Book, data)
@@ -152,6 +167,7 @@ export class BookPage extends Component {
             }),
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem(TOKEN_KEY)}`
             }
         };
         fetch(APIUrls.Book + bookID, data)
@@ -181,6 +197,7 @@ export class BookPage extends Component {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem(TOKEN_KEY)}`
             },
         };
         fetch(`${APIUrls.BookSpecs}delete/${id}`, data)

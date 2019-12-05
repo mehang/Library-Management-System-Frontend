@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 
 import {APIUrls} from "../../constants/urls";
 import LayoutWrapper from "../LayoutWrapper";
-import {EMPTY_STRING, msgType, userType} from "../../constants/constants";
+import {EMPTY_STRING, msgType, TOKEN_KEY, userType} from "../../constants/constants";
 import CategoryForm from "./CategoryForm";
 import CategoryTable from "./CategoryTable";
 import {isEmpty, isLoggedIn, showErrorModal, showSuccessModal} from "../../utils/utils";
@@ -25,7 +25,14 @@ class CategoryPage extends Component {
     }
 
     fetchCategories = () => {
-        fetch(`${APIUrls.BookCategory}`)
+        let data = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem(TOKEN_KEY)}`
+            },
+        };
+        fetch(`${APIUrls.BookCategory}`, data)
             .then(res => {
                 const data = res.json();
                 if (res.ok){
@@ -51,6 +58,7 @@ class CategoryPage extends Component {
             }),
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem(TOKEN_KEY)}`
             }
         };
         fetch(APIUrls.BookCategory, data)
@@ -83,6 +91,7 @@ class CategoryPage extends Component {
             }),
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem(TOKEN_KEY)}`
             }
         };
         fetch(APIUrls.BookCategory+categoryID, data)

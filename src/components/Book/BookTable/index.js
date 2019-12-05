@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 
 import {Button, Divider, Modal, Table, Tag} from 'antd';
-import {EMPTY_STRING, msgType, USER_ID} from "../../../constants/constants";
+import {EMPTY_STRING, msgType, TOKEN_KEY, USER_ID} from "../../../constants/constants";
 import {APIUrls} from "../../../constants/urls";
 
 class BookTable extends Component {
@@ -25,6 +25,7 @@ class BookTable extends Component {
             }),
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem(TOKEN_KEY)}`
             }
         };
         fetch(`${APIUrls.Book}increase/`, data)

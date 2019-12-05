@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import {Button, Divider, Table} from 'antd';
 import {APIUrls} from "../../../constants/urls";
-import {msgType, userType} from "../../../constants/constants";
+import {msgType, TOKEN_KEY, userType} from "../../../constants/constants";
 import LayoutWrapper from "../../LayoutWrapper";
 import {AuthorPage} from "../../AuthorPage";
 import {isLoggedIn, showErrorModal, showSuccessModal} from "../../../utils/utils";
@@ -22,7 +22,14 @@ class StudentTable extends Component {
     }
 
     fetchStudents = async () => {
-        await fetch(`${APIUrls.Student}`)
+        let data = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem(TOKEN_KEY)}`
+            },
+        };
+        await fetch(`${APIUrls.Student}`, data)
             .then(res => {
                 const data = res.json();
                 if (res.ok) {
@@ -44,6 +51,7 @@ class StudentTable extends Component {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem(TOKEN_KEY)}`
             },
         };
         fetch(APIUrls.Student+ id, data)

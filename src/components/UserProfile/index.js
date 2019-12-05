@@ -1,7 +1,7 @@
 import React from 'react';
 import UserForm from "../UserForm";
 import {APIUrls} from "../../constants/urls";
-import {EMPTY_STRING, msgType, USER_TYPE, userType} from "../../constants/constants";
+import {EMPTY_STRING, msgType, TOKEN_KEY, USER_TYPE, userType} from "../../constants/constants";
 import {showErrorModal, showSuccessModal} from "../../utils/utils";
 
 const UserProfile = props => {
@@ -18,9 +18,9 @@ const UserProfile = props => {
             }),
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem(TOKEN_KEY)}`
             }
         };
-        //TODO: Also use check condition for librarian and admin
         let fetchUrl = EMPTY_STRING;
         if (localStorage.getItem(USER_TYPE)===userType.LIBRARIAN){
             fetchUrl = APIUrls.Librarian;

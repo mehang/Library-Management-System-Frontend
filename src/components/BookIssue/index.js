@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import {Button, Input, Modal, Select, Table, Tag} from "antd";
 import LayoutWrapper from "../LayoutWrapper";
-import {msgType, USER_ID, userType} from "../../constants/constants";
+import {msgType, TOKEN_KEY, USER_ID, userType} from "../../constants/constants";
 import {APIUrls} from "../../constants/urls";
 import moment from "moment";
 import {isLoggedIn, showErrorModal, showSuccessModal} from "../../utils/utils";
@@ -23,7 +23,14 @@ class BookIssue extends Component {
     }
 
     fetchStudents = () => {
-        fetch(`${APIUrls.Student}`)
+        let data = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem(TOKEN_KEY)}`
+            },
+        };
+        fetch(`${APIUrls.Student}`, data)
             .then(res => {
                 const data = res.json();
                 if (res.ok) {
@@ -42,11 +49,12 @@ class BookIssue extends Component {
     };
 
     fetchRequestedBooks = (username) => {
-        const data = {
+        let data = {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-            }
+                'Authorization': `Bearer ${localStorage.getItem(TOKEN_KEY)}`
+            },
         };
         fetch(`${APIUrls.User+username}/bookloans`, data)
             .then(res => {
@@ -75,6 +83,7 @@ class BookIssue extends Component {
             }),
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem(TOKEN_KEY)}`
             }
         };
         fetch(APIUrls.BookIssue, data)

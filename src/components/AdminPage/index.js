@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 
 import {APIUrls} from "../../constants/urls";
 import LayoutWrapper from "../LayoutWrapper";
-import {EMPTY_STRING, msgType, USER_ID, userType} from "../../constants/constants";
+import {EMPTY_STRING, msgType, TOKEN_KEY, USER_ID, userType} from "../../constants/constants";
 import UserForm from "../UserForm";
 import AdminTable from "./AdminTable";
 import {isLoggedIn, showErrorModal, showSuccessModal} from "../../utils/utils";
@@ -23,7 +23,14 @@ export class AdminPage extends Component {
     }
 
     fetchAdmins = async () => {
-        await fetch(`${APIUrls.Admin}`)
+        let data = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem(TOKEN_KEY)}`
+            },
+        };
+        await fetch(`${APIUrls.Admin}`, data)
             .then(res => {
                 const data = res.json();
                 if (res.ok) {
@@ -56,6 +63,7 @@ export class AdminPage extends Component {
             }),
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem(TOKEN_KEY)}`
             }
         };
         fetch(APIUrls.Admin, data)
@@ -85,6 +93,7 @@ export class AdminPage extends Component {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem(TOKEN_KEY)}`
             },
         };
         fetch(APIUrls.Admin+id, data)

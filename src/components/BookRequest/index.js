@@ -5,7 +5,7 @@ import {Modal} from 'antd';
 import {BookSearch} from '../BookSearch';
 import LayoutWrapper from "../LayoutWrapper";
 import {APIUrls} from "../../constants/urls";
-import {msgType, USER_ID, userType} from "../../constants/constants";
+import {msgType, TOKEN_KEY, USER_ID, userType} from "../../constants/constants";
 import {isLoggedIn, showErrorModal, showSuccessModal} from "../../utils/utils";
 import {Redirect} from "react-router-dom";
 
@@ -20,6 +20,7 @@ class BookRequest extends Component {
             }),
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem(TOKEN_KEY)}`
             }
         };
         fetch(APIUrls.BookRequest, data)

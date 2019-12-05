@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from 'react';
-import {msgType, USER_ID, USERNAME, userType} from "../../constants/constants";
+import {msgType, TOKEN_KEY, USER_ID, USERNAME, userType} from "../../constants/constants";
 import {APIUrls} from "../../constants/urls";
 import {isLoggedIn, showErrorModal} from "../../utils/utils";
 import {Select, Table, Tag} from "antd";
@@ -22,8 +22,15 @@ class StudentHistory extends Component {
     }
 
     fetchBookLoanHistory = () => {
+        let data = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem(TOKEN_KEY)}`
+            },
+        };
         const username = localStorage.getItem(USERNAME);
-        fetch(`${APIUrls.User+username}/bookloans`)
+        fetch(`${APIUrls.User+username}/bookloans`, data)
             .then(res => {
                 const data = res.json();
                 if (res.ok) {

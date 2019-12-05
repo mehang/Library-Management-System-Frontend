@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 
 import {APIUrls} from "../../constants/urls";
 import LayoutWrapper from "../LayoutWrapper";
-import {EMPTY_STRING, msgType, userType} from "../../constants/constants";
+import {EMPTY_STRING, msgType, TOKEN_KEY, userType} from "../../constants/constants";
 import AuthorForm from "./AuthorForm";
 import AuthorTable from "./AuthorTable";
 import {isEmpty, isLoggedIn, showErrorModal, showSuccessModal} from "../../utils/utils";
@@ -45,8 +45,10 @@ export class AuthorPage extends Component {
             }),
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem(TOKEN_KEY)}`
             }
         };
+
         fetch(APIUrls.Author, data)
             .then(res => {
                 const data = res.json();
@@ -68,6 +70,7 @@ export class AuthorPage extends Component {
     };
 
     updateAuthor = async () => {
+
         const authorID = this.state.selectedAuthor.key;
         let data = {
             method: 'PUT',
@@ -77,6 +80,7 @@ export class AuthorPage extends Component {
             }),
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem(TOKEN_KEY)}`
             }
         };
         fetch(APIUrls.Author+authorID, data)

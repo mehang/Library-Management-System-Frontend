@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 
 import {APIUrls} from "../../constants/urls";
 import LayoutWrapper from "../LayoutWrapper";
-import {EMPTY_STRING, msgType, userType} from "../../constants/constants";
+import {EMPTY_STRING, msgType, TOKEN_KEY, userType} from "../../constants/constants";
 import UserForm from "../UserForm";
 import LibrarianTable from "./LibrarianTable";
 import {isLoggedIn, showErrorModal, showSuccessModal} from "../../utils/utils";
@@ -23,7 +23,14 @@ export class LibrarianPage extends Component {
     }
 
     fetchLibrarians = async () => {
-        await fetch(`${APIUrls.Librarian}`)
+        let data = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem(TOKEN_KEY)}`
+            },
+        };
+        await fetch(`${APIUrls.Librarian}`, data)
             .then(res => {
                 const data = res.json();
                 if (res.ok) {
@@ -54,6 +61,7 @@ export class LibrarianPage extends Component {
             }),
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem(TOKEN_KEY)}`
             }
         };
         fetch(APIUrls.Librarian, data)
@@ -83,6 +91,7 @@ export class LibrarianPage extends Component {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem(TOKEN_KEY)}`
             },
         };
         fetch(APIUrls.Librarian+id, data)

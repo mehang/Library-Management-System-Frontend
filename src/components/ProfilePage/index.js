@@ -45,9 +45,16 @@ class ProfilePage extends Component {
     }
 
     fetchProfile = () => {
+        let data = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem(TOKEN_KEY)}`
+            },
+        };
         const baseApiUrl = this.getBaseApiUrl();
         const id = localStorage.getItem(USER_ID);
-        fetch(`${baseApiUrl}${id}`)
+        fetch(`${baseApiUrl}${id}`, data)
             .then(res => {
                 if (res.ok) {
                     return res.json();
@@ -81,9 +88,8 @@ class ProfilePage extends Component {
                 'phoneNumber': phoneNumber,
             }),
             headers:{
-                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
-                'test': 'testing header'
+                'Authorization': `Bearer ${token}`,
             }
         };
         const baseApiUrl = this.getBaseApiUrl();

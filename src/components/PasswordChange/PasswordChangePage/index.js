@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import LayoutWrapper from "../../LayoutWrapper";
 import {APIUrls} from "../../../constants/urls";
-import { USER_ID, USER_TYPE} from "../../../constants/constants";
+import {TOKEN_KEY, USER_ID, USER_TYPE} from "../../../constants/constants";
 import {isEmpty, showErrorModal, showSuccessModal} from "../../../utils/utils";
 import PasswordChangeForm from "../PasswordChangeForm";
 import {Redirect} from "react-router-dom";
@@ -18,6 +18,7 @@ class PasswordChangePage extends Component {
             }),
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem(TOKEN_KEY)}`
             }
         };
         fetch(APIUrls.ChangePassword, data)

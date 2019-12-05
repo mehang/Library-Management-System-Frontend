@@ -1,9 +1,16 @@
 import {APIUrls} from "../constants/urls";
-import {msgType} from "../constants/constants";
+import {msgType, TOKEN_KEY} from "../constants/constants";
 import {showErrorModal} from "../utils/utils";
 
-export const fetchAuthors = async () =>
-    fetch(`${APIUrls.Author}`)
+export const fetchAuthors = async () => {
+    let data = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem(TOKEN_KEY)}`
+        },
+    };
+    return fetch(`${APIUrls.Author}`, data)
         .then(res => {
             const data = res.json();
             if (res.ok) {
@@ -11,4 +18,4 @@ export const fetchAuthors = async () =>
             } else {
                 throw new Error(data.message);
             }
-        });
+        })};

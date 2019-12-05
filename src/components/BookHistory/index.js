@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from 'react';
-import {msgType, USER_ID, userType} from "../../constants/constants";
+import {msgType, TOKEN_KEY, USER_ID, userType} from "../../constants/constants";
 import {APIUrls} from "../../constants/urls";
 import {isLoggedIn, showErrorModal} from "../../utils/utils";
 import {Select, Table, Tag} from "antd";
@@ -23,7 +23,14 @@ class BookHistory extends Component {
     }
 
     fetchBooks = () => {
-        fetch(APIUrls.Book)
+        let data = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem(TOKEN_KEY)}`
+            },
+        };
+        fetch(APIUrls.Book, data)
             .then(res => {
                 const data = res.json();
                 if (res.ok) {
@@ -41,7 +48,14 @@ class BookHistory extends Component {
     };
 
     fetchBookLoanHistory = bookID => {
-        fetch(`${APIUrls.Book+bookID}/bookloans`)
+        let data = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem(TOKEN_KEY)}`
+            },
+        };
+        fetch(`${APIUrls.Book+bookID}/bookloans`, data)
             .then(res => {
                 const data = res.json();
                 if (res.ok) {
