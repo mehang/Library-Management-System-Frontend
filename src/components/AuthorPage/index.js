@@ -59,7 +59,7 @@ export class AuthorPage extends Component {
             .then(data => {
                 this.loadAuthors();
                 this.setState({name: EMPTY_STRING, statusMsgType: msgType.SUCCESS, statusMsg: "Saved successfully."});
-                showSuccessModal("Registered successfully","The author has been registered successfully.", this.clearStatus);
+                showSuccessModal("Saved successfully","The author has been registered successfully.", this.clearStatus);
             })
             .catch(error => {
                 this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});

@@ -208,7 +208,7 @@ class UserForm extends Component {
                     {extraFormFields}
                     <div style={{marginTop:"26px"}}>
                     <Button type="primary" htmlType="submit" onClick={this.handleSubmit}>
-                        Register
+                        Save
                     </Button>
                     </div>
                 </form>

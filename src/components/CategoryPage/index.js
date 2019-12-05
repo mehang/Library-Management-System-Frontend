@@ -65,7 +65,7 @@ class CategoryPage extends Component {
             .then(data => {
                 this.fetchCategories();
                 this.setState({name: EMPTY_STRING, statusMsgType: msgType.SUCCESS, statusMsg: "Saved successfully."});
-                showSuccessModal("Registered Successfully", "The category has been registered successfully.")
+                showSuccessModal("Saved Successfully", "The category has been registered successfully.")
             })
             .catch(error => {
                 this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});

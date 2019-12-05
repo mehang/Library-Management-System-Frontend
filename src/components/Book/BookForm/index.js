@@ -204,7 +204,7 @@ class BookForm extends Component {
                         </Row>
                     </div>
                     <Button type="primary" htmlType="submit" onClick={this.handleSubmit}>
-                        Register
+                        Save
                     </Button>
                 </form>
             </Fragment>

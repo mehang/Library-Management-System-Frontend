@@ -126,7 +126,7 @@ export class BookPage extends Component {
                 this.onBookAddition(data.serialNo);
                 this.fetchBooks();
                 this.setState({statusMsgType: msgType.SUCCESS, statusMsg: "Saved successfully."});
-                showSuccessModal("Registered successfully","The book has been registered successfully.", this.clearInputs);
+                showSuccessModal("Saved successfully","The book has been registered successfully.", this.clearInputs);
             })
             .catch(error => {
                 this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});
@@ -140,7 +140,7 @@ export class BookPage extends Component {
         let data = {
             method: 'PUT',
             body: JSON.stringify({
-                'id': bookID,
+                'bookId': bookID,
                 'name': this.state.name,
                 'publication': this.state.publication,
                 'language': this.state.language,

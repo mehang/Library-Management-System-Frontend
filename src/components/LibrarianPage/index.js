@@ -68,7 +68,7 @@ export class LibrarianPage extends Component {
             .then(data => {
                 this.fetchLibrarians();
                 this.setState({statusMsgType: msgType.SUCCESS, statusMsg: "Saved successfully."});
-                showSuccessModal("Registered Successfully","The librarian has been registered successfully.");
+                showSuccessModal("Saved Successfully","The librarian has been registered successfully.");
                 return true;
             })
             .catch(error => {

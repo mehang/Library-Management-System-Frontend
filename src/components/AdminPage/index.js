@@ -70,7 +70,7 @@ export class AdminPage extends Component {
             .then(data => {
                 this.fetchAdmins();
                 this.setState({statusMsgType: msgType.SUCCESS, statusMsg: "Saved successfully."});
-                showSuccessModal("Registered Successfully","The admin has been registered successfully.");
+                showSuccessModal("Saved Successfully","The admin has been registered successfully.");
                 return true;
             })
             .catch(error => {
