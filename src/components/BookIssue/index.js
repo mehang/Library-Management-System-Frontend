@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
-import {Button, Input, Modal, Select, Table, Tag} from "antd";
+import {Button,  Select, Table, Tag} from "antd";
 import LayoutWrapper from "../LayoutWrapper";
-import {msgType, TOKEN_KEY, USER_ID, userType} from "../../constants/constants";
+import { TOKEN_KEY, USER_ID, userType} from "../../constants/constants";
 import {APIUrls} from "../../constants/urls";
 import moment from "moment";
 import {isLoggedIn, showErrorModal, showSuccessModal} from "../../utils/utils";

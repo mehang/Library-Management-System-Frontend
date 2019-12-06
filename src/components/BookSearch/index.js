@@ -1,14 +1,13 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 
 import PropTypes from 'prop-types';
 import {Input, Table,Button, Tag} from 'antd';
 import SockJS from 'sockjs-client';
 import Stomp from 'stomp-websocket';
 
-import {EMPTY_STRING, msgType} from "../../constants/constants";
+import {EMPTY_STRING} from "../../constants/constants";
 import {APIUrls} from "../../constants/urls";
 import LayoutWrapper from "../LayoutWrapper";
-import {AdminPage} from "../AdminPage";
 import {showErrorModal} from "../../utils/utils";
 
 const {Search} = Input;

@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-import {Button, Divider, Table} from 'antd';
+import {Button,  Table} from 'antd';
 
 const AuthorTable = props => {
 
-        const {selectAuthor, deleteAuthor, authors} = props;
+        const {selectAuthor,  authors} = props;
         const columns = [
             {
                 title: 'Name',
@@ -41,7 +41,6 @@ const AuthorTable = props => {
 AuthorTable.propTypes = {
     authors: PropTypes.array.isRequired,
     selectAuthor: PropTypes.func.isRequired,
-    // deleteAuthor: PropTypes.func.isRequired
 };
 
 export default AuthorTable;

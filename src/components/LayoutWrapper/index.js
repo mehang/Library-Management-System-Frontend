@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import {Layout, Menu, Icon} from 'antd';
 import {Link} from "react-router-dom";
 import {TOKEN_KEY, USER_TYPE, userType} from "../../constants/constants";

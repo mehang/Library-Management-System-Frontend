@@ -11,7 +11,6 @@ import {isEmpty, isLoggedIn, showErrorModal, showSuccessModal} from "../../utils
 import {fetchAuthors} from "../../common/fetches";
 import {Redirect} from "react-router-dom";
 
-const {Info} = Modal;
 
 export class BookPage extends Component {
     constructor(props) {

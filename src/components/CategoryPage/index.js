@@ -116,28 +116,6 @@ class CategoryPage extends Component {
     };
 
 
-    // deleteCategory = (id) => {
-    //     let data = {
-    //         method: 'DELETE',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //     };
-    //     fetch(APIUrls.BookCategory+id, data)
-    //         .then(res => {
-    //             if (res.ok) {
-    //                 this.fetchCategories();
-    //                 showSuccessModal("Deleted Successfully", "The category has been deleted successfully.")
-    //             } else {
-    //                 throw new Error("Error while deleting category.");
-    //             }
-    //         })
-    //         .catch(error => {
-    //             this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});
-    //             showErrorModal("Error", error.toString());
-    //         });
-    // };
-
     onSubmit = () => {
         if (isEmpty(this.state.selectedCategory)){
             this.registerCategory();

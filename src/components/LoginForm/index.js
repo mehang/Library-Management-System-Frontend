@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Form, Icon, Input, Button, Checkbox} from 'antd';
+import {Form, Icon, Input, Button} from 'antd';
 import {EMPTY_STRING, TOKEN_KEY, USER_ID, USER_TYPE, USERNAME} from "../../constants/constants";
 import {Link} from "react-router-dom";
 import {APIUrls} from "../../constants/urls";

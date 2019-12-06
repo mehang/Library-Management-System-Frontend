@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import LayoutWrapper from "../../LayoutWrapper";
 import {APIUrls} from "../../../constants/urls";
-import {TOKEN_KEY, USER_ID, USER_TYPE} from "../../../constants/constants";
+import {TOKEN_KEY, USER_ID} from "../../../constants/constants";
 import {isEmpty, showErrorModal, showSuccessModal} from "../../../utils/utils";
 import PasswordChangeForm from "../PasswordChangeForm";
 import {Redirect} from "react-router-dom";
@@ -12,7 +12,6 @@ class PasswordChangePage extends Component {
             method: 'POST',
             body: JSON.stringify({
                 'id': localStorage.getItem(USER_ID),
-                // 'userType': localStorage.getItem(USER_TYPE),
                 'password1': password1,
                 'password2': password2,
             }),

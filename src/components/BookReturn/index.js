@@ -1,7 +1,7 @@
-import React, {Component, Fragment} from 'react';
-import {Input, Modal, Select, Table, Tag} from "antd";
+import React, {Component} from 'react';
+import {Input} from "antd";
 import LayoutWrapper from "../LayoutWrapper";
-import {EMPTY_STRING, TOKEN_KEY, USER_ID, userType} from "../../constants/constants";
+import {EMPTY_STRING, TOKEN_KEY,  userType} from "../../constants/constants";
 import {APIUrls} from "../../constants/urls";
 import {isLoggedIn, showErrorModal, showSuccessModal} from "../../utils/utils";
 import {Redirect} from "react-router-dom";

@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 
-import {Button, Divider, Table} from 'antd';
+import {Button,  Table} from 'antd';
 import {APIUrls} from "../../../constants/urls";
 import {msgType, TOKEN_KEY, userType} from "../../../constants/constants";
 import LayoutWrapper from "../../LayoutWrapper";
-import {AuthorPage} from "../../AuthorPage";
 import {isLoggedIn, showErrorModal, showSuccessModal} from "../../../utils/utils";
 import {Redirect} from "react-router-dom";
 

@@ -1,9 +1,8 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 
 import {APIUrls} from "../../constants/urls";
 import {EMPTY_STRING, msgType, TOKEN_KEY, USER_ID, userType} from "../../constants/constants";
-import UserForm from "../UserForm";
-import {hasWhiteSpace, isEmpty, isLoggedIn, isNumber} from "../../utils/utils";
+import { isEmpty, isLoggedIn, isNumber} from "../../utils/utils";
 import {Button, Col, Input, Row} from "antd";
 import LayoutWrapper from "../LayoutWrapper";
 import {validateEmail,validateName, validatePhoneNumber, validateUsername} from "../../common/form-validations";

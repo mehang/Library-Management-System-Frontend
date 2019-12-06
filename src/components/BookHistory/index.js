@@ -1,8 +1,8 @@
 import React, {Component, Fragment} from 'react';
-import {msgType, TOKEN_KEY, USER_ID, userType} from "../../constants/constants";
+import { TOKEN_KEY,  userType} from "../../constants/constants";
 import {APIUrls} from "../../constants/urls";
 import {isLoggedIn, showErrorModal} from "../../utils/utils";
-import {Select, Table, Tag} from "antd";
+import {Select, Table} from "antd";
 import LayoutWrapper from "../LayoutWrapper";
 import moment from "moment";
 import {Redirect} from "react-router-dom";

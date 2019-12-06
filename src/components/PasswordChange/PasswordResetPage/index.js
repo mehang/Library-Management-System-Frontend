@@ -1,8 +1,5 @@
 import React, {Component} from 'react';
-import PasswordForgotForm from "../../PasswordForgotForm";
-import LayoutWrapper from "../../LayoutWrapper";
 import {APIUrls} from "../../../constants/urls";
-import {TOKEN_KEY, USER_ID, USER_TYPE} from "../../../constants/constants";
 import {showErrorModal, showSuccessModal} from "../../../utils/utils";
 import PasswordChangeForm from "../PasswordChangeForm";
 

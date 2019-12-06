@@ -1,13 +1,12 @@
 import React, {Component, Fragment} from 'react';
-import {msgType, TOKEN_KEY, USER_ID, USERNAME, userType} from "../../constants/constants";
+import { TOKEN_KEY,  USERNAME, userType} from "../../constants/constants";
 import {APIUrls} from "../../constants/urls";
 import {isLoggedIn, showErrorModal} from "../../utils/utils";
-import {Select, Table, Tag} from "antd";
+import {Table} from "antd";
 import LayoutWrapper from "../LayoutWrapper";
 import moment from "moment";
 import {Redirect} from "react-router-dom";
 
-const {Option} = Select;
 
 class StudentHistory extends Component {
     constructor(props) {

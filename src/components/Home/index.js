@@ -1,7 +1,6 @@
 import React, {Fragment} from "react";
 
 import LayoutWrapper from "../LayoutWrapper";
-import logo from '../../logo.svg';
 import {Icon, Result} from "antd";
 
 export function Home() {

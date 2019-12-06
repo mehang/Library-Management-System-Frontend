@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {EMPTY_STRING, msgType} from "../../../constants/constants";
 import {Button, Col, Input, Row} from "antd";
 import PropTypes from 'prop-types';
-import LayoutWrapper from "../../LayoutWrapper";
 import {validatePassword1, validatePassword2} from "../../../common/form-validations";
 
 class PasswordChangeForm extends Component{

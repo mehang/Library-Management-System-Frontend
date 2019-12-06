@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 
 import {APIUrls} from "../../../constants/urls";
 import {EMPTY_STRING, msgType, VERIFICATION_ID} from "../../../constants/constants";
@@ -6,7 +6,6 @@ import UserForm from "../../UserForm";
 import {isEmpty, showErrorModal} from "../../../utils/utils";
 import {Redirect} from "react-router-dom";
 import {Button, Col, Icon, Input, Row} from "antd";
-import {validatePhoneNumber} from "../../../common/form-validations";
 
 class StudentForm extends Component {
     constructor(props) {

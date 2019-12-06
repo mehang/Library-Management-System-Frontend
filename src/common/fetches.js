@@ -1,6 +1,5 @@
 import {APIUrls} from "../constants/urls";
-import {msgType, TOKEN_KEY} from "../constants/constants";
-import {showErrorModal} from "../utils/utils";
+import { TOKEN_KEY} from "../constants/constants";
 
 export const fetchAuthors = async () => {
     let data = {

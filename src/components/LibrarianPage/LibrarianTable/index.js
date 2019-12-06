@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-import {Button, Divider, Table} from 'antd';
+import {Button,  Table} from 'antd';
 
 const LibrarianTable = props => {
 

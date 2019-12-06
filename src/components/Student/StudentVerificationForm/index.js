@@ -1,7 +1,6 @@
 import React, {Component, Fragment} from 'react';
-import {EMPTY_STRING, msgType, USER_ID, VERIFICATION_ID} from "../../../constants/constants";
-import {Button, Form, Icon, Input} from "antd";
-import {Link} from "react-router-dom";
+import {EMPTY_STRING,  VERIFICATION_ID} from "../../../constants/constants";
+import {Button,  Icon, Input} from "antd";
 import {APIUrls} from "../../../constants/urls";
 import {showErrorModal} from "../../../utils/utils";
 

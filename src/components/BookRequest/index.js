@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
 
-import {Modal} from 'antd';
-
 import {BookSearch} from '../BookSearch';
 import LayoutWrapper from "../LayoutWrapper";
 import {APIUrls} from "../../constants/urls";
-import {msgType, TOKEN_KEY, USER_ID, userType} from "../../constants/constants";
+import { TOKEN_KEY, USER_ID, userType} from "../../constants/constants";
 import {isLoggedIn, showErrorModal, showSuccessModal} from "../../utils/utils";
 import {Redirect} from "react-router-dom";
 
