@@ -10,11 +10,4 @@ export const fetchAuthors = async () => {
         },
     };
     return fetch(`${APIUrls.Author}`, data)
-        .then(res => {
-            const data = res.json();
-            if (res.ok) {
-                return data;
-            } else {
-                throw new Error(data.message);
-            }
-        })};
+        .then(res => res.json())};

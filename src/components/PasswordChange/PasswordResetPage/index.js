@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {APIUrls} from "../../../constants/urls";
-import {showErrorModal, showSuccessModal} from "../../../utils/utils";
+import {isNumber, showErrorModal, showSuccessModal} from "../../../utils/utils";
 import PasswordChangeForm from "../PasswordChangeForm";
 
 class PasswordResetPage extends Component {
@@ -20,14 +20,12 @@ class PasswordResetPage extends Component {
             }
         };
         fetch(APIUrls.ResetPassword, data)
-            .then(res => {
-                if (res.ok) {
-                    showSuccessModal("Password Changed", "Password has been changed successfully.")
-                    this.props.history.push("/login");
-                } else {
-                    const data = res.json();
+            .then(data => {
+                if (isNumber(data.status) && data.status !== 200) {
                     throw new Error(data.message);
                 }
+                    showSuccessModal("Password Changed", "Password has been changed successfully.")
+                    this.props.history.push("/login");
             })
             .catch(error => {
                 showErrorModal("Error", "Error while resetting the password.");

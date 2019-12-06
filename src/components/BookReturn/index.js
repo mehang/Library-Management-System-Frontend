@@ -3,7 +3,7 @@ import {Input} from "antd";
 import LayoutWrapper from "../LayoutWrapper";
 import {EMPTY_STRING, TOKEN_KEY,  userType} from "../../constants/constants";
 import {APIUrls} from "../../constants/urls";
-import {isLoggedIn, showErrorModal, showSuccessModal} from "../../utils/utils";
+import {isLoggedIn, isNumber, showErrorModal, showSuccessModal} from "../../utils/utils";
 import {Redirect} from "react-router-dom";
 
 const {Search} = Input;
@@ -31,19 +31,17 @@ class BookReturn extends Component {
         };
         fetch(APIUrls.BookReturn, data)
             .then(res => {
-                const data = res.json();
-                if (res.ok) {
-                    return data;
-                } else {
-                    console.log(data);
-                    throw new Error(data.message);
-                }
+                return res.json();
             })
             .then(data => {
+                if (isNumber(data.status) && data.status !== 200) {
+                    throw new Error(data.message);
+                }
                 this.setState({isLoading:false, serialNumber:EMPTY_STRING});
                 showSuccessModal("Recorded Return Successfully","Return of the book has been recorded successfully.")
             })
             .catch(error => {
+                console.log(error);
                 this.setState({isLoading:false});
                 showErrorModal("Error", error.toString());
             });

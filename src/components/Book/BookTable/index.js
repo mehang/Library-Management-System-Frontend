@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {Button, Divider, Modal, Table, Tag} from 'antd';
 import {EMPTY_STRING, msgType, TOKEN_KEY, USER_ID} from "../../../constants/constants";
 import {APIUrls} from "../../../constants/urls";
+import {isNumber} from "../../../utils/utils";
 
 class BookTable extends Component {
     constructor(props){
@@ -29,15 +30,12 @@ class BookTable extends Component {
             }
         };
         fetch(`${APIUrls.Book}increase/`, data)
-            .then(res => {
-                const data = res.json();
-                if (res.ok) {
-                    return data;
-                } else {
-                    throw new Error(data.message)
-                }
-            })
+            .then(res => res.json())
             .then(data => {
+                console.log(data);
+                if (isNumber(data.status) && data.status !== 200) {
+                    throw new Error(data.message);
+                }
                 this.setState({modalVisible:true,serialNumber: data.serialNo, statusMsgType: msgType.SUCCESS, statusMsg: "Saved successfully."});
             })
             .catch(error => {

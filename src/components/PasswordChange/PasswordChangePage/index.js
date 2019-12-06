@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import LayoutWrapper from "../../LayoutWrapper";
 import {APIUrls} from "../../../constants/urls";
 import {TOKEN_KEY, USER_ID} from "../../../constants/constants";
-import {isEmpty, showErrorModal, showSuccessModal} from "../../../utils/utils";
+import {isEmpty, isNumber, showErrorModal, showSuccessModal} from "../../../utils/utils";
 import PasswordChangeForm from "../PasswordChangeForm";
 import {Redirect} from "react-router-dom";
 
@@ -21,16 +21,23 @@ class PasswordChangePage extends Component {
             }
         };
         fetch(APIUrls.ChangePassword, data)
-            .then(res => {
-                if (res.ok) {
-                    showSuccessModal("Password Changed", "Password has been changed successfully.")
+            .then(res=>{
+                console.log(res);
+                if (res.status===200){
+                    return res;
                 } else {
-                    const data = res.json();
-                    throw new Error(data.message);
+                    return res.json();
                 }
             })
+            .then(data => {
+                console.log(data);
+                if (isNumber(data.status) && data.status !== 200) {
+                    throw new Error(data.message);
+                }
+                    showSuccessModal("Password Changed", "Password has been changed successfully.")
+            })
             .catch(error => {
-                showErrorModal("Error", "Error while changing the password.");
+                showErrorModal("Error", error.toString());
             });
     };
 

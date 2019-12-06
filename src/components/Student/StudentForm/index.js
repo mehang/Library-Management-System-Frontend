@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import {APIUrls} from "../../../constants/urls";
 import {EMPTY_STRING, msgType, VERIFICATION_ID} from "../../../constants/constants";
 import UserForm from "../../UserForm";
-import {isEmpty, showErrorModal} from "../../../utils/utils";
+import {isEmpty, isNumber, showErrorModal} from "../../../utils/utils";
 import {Redirect} from "react-router-dom";
 import {Button, Col, Icon, Input, Row} from "antd";
 
@@ -33,17 +33,11 @@ class StudentForm extends Component {
             }
         };
         fetch(APIUrls.Student, data)
-            .then(res => {
-                if (res.ok) {
-                    return res.json();
-                } else {
-                    console.log(res);
-                    // throw new Error("Problem in network connectivity.")
-                    return res.json();
-                }
-            })
+            .then(res => res.json())
             .then(data => {
-                console.log(data);
+                if (isNumber(data.status) && data.status !== 200) {
+                    throw new Error(data.message);
+                }
                 this.props.history.push('/success');
                 return true;
             })

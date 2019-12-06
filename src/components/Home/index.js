@@ -16,8 +16,6 @@ export function Home() {
                 icon={<Icon type="smile" theme="twoTone"/>}
                 title={message}
             />
-
-
         </div>
     )
 }

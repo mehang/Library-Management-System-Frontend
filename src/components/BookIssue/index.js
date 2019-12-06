@@ -4,7 +4,7 @@ import LayoutWrapper from "../LayoutWrapper";
 import {EMPTY_STRING, TOKEN_KEY, USER_ID, userType} from "../../constants/constants";
 import {APIUrls} from "../../constants/urls";
 import moment from "moment";
-import {isLoggedIn, showErrorModal, showSuccessModal} from "../../utils/utils";
+import {isLoggedIn, isNumber, showErrorModal, showSuccessModal} from "../../utils/utils";
 import {Redirect} from "react-router-dom";
 
 const {Option} = Select;
@@ -32,16 +32,11 @@ class BookIssue extends Component {
             },
         };
         fetch(`${APIUrls.Student}`, data)
-            .then(res => {
-                const data = res.json();
-                if (res.ok) {
-                    return data;
-                } else {
+            .then(res => res.json())
+            .then(data => {
+                if (isNumber(data.status) && data.status !== 200) {
                     throw new Error(data.message);
                 }
-            })
-            .then(data => {
-                console.log(data);
                 this.setState({students: data});
             })
             .catch(error => {
@@ -58,15 +53,11 @@ class BookIssue extends Component {
             },
         };
         fetch(`${APIUrls.User+username}/bookloans`, data)
-            .then(res => {
-                const data = res.json();
-                if (res.ok) {
-                    return data;
-                } else {
-                    throw new Error(data.message)
-                }
-            })
+            .then(res => res.json())
             .then(data => {
+                if (isNumber(data.status) && data.status !== 200) {
+                    throw new Error(data.message);
+                }
                 this.setState({requestedBooks: data.filter(requestedBook => requestedBook.status === "REQUESTED")});
             })
             .catch(error => {
@@ -88,15 +79,11 @@ class BookIssue extends Component {
             }
         };
         fetch(APIUrls.BookIssue, data)
-            .then(res => {
-                const data = res.json();
-                if (res.ok) {
-                    return data;
-                } else {
+            .then(res => res.json())
+            .then(data => {
+                if (isNumber(data.status) && data.status !== 200) {
                     throw new Error(data.message);
                 }
-            })
-            .then(data => {
                 this.fetchRequestedBooks(this.state.selectedStudent);
                 showSuccessModal("Issued Successfully", "The book has been issued successfully.");
             })

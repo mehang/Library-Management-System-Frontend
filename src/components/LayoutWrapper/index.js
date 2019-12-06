@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 import {TOKEN_KEY, USER_TYPE, userType} from "../../constants/constants";
 import {isLoggedIn} from "../../utils/utils";
 
-const {Header, Content, Footer, Sider} = Layout;
+const {Header, Content, Sider} = Layout;
 const {SubMenu} = Menu;
 
 const LayoutWrapper = (WrappedComponent) => {
@@ -169,12 +169,9 @@ const LayoutWrapper = (WrappedComponent) => {
                             </Menu>
                         </Sider>
                         <Layout>
-                            <Content className="content" style={{margin: '24px 16px 0', overflow: 'initial'}}>
+                            <Content className="content" style={{margin: '24px 16px 0', overflow: 'initial', minHeight:"80vh", height:"100%"}}>
                                 <WrappedComponent {...this.props}/>
                             </Content>
-                            <Footer className="footer">
-                                Baylor University ©2019 Created by Software Engineering
-                            </Footer>
                         </Layout>
                     </Layout>
                 </Layout>

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Icon, Input} from "antd";
 import {APIUrls} from "../../constants/urls";
-import {showErrorModal, showSuccessModal} from "../../utils/utils";
+import {isNumber, showErrorModal, showSuccessModal} from "../../utils/utils";
 
 const {Search} =Input;
 

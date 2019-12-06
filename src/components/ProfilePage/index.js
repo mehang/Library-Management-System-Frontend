@@ -54,14 +54,11 @@ class ProfilePage extends Component {
         const baseApiUrl = this.getBaseApiUrl();
         const id = localStorage.getItem(USER_ID);
         fetch(`${baseApiUrl}${id}`, data)
-            .then(res => {
-                if (res.ok) {
-                    return res.json();
-                } else {
-                    throw new Error('Error while fetching profile data.');
-                }
-            })
+            .then(res => res.json())
             .then(data => {
+                if (isNumber(data.status) && data.status !== 200) {
+                    throw new Error(data.message);
+                }
                 this.setState({username:data.username, name: data.name,
                 phoneNumber:data.phoneNumber,email:data.email});
             })
@@ -93,15 +90,11 @@ class ProfilePage extends Component {
         };
         const baseApiUrl = this.getBaseApiUrl();
         fetch(baseApiUrl + id, data)
-            .then(res => {
-                const data = res.json();
-                if (res.ok) {
-                    return data;
-                } else {
+            .then(res => res.json())
+            .then(data => {
+                if (isNumber(data.status) && data.status !== 200) {
                     throw new Error(data.message);
                 }
-            })
-            .then(data => {
                 this.setState({statusMsgType: msgType.SUCCESS, statusMsg: "Updated profile successfully."});
             })
             .catch(error => {

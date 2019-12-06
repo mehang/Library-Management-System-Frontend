@@ -5,7 +5,7 @@ import LayoutWrapper from "../LayoutWrapper";
 import {EMPTY_STRING, msgType, TOKEN_KEY, userType} from "../../constants/constants";
 import UserForm from "../UserForm";
 import LibrarianTable from "./LibrarianTable";
-import {isLoggedIn, showErrorModal, showSuccessModal} from "../../utils/utils";
+import {isLoggedIn, isNumber, showErrorModal, showSuccessModal} from "../../utils/utils";
 import {Redirect} from "react-router-dom";
 
 export class LibrarianPage extends Component {
@@ -31,15 +31,11 @@ export class LibrarianPage extends Component {
             },
         };
         await fetch(`${APIUrls.Librarian}`, data)
-            .then(res => {
-                const data = res.json();
-                if (res.ok) {
-                    return data;
-                } else {
+            .then(res => res.json())
+            .then(data => {
+                if (isNumber(data.status) && data.status !== 200) {
                     throw new Error(data.message);
                 }
-            })
-            .then(data => {
                 this.setState({librarians: data, statusMsgType: msgType.SUCCESS});
             })
             .catch(error => {
@@ -65,15 +61,11 @@ export class LibrarianPage extends Component {
             }
         };
         fetch(APIUrls.Librarian, data)
-            .then(res => {
-                const data = res.json();
-                if (res.ok) {
-                    return data;
-                } else {
+            .then(res => res.json())
+            .then(data => {
+                if (isNumber(data.status) && data.status !== 200) {
                     throw new Error(data.message);
                 }
-            })
-            .then(data => {
                 this.fetchLibrarians();
                 this.setState({statusMsgType: msgType.SUCCESS, statusMsg: "Saved successfully."});
                 showSuccessModal("Saved Successfully","The librarian has been registered successfully.");
@@ -96,12 +88,11 @@ export class LibrarianPage extends Component {
         };
         fetch(APIUrls.Librarian+id, data)
             .then(res => {
-                if (res.ok) {
+                if (res.ok){
                     this.fetchLibrarians();
                     showSuccessModal("Deleted Successfully","The librarian has been successfully,");
                 } else {
-                    const data = res.json();
-                    throw new Error(data.message);
+                    throw new Error("Problem while deleting librarian.");
                 }
             })
             .catch(error => {

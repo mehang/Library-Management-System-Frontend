@@ -8,7 +8,7 @@ import Stomp from 'stomp-websocket';
 import {EMPTY_STRING} from "../../constants/constants";
 import {APIUrls} from "../../constants/urls";
 import LayoutWrapper from "../LayoutWrapper";
-import {showErrorModal} from "../../utils/utils";
+import {isNumber, showErrorModal} from "../../utils/utils";
 
 const {Search} = Input;
 
@@ -46,10 +46,11 @@ export class BookSearch extends Component {
             this.stompClient.subscribe('/lms/returned', frame => {
                 const returnedBook = JSON.parse(frame.body);
                 let books = this.state.books;
-                const updatedBooks = books.map(book => ({
+                const updatedBooks = books.map(book => {
+                    return ({
                     ...book,
-                    bookIds: book.id === returnedBook.specification.id?(Array.isArray(book.bookIds)?book.bookIds.push(returnedBook.id):[returnedBook.id]):book.bookIds,
-                }));
+                    bookIds: ((book.id===returnedBook.specification.id)?[...book.bookIds, returnedBook.id]:book.bookIds),
+                })});
                 this.setState({books:updatedBooks});
             });
         })
@@ -59,15 +60,11 @@ export class BookSearch extends Component {
         let fetchUrl = new URL(APIUrls.BookSearch);
         fetchUrl.searchParams.append('q',this.state.searchKeyword);
         fetch(fetchUrl)
-            .then(res => {
-                if (res.ok) {
-                    return res.json();
-                } else {
-                const data = res.json();
+            .then(res => res.json())
+            .then(data => {
+                if (isNumber(data.status) && data.status !== 200) {
                     throw new Error(data.message);
                 }
-            })
-            .then(data => {
                 this.setState({books: data, error: EMPTY_STRING});
             })
             .catch(error => {
@@ -173,7 +170,7 @@ export class BookSearch extends Component {
                     style={{width:"30%"}}
                     enterButton/>
                 {error && <div className="error-status">{error}</div>}
-                <Table style={{marginTop:"1rem"}} columns={columns} dataSource={booksData} />
+                <Table style={{marginTop:"1rem", height:"100%"}} columns={columns} dataSource={booksData} />
             </div>
         );
     }

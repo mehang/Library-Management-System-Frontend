@@ -3,6 +3,7 @@ import {Form, Icon, Input, Button} from 'antd';
 import {EMPTY_STRING, TOKEN_KEY, USER_ID, USER_TYPE, USERNAME} from "../../constants/constants";
 import {Link} from "react-router-dom";
 import {APIUrls} from "../../constants/urls";
+import {isNumber} from "../../utils/utils";
 
 class LoginForm extends Component {
 
@@ -29,15 +30,16 @@ class LoginForm extends Component {
                 };
                 fetch(APIUrls.Authenticate, data)
                     .then(res => {
-                        if (res.ok) {
-                            return res.json();
-                        } else if (res.status === 401) {
+                        if (res.status === 401) {
                             throw new Error("Either username or password is not correct");
                         } else {
-                            throw new Error(res.json().message);
+                            return res.json();
                         }
                     })
                     .then(data => {
+                        if (isNumber(data.status) && data.status !== 200) {
+                            throw new Error(data.message);
+                        }
                         localStorage.setItem(TOKEN_KEY,data.token);
                         localStorage.setItem(USERNAME, data.username);
                         localStorage.setItem(USER_ID, data.userPK);

@@ -5,7 +5,7 @@ import LayoutWrapper from "../LayoutWrapper";
 import {EMPTY_STRING, msgType, TOKEN_KEY, userType} from "../../constants/constants";
 import AuthorForm from "./AuthorForm";
 import AuthorTable from "./AuthorTable";
-import {isEmpty, isLoggedIn, showErrorModal, showSuccessModal} from "../../utils/utils";
+import {isEmpty, isLoggedIn, isNumber, showErrorModal, showSuccessModal} from "../../utils/utils";
 import {fetchAuthors} from "../../common/fetches";
 import {Redirect} from "react-router-dom";
 
@@ -29,11 +29,14 @@ export class AuthorPage extends Component {
     loadAuthors = () => {
         fetchAuthors()
             .then(data => {
+                if (isNumber(data.status) && data.status !== 200) {
+                    throw new Error(data.message);
+                }
                 this.setState({authors: data, statusMsgType: msgType.SUCCESS});
             })
             .catch(error => {
                 this.setState({statusMsgType:msgType.ERROR, statusMsg: error.toString()});
-                showErrorModal('Error', error.toString());
+                showErrorModal('Error', "Error while loading authors.");
             })
     };
 
@@ -50,15 +53,11 @@ export class AuthorPage extends Component {
         };
 
         fetch(APIUrls.Author, data)
-            .then(res => {
-                const data = res.json();
-                if (res.ok) {
-                    return data;
-                } else {
+            .then(res => res.json())
+            .then(data => {
+                if (isNumber(data.status) && data.status !== 200) {
                     throw new Error(data.message);
                 }
-            })
-            .then(data => {
                 this.loadAuthors();
                 this.setState({name: EMPTY_STRING, statusMsgType: msgType.SUCCESS, statusMsg: "Saved successfully."});
                 showSuccessModal("Saved successfully","The author has been registered successfully.", this.clearStatus);
@@ -84,15 +83,11 @@ export class AuthorPage extends Component {
             }
         };
         fetch(APIUrls.Author+authorID, data)
-            .then(res => {
-                const data = res.json();
-                if (res.ok) {
-                    return data;
-                } else {
+            .then(res => res.json())
+            .then(data => {
+                if (isNumber(data.status) && data.status !== 200) {
                     throw new Error(data.message);
                 }
-            })
-            .then(data => {
                 this.loadAuthors();
                 this.setState({name: EMPTY_STRING, statusMsgType: msgType.SUCCESS,
                     statusMsg: "Updated successfully.", selectedAuthor: {}});

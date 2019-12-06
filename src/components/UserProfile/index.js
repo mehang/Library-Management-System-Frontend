@@ -2,7 +2,7 @@ import React from 'react';
 import UserForm from "../UserForm";
 import {APIUrls} from "../../constants/urls";
 import {EMPTY_STRING, msgType, TOKEN_KEY, USER_TYPE, userType} from "../../constants/constants";
-import {showErrorModal, showSuccessModal} from "../../utils/utils";
+import {isNumber, showErrorModal, showSuccessModal} from "../../utils/utils";
 
 const UserProfile = props => {
     const updateUser = (username, password1, password2, name, email, phoneNumber) => {
@@ -30,15 +30,11 @@ const UserProfile = props => {
             fetchUrl = APIUrls.Admin;
         }
         fetch(fetchUrl, data)
-            .then(res => {
-                const data = res.json();
-                if (res.ok) {
-                    return data;
-                } else {
+            .then(res => res.json())
+            .then(data => {
+                if (isNumber(data.status) && data.status !== 200) {
                     throw new Error(data.message);
                 }
-            })
-            .then(data => {
                 this.setState({statusMsgType: msgType.SUCCESS, statusMsg: "Registered successfully."});
                 showSuccessModal("Updated Successfully", "The profile has been updated successfully.");
                 return true;

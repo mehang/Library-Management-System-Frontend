@@ -4,7 +4,7 @@ import {Button,  Table} from 'antd';
 import {APIUrls} from "../../../constants/urls";
 import {msgType, TOKEN_KEY, userType} from "../../../constants/constants";
 import LayoutWrapper from "../../LayoutWrapper";
-import {isLoggedIn, showErrorModal, showSuccessModal} from "../../../utils/utils";
+import {isLoggedIn, isNumber, showErrorModal, showSuccessModal} from "../../../utils/utils";
 import {Redirect} from "react-router-dom";
 
 class StudentTable extends Component {
@@ -28,15 +28,11 @@ class StudentTable extends Component {
             },
         };
         await fetch(`${APIUrls.Student}`, data)
-            .then(res => {
-                const data = res.json();
-                if (res.ok) {
-                    return data;
-                } else {
+            .then(res => res.json())
+            .then(data => {
+                if (isNumber(data.status) && data.status !== 200) {
                     throw new Error(data.message);
                 }
-            })
-            .then(data => {
                 this.setState({students: data, statusMsgType: msgType.SUCCESS});
             })
             .catch(error => {
@@ -53,14 +49,12 @@ class StudentTable extends Component {
             },
         };
         fetch(APIUrls.Student+ id, data)
-            .then(res => {
-                if (res.ok) {
-                    this.fetchStudents();
-                    showSuccessModal("Deleted Successfully","The student has been successfully,");
-                } else {
-                const data = res.json();
+            .then(data => {
+                if (isNumber(data.status) && data.status !== 200) {
                     throw new Error(data.message);
                 }
+                    this.fetchStudents();
+                    showSuccessModal("Deleted Successfully","The student has been successfully,");
             })
             .catch(error => {
                 this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});

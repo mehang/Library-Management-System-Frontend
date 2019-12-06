@@ -5,7 +5,7 @@ import LayoutWrapper from "../LayoutWrapper";
 import {EMPTY_STRING, msgType, TOKEN_KEY, userType} from "../../constants/constants";
 import CategoryForm from "./CategoryForm";
 import CategoryTable from "./CategoryTable";
-import {isEmpty, isLoggedIn, showErrorModal, showSuccessModal} from "../../utils/utils";
+import {isEmpty, isLoggedIn, isNumber, showErrorModal, showSuccessModal} from "../../utils/utils";
 import {Redirect} from "react-router-dom";
 
 class CategoryPage extends Component {
@@ -33,15 +33,11 @@ class CategoryPage extends Component {
             },
         };
         fetch(`${APIUrls.BookCategory}`, data)
-            .then(res => {
-                const data = res.json();
-                if (res.ok){
-                    return data;
-                } else {
+            .then(res => res.json())
+            .then(data => {
+                if (isNumber(data.status) && data.status !== 200) {
                     throw new Error(data.message);
                 }
-            })
-            .then(data => {
                 this.setState({categories: data, statusMsgType: msgType.SUCCESS});
             })
             .catch(error => {
@@ -62,15 +58,11 @@ class CategoryPage extends Component {
             }
         };
         fetch(APIUrls.BookCategory, data)
-            .then(res => {
-                const data = res.json();
-                if (res.ok) {
-                    return data;
-                } else {
+            .then(res => res.json())
+            .then(data => {
+                if (isNumber(data.status) && data.status !== 200) {
                     throw new Error(data.message);
                 }
-            })
-            .then(data => {
                 this.fetchCategories();
                 this.setState({name: EMPTY_STRING, statusMsgType: msgType.SUCCESS, statusMsg: "Saved successfully."});
                 showSuccessModal("Saved Successfully", "The category has been registered successfully.")
@@ -95,15 +87,11 @@ class CategoryPage extends Component {
             }
         };
         fetch(APIUrls.BookCategory+categoryID, data)
-            .then(res => {
-                const data = res.json();
-                if (res.ok) {
-                    return data;
-                } else {
+            .then(res => res.json())
+            .then(data => {
+                if (isNumber(data.status) && data.status !== 200) {
                     throw new Error(data.message);
                 }
-            })
-            .then(data => {
                 this.fetchCategories();
                 this.setState({name: EMPTY_STRING, statusMsgType: msgType.SUCCESS,
                     statusMsg: "Updated successfully.", selectedCategory: {}});

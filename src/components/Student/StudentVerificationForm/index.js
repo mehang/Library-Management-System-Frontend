@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 import {EMPTY_STRING,  VERIFICATION_ID} from "../../../constants/constants";
 import {Button,  Icon, Input} from "antd";
 import {APIUrls} from "../../../constants/urls";
-import {showErrorModal} from "../../../utils/utils";
+import {isNumber, showErrorModal} from "../../../utils/utils";
 
 const { Search } = Input;
 
@@ -19,14 +19,14 @@ class StudentVerificationForm extends Component {
         e.preventDefault();
         this.setState({loading:true});
         fetch(APIUrls.StudentVerification+value)
-            .then(res => {
-                if (res.ok) {
+            .then(res=>res.json())
+            .then(data => {
+                if (isNumber(data.status) && data.status !== 200) {
+                    throw new Error(data.message);
+                }
                     this.setState({loading:false});
                     localStorage.setItem(VERIFICATION_ID,value)
 this.props.history.push('/registration');
-                } else {
-                    throw new Error('Error while fetching profile data.');
-                }
             })
             .catch(error => {
                 this.setState({loading: false});

@@ -7,7 +7,7 @@ import LayoutWrapper from "../LayoutWrapper";
 import {EMPTY_STRING, msgType, TOKEN_KEY, USER_ID, userType} from "../../constants/constants";
 import BookForm from "./BookForm";
 import BookTable from "./BookTable";
-import {isEmpty, isLoggedIn, showErrorModal, showSuccessModal} from "../../utils/utils";
+import {isEmpty, isLoggedIn, isNumber, showErrorModal, showSuccessModal} from "../../utils/utils";
 import {fetchAuthors} from "../../common/fetches";
 import {Redirect} from "react-router-dom";
 
@@ -66,15 +66,11 @@ export class BookPage extends Component {
             },
         };
         await fetch(`${APIUrls.BookSpecs}`, data)
-            .then(res => {
-                const data = res.json();
-                if (res.ok){
-                    return data
-                } else {
+            .then(res => res.json())
+            .then(data => {
+                if (isNumber(data.status) && data.status !== 200) {
                     throw new Error(data.message);
                 }
-            })
-            .then(data => {
                 this.setState({books: data, statusMsgType: msgType.SUCCESS});
             })
             .catch(error => {
@@ -91,15 +87,11 @@ export class BookPage extends Component {
             },
         };
         fetch(`${APIUrls.BookCategory}`, data)
-            .then(res => {
-                const data = res.json();
-                if (res.ok){
-                    return data;
-                } else {
+            .then(res => res.json())
+            .then(data => {
+                if (isNumber(data.status) && data.status !== 200) {
                     throw new Error(data.message);
                 }
-            })
-            .then(data => {
                 this.setState({categories: data, statusMsgType: msgType.SUCCESS});
             })
             .catch(error => {
@@ -128,15 +120,11 @@ export class BookPage extends Component {
             }
         };
         fetch(APIUrls.Book, data)
-            .then(res => {
-                const data = res.json();
-                if (res.ok) {
-                    return data;
-                } else {
+            .then(res => res.json())
+            .then(data => {
+                if (isNumber(data.status) && data.status !== 200) {
                     throw new Error(data.message);
                 }
-            })
-            .then(data => {
                 this.onBookAddition(data.serialNo);
                 this.fetchBooks();
                 this.setState({statusMsgType: msgType.SUCCESS, statusMsg: "Saved successfully."});
@@ -170,15 +158,11 @@ export class BookPage extends Component {
             }
         };
         fetch(APIUrls.Book + bookID, data)
-            .then(res => {
-                const data = res.json();
-                if (res.ok) {
-                    return data;
-                } else {
+            .then(res => res.json())
+            .then(data => {
+                if (isNumber(data.status) && data.status !== 200) {
                     throw new Error(data.message);
                 }
-            })
-            .then(data => {
                 this.fetchBooks();
                 this.setState({name: EMPTY_STRING, statusMsgType: msgType.SUCCESS,
                     statusMsg: "Updated successfully.", selectedBook: {}});
@@ -200,14 +184,13 @@ export class BookPage extends Component {
             },
         };
         fetch(`${APIUrls.BookSpecs}delete/${id}`, data)
-            .then(res => {
-                if (res.ok) {
-                    this.fetchBooks();
-                    showSuccessModal("Deleted successfully","The book has been deleted successfully.");
-                } else {
-                const data = res.json();
+            .then(res => res.json())
+            .then(data => {
+                if (isNumber(data.status) && data.status !== 200) {
                     throw new Error(data.message);
                 }
+                    this.fetchBooks();
+                    showSuccessModal("Deleted successfully","The book has been deleted successfully.");
             })
             .catch(error => {
                 this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});

@@ -5,7 +5,7 @@ import LayoutWrapper from "../LayoutWrapper";
 import {EMPTY_STRING, msgType, TOKEN_KEY, USER_ID, userType} from "../../constants/constants";
 import UserForm from "../UserForm";
 import AdminTable from "./AdminTable";
-import {isLoggedIn, showErrorModal, showSuccessModal} from "../../utils/utils";
+import {isLoggedIn, isNumber, showErrorModal, showSuccessModal} from "../../utils/utils";
 import {Redirect} from "react-router-dom";
 
 export class AdminPage extends Component {
@@ -32,14 +32,12 @@ export class AdminPage extends Component {
         };
         await fetch(`${APIUrls.Admin}`, data)
             .then(res => {
-                const data = res.json();
-                if (res.ok) {
-                    return data;
-                } else {
-                    throw new Error(data.message);
-                }
+                return res.json();
             })
             .then(data => {
+                if (isNumber(data.status) && data.status !== 200) {
+                    throw new Error(data.message);
+                }
                 const loggedInAdminID = localStorage.getItem(USER_ID);
                 const filteredAdmins = data.filter(admin => loggedInAdminID!==admin.id);
                 this.setState({admins: filteredAdmins, statusMsgType: msgType.SUCCESS});
@@ -67,15 +65,10 @@ export class AdminPage extends Component {
             }
         };
         fetch(APIUrls.Admin, data)
-            .then(res => {
-                const data = res.json();
-                if (res.ok) {
-                    return data;
-                } else {
+            .then(data => {
+                if (isNumber(data.status) && data.status !== 200) {
                     throw new Error(data.message);
                 }
-            })
-            .then(data => {
                 this.fetchAdmins();
                 this.setState({statusMsgType: msgType.SUCCESS, statusMsg: "Saved successfully."});
                 showSuccessModal("Saved Successfully","The admin has been registered successfully.");
@@ -97,14 +90,13 @@ export class AdminPage extends Component {
             },
         };
         fetch(APIUrls.Admin+id, data)
-            .then(res => {
-                if (res.ok) {
-                    this.fetchAdmins();
-                    showSuccessModal("Deleted Successfully","The admin has been successfully,");
-                } else {
-                    const data = res.json();
+            .then(res => res.json())
+            .then(data => {
+                if (isNumber(data.status) && data.status !== 200) {
                     throw new Error(data.message);
                 }
+                    this.fetchAdmins();
+                    showSuccessModal("Deleted Successfully","The admin has been successfully,");
             })
             .catch(error => {
                 this.setState({statusMsgType: msgType.ERROR, statusMsg: error.toString()});

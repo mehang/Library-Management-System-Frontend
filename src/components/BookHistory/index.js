@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import { TOKEN_KEY,  userType} from "../../constants/constants";
 import {APIUrls} from "../../constants/urls";
-import {isLoggedIn, showErrorModal} from "../../utils/utils";
+import {isLoggedIn, isNumber, showErrorModal} from "../../utils/utils";
 import {Select, Table} from "antd";
 import LayoutWrapper from "../LayoutWrapper";
 import moment from "moment";
@@ -31,15 +31,11 @@ class BookHistory extends Component {
             },
         };
         fetch(APIUrls.Book, data)
-            .then(res => {
-                const data = res.json();
-                if (res.ok) {
-                    return data;
-                } else {
+            .then(res => res.json())
+            .then(data => {
+                if (isNumber(data.status) && data.status !== 200) {
                     throw new Error(data.message);
                 }
-            })
-            .then(data => {
                 this.setState({books: data});
             })
             .catch(error => {
@@ -56,15 +52,11 @@ class BookHistory extends Component {
             },
         };
         fetch(`${APIUrls.Book+bookID}/bookloans`, data)
-            .then(res => {
-                const data = res.json();
-                if (res.ok) {
-                    return data;
-                } else {
+            .then(res => res.json())
+            .then(data => {
+                if (isNumber(data.status) && data.status !== 200) {
                     throw new Error(data.message);
                 }
-            })
-            .then(data => {
                 this.setState({bookLoans: data});
             })
             .catch(error => {
@@ -169,7 +161,7 @@ class BookHistory extends Component {
                 title: specification.name,
                 author: specification.author.name,
                 requestedBy: bookLoan.requestedBy.name,
-                issuedBy: specification.issuedBy && bookLoan.issuedBy.name,
+                issuedBy: bookLoan.issuedBy && bookLoan.issuedBy.name,
                 status: bookLoan.status,
                 dateOfRequest:moment(bookLoan.dateOfRequest).format("YYYY-MM-DD, h:mm a"),
                 dateOfReturn: moment(bookLoan.dateOfReturn).format("YYYY-MM-DD, h:mm a"),

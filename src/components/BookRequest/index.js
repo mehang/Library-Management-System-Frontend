@@ -4,7 +4,7 @@ import {BookSearch} from '../BookSearch';
 import LayoutWrapper from "../LayoutWrapper";
 import {APIUrls} from "../../constants/urls";
 import { TOKEN_KEY, USER_ID, userType} from "../../constants/constants";
-import {isLoggedIn, showErrorModal, showSuccessModal} from "../../utils/utils";
+import {isLoggedIn, isNumber, showErrorModal, showSuccessModal} from "../../utils/utils";
 import {Redirect} from "react-router-dom";
 
 class BookRequest extends Component {
@@ -22,16 +22,15 @@ class BookRequest extends Component {
             }
         };
         fetch(APIUrls.BookRequest, data)
-            .then(res => {
-                if (res.ok) {
-                    showSuccessModal("Request Accepted", "Your request for the book has been accepted.");
-                } else {
-                    const data = res.json();
+            .then(res=>res.json())
+            .then(data => {
+                if (isNumber(data.status) && data.status !== 200) {
                     throw new Error(data.message);
                 }
+                    showSuccessModal("Request Accepted", "Your request for the book has been accepted.");
             })
             .catch(error => {
-                showErrorModal("Error","There was an error while placing your request for the book. Please try again later.");
+                showErrorModal("Error",error.toString());
             });
     };
     render(){
