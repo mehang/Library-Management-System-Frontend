@@ -39,10 +39,19 @@ export class BookSearch extends Component {
                 let books = this.state.books;
                 const updatedBooks = books.map(book => ({
                   ...book,
-                  bookIds: book.bookIds.filter(bookId => (bookId!==requestedBookId)),
+                  bookIds: Array.isArray(book.bookIds)?book.bookIds.filter(bookId => (bookId!==requestedBookId)):[],
                 }));
                 this.setState({books:updatedBooks});
-            })
+            });
+            this.stompClient.subscribe('/lms/returned', frame => {
+                const returnedBook = JSON.parse(frame.body);
+                let books = this.state.books;
+                const updatedBooks = books.map(book => ({
+                    ...book,
+                    bookIds: book.id === returnedBook.specification.id?(Array.isArray(book.bookIds)?book.bookIds.push(returnedBook.id):[returnedBook.id]):book.bookIds,
+                }));
+                this.setState({books:updatedBooks});
+            });
         })
     };
 
@@ -51,10 +60,10 @@ export class BookSearch extends Component {
         fetchUrl.searchParams.append('q',this.state.searchKeyword);
         fetch(fetchUrl)
             .then(res => {
-                const data = res.json();
                 if (res.ok) {
                     return res.json();
                 } else {
+                const data = res.json();
                     throw new Error(data.message);
                 }
             })

@@ -41,7 +41,6 @@ const CategoryTable = props => {
 CategoryTable.propTypes = {
     categories: PropTypes.array.isRequired,
     selectCategory: PropTypes.func.isRequired,
-    deleteCategory: PropTypes.func.isRequired
 };
 
 export default CategoryTable;

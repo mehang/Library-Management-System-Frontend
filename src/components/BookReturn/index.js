@@ -35,6 +35,7 @@ class BookReturn extends Component {
                 if (res.ok) {
                     return data;
                 } else {
+                    console.log(data);
                     throw new Error(data.message);
                 }
             })

@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import {Button,  Select, Table, Tag} from "antd";
 import LayoutWrapper from "../LayoutWrapper";
-import { TOKEN_KEY, USER_ID, userType} from "../../constants/constants";
+import {EMPTY_STRING, TOKEN_KEY, USER_ID, userType} from "../../constants/constants";
 import {APIUrls} from "../../constants/urls";
 import moment from "moment";
 import {isLoggedIn, showErrorModal, showSuccessModal} from "../../utils/utils";
@@ -15,6 +15,7 @@ class BookIssue extends Component {
         this.state = {
             requestedBooks: [],
             students: [],
+            selectedStudent: EMPTY_STRING,
         }
     }
 
@@ -96,12 +97,19 @@ class BookIssue extends Component {
                 }
             })
             .then(data => {
+                this.fetchRequestedBooks(this.state.selectedStudent);
                 showSuccessModal("Issued Successfully", "The book has been issued successfully.");
             })
             .catch(error => {
                 showErrorModal("Error", error.toString());
             });
     };
+
+    onSelectionChange = username => {
+        this.setState({selectedStudent: username});
+        this.fetchRequestedBooks(username);
+    };
+
     render(){
         if (!isLoggedIn(userType.LIBRARIAN)){
             return <Redirect to="/unauthorized"/>
@@ -194,7 +202,7 @@ class BookIssue extends Component {
                     style={{width:"30%"}}
                     placeholder="Select username"
                     optionFilterProp="children"
-                    onSelect={this.fetchRequestedBooks}
+                    onSelect={this.onSelectionChange}
                     filterOption={(input, option) =>
                         option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                     }

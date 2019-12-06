@@ -1,5 +1,5 @@
 import React from "react";
-import {BrowserRouter, Switch, Route} from "react-router-dom";
+import {BrowserRouter, Switch, Route, Redirect} from "react-router-dom";
 import 'antd/dist/antd.css';
 import AuthorPage from "./components/AuthorPage";
 import BookPage from "./components/Book";
@@ -52,6 +52,7 @@ export default function RouterConfig() {
               <Route exact path="/logout" component={Logout} />
               <Route exact path="/success" component={SuccessPage} />
               <Route exact path="/unauthorized" component={UnAuthorizedPage}/>
+              <Redirect to="/unauthorized"/>
           </Switch>
       </BrowserRouter>
     );
