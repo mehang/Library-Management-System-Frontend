@@ -173,7 +173,7 @@ const LayoutWrapper = (WrappedComponent) => {
                                 <WrappedComponent {...this.props}/>
                             </Content>
                             <Footer className="footer">
-                                Baylor University ©2018 Created by Software Engineering
+                                Baylor University ©2019 Created by Software Engineering
                             </Footer>
                         </Layout>
                     </Layout>

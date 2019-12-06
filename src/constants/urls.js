@@ -1,4 +1,4 @@
-const ROOT_URL = "http://localhost:8080/";
+const ROOT_URL = "https://baylorlms.herokuapp.com/";
 
 export const APIUrls = {
     Author: `${ROOT_URL}authors/`,
